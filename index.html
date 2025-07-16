@@ -1,0 +1,2892 @@
+irrobustisci e analizza approfonditamente e produci una relazione sulle possibili ottimizzazioni:<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="appTitle">PET SOUNDS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variabili CSS per colori e temi mistici */
+        :root {
+            --primary-glow: #FF6B6B; /* Rosa neon */
+            --secondary-glow: #4ECDC4; /* Ciano brillante */
+            --accent-glow: #FFE66D; /* Giallo elettrico */
+            --dark-bg: #1A0033; /* Viola molto scuro */
+            --medium-bg: #2C0059; /* Viola medio */
+            --light-text: #E0E0E0; /* Grigio chiaro per testo */
+            --dark-text: #0A001A; /* Quasi nero per contrasto */
+            --panel-bg-alpha: rgba(44, 0, 89, 0.7); /* Pannello semi-trasparente */
+            --border-glow: 2px solid rgba(255,255,255,0.2);
+            --text-shadow-light: 0 0 8px rgba(255,255,255,0.5);
+            --text-shadow-dark: 0 0 8px rgba(0,0,0,0.5);
+        }
+        
+        /* Stili globali del corpo */
+        body {
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at 50% 50%, var(--medium-bg) 0%, var(--dark-bg) 100%);
+            min-height: 100vh;
+            color: var(--light-text);
+            overflow: hidden; /* Nasconde le barre di scorrimento */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            animation: backgroundShift 30s infinite alternate ease-in-out;
+        }
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        
+        /* Contenitore principale dell'app */
+        .app-container {
+            max-width: 1200px;
+            width: 90%;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+        }
+
+        @media (min-width: 992px) {
+            .app-container {
+                grid-template-columns: 1.5fr 1fr; /* Layout a due colonne più ampio */
+                gap: 60px;
+            }
+        }
+        
+        /* Stili dell'intestazione */
+        .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: headerGlow 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes headerGlow {
+            0% { text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow); }
+            50% { text-shadow: 0 0 20px var(--secondary-glow), 0 0 40px var(--secondary-glow); }
+            100% { text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow); }
+        }
+        
+        /* Stili del titolo principale */
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 4.5rem;
+            color: white;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        /* Stili della tagline */
+        .tagline {
+            font-size: 1.6rem;
+            color: var(--light-text);
+            text-shadow: var(--text-shadow-light);
+            font-weight: 300;
+            line-height: 1.4;
+        }
+        
+        /* Stili dei pannelli principali */
+        .main-panel, .leaderboard {
+            background: var(--panel-bg-alpha);
+            border-radius: 40px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(78,205,196,0.3), inset 0 0 15px rgba(78,205,196,0.1);
+            backdrop-filter: blur(15px);
+            border: var(--border-glow);
+            transition: all 0.4s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-panel:hover, .leaderboard:hover {
+            box-shadow: 0 0 40px rgba(78,205,196,0.5), inset 0 0 20px rgba(78,205,196,0.2);
+            transform: translateY(-8px) scale(1.01);
+        }
+
+        /* Sezione Avatar Centrale */
+        .pet-display-section {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: var(--panel-bg-alpha);
+            border-radius: 40px;
+            box-shadow: 0 0 30px rgba(255,107,107,0.3), inset 0 0 15px rgba(255,107,107,0.1);
+            border: var(--border-glow);
+            transition: all 0.4s ease-in-out;
+        }
+
+        .pet-display-section:hover {
+            box-shadow: 0 0 40px rgba(255,107,107,0.5), inset 0 0 20px rgba(255,107,107,0.2);
+            transform: translateY(-8px) scale(1.01);
+        }
+        
+        .pet-display {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin: 0 auto 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .pet-avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            border: 4px solid var(--primary-glow);
+            box-shadow: 0 0 40px var(--primary-glow), inset 0 0 20px var(--primary-glow);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Ease-out */
+            animation: pulseGlow 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 40px var(--primary-glow), inset 0 0 20px var(--primary-glow); }
+            50% { box-shadow: 0 0 60px var(--secondary-glow), inset 0 0 30px var(--secondary-glow); }
+            100% { box-shadow: 0 0 40px var(--primary-glow), inset 0 0 20px var(--primary-glow); }
+        }
+
+        .pet-avatar.bounce { animation: avatarBounce 0.6s ease-out; }
+        @keyframes avatarBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
+        .pet-avatar.wiggle { animation: avatarWiggle 0.4s ease-in-out; }
+        @keyframes avatarWiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(10deg); } 75% { transform: rotate(-10deg); } }
+        
+        /* Elementi astratti dell'avatar (energia) */
+        .pet-core, .pet-aura {
+            position: absolute;
+            border-radius: 50%;
+            transition: all 0.5s ease-in-out;
+        }
+        .pet-core {
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            box-shadow: 0 0 25px var(--accent-glow);
+            animation: corePulse 3s infinite alternate ease-in-out;
+        }
+        .pet-aura {
+            width: 90%;
+            height: 90%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%);
+            border: 1px dashed rgba(255,255,255,0.3);
+            animation: auraRotate 15s infinite linear;
+        }
+
+        @keyframes corePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        @keyframes auraRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Canvas per il visualizzatore audio */
+        #audioVisualizer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            z-index: 5; /* Sopra core e aura */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #audioVisualizer.active {
+            opacity: 1;
+        }
+
+        /* Controlli */
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column; /* Impila verticalmente */
+            align-items: center; /* Centra orizzontalmente */
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        
+        /* Stili generali dei bottoni */
+        button {
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            color: var(--dark-text);
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.4rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(255,107,107,0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-transform: uppercase;
+            width: 80%; /* Rendi i bottoni più larghi */
+            max-width: 350px; /* Limita la larghezza massima */
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            z-index: -1;
+        }
+        
+        button:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 0 30px rgba(255,107,107,0.7);
+        }
+        
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 15px rgba(255,107,107,0.4);
+        }
+        
+        button:disabled {
+            background: #444;
+            box-shadow: none;
+            transform: none !important;
+            cursor: not-allowed;
+            opacity: 0.6;
+            color: #888;
+        }
+
+        /* Stili specifici per il pulsante Riprova Microfono */
+        #retryMicButton {
+            background: linear-gradient(45deg, #FFE66D, #FFD93D); /* Giallo brillante */
+            color: var(--dark-text);
+            box-shadow: 0 0 20px rgba(255,230,109,0.5);
+            margin-top: 15px; /* Spazio dal pulsante di registrazione */
+        }
+
+        #retryMicButton:hover {
+            box-shadow: 0 0 30px rgba(255,230,109,0.7);
+        }
+        
+        /* Opzioni voce (radio buttons) */
+        .voice-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .voice-option input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .voice-option label {
+            display: block;
+            padding: 15px 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+            transition: all 0.3s ease-out;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--light-text);
+            text-shadow: var(--text-shadow-light);
+        }
+        
+        .voice-option input:checked + label {
+            background: var(--accent-glow);
+            border-color: var(--primary-glow);
+            transform: scale(1.08);
+            box-shadow: 0 0 20px var(--accent-glow), inset 0 0 10px rgba(255,255,255,0.5);
+            color: var(--dark-text);
+            text-shadow: var(--text-shadow-dark);
+        }
+        
+        .voice-option label:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(255,255,255,0.3), inset 0 0 5px rgba(255,255,255,0.2);
+        }
+        
+        /* Contenitore della traduzione */
+        .translation-container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 30px;
+            min-height: 150px;
+            margin: 30px 0;
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
+            border: 2px dashed rgba(255,255,255,0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        #translation {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2rem;
+            text-align: center;
+            margin: auto;
+            color: var(--light-text);
+            line-height: 1.3;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: var(--text-shadow-light);
+        }
+        
+        .translation-meta {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            margin-top: 20px;
+            text-align: right;
+            font-weight: 300;
+        }
+        
+        /* Controlli audio (condividi, scarica) */
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .audio-controls button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 40px;
+        }
+        
+        #shareAudio {
+            background: linear-gradient(45deg, #4ECDC4, #6DE7B8);
+            box-shadow: 0 0 20px rgba(78,205,196,0.5);
+        }
+        
+        #shareAudio:hover {
+            box-shadow: 0 0 30px rgba(78,205,196,0.7);
+        }
+
+        #shareImage {
+            background: linear-gradient(45deg, #FFE66D, #FFD93D);
+            color: var(--dark-text);
+            box-shadow: 0 0 20px rgba(255,230,109,0.5);
+        }
+
+        #shareImage:hover {
+            box-shadow: 0 0 30px rgba(255,230,109,0.7);
+        }
+        
+        #download {
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            box-shadow: 0 0 20px rgba(255,107,107,0.5);
+        }
+        
+        #download:hover {
+            box-shadow: 0 0 30px rgba(255,107,107,0.7);
+        }
+        
+        /* Indicatore di caricamento */
+        #loading-indicator {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.4rem;
+            color: var(--light-text);
+            display: none;
+            font-weight: 500;
+            text-shadow: var(--text-shadow-light);
+        }
+        
+        #loading-indicator.show {
+            display: block;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Sezione classifica */
+        .leaderboard {
+            grid-column: 2 / 3;
+            background: var(--panel-bg-alpha);
+            border-radius: 40px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(255,107,107,0.3), inset 0 0 15px rgba(255,107,107,0.1);
+            border: var(--border-glow);
+            position: relative;
+        }
+
+        @media (max-width: 991px) {
+            .leaderboard {
+                grid-column: 1 / -1;
+                margin-top: 30px;
+            }
+        }
+        
+        .leaderboard h2 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--primary-glow);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px var(--primary-glow);
+        }
+        
+        #leaderboard-list {
+            list-style: none;
+            padding: 0;
+            max-height: 450px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-glow) rgba(255,255,255,0.1);
+        }
+
+        #leaderboard-list::-webkit-scrollbar { width: 10px; }
+        #leaderboard-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        #leaderboard-list::-webkit-scrollbar-thumb { background: var(--secondary-glow); border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        
+        #leaderboard-list li {
+            padding: 18px 25px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary-glow);
+            transition: all 0.3s ease-out;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--light-text);
+            text-shadow: var(--text-shadow-light);
+        }
+        
+        #leaderboard-list li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border-left-color: var(--secondary-glow);
+            background: rgba(255,255,255,0.15);
+        }
+        
+        /* Informazioni utente */
+        .user-info {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1.1rem;
+            color: var(--light-text);
+            font-weight: 300;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+            text-shadow: var(--text-shadow-light);
+        }
+        
+        /* Selettore lingua */
+        .language-selector {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 2px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 45px;
+            text-shadow: var(--text-shadow-light);
+        }
+        
+        .language-selector:hover {
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+        
+        /* Sfondo con particelle */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.2)"/></svg>') repeat;
+            background-size: 20px 20px;
+            animation: particleFlow 60s linear infinite;
+        }
+
+        @keyframes particleFlow {
+            from { background-position: 0 0; }
+            to { background-position: 100px 100px; }
+        }
+        
+        /* Bolla di dialogo dell'animale */
+        .speech-bubble {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.5), inset 0 0 10px rgba(255,255,255,0.2);
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 10;
+            font-family: 'Fredoka One', cursive; /* Usa Fredoka per la bolla */
+            color: var(--dark-text);
+            text-shadow: none; /* Rimuovi ombra testo per leggibilità */
+        }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 15px 15px 0;
+            border-style: solid;
+            border-color: rgba(255,255,255,0.95) transparent transparent;
+        }
+        
+        .speech-bubble.show {
+            opacity: 1;
+            top: -90px;
+        }
+
+        /* Stile per l'indicatore di stato del microfono */
+        #mic-status {
+            margin-top: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--light-text);
+            text-shadow: var(--text-shadow-light);
+            min-height: 20px; /* Per evitare CLS */
+            display: block; /* Assicurati che occupi una riga */
+        }
+
+        #mic-status.ready { color: var(--secondary-glow); }
+        #mic-status.denied, #mic-status.blocked { color: var(--primary-glow); }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .tagline { font-size: 1.2rem; }
+            .pet-display { width: 250px; height: 250px; }
+            .pet-avatar { width: 220px; height: 220px; }
+            button { padding: 15px 30px; font-size: 1.1rem; }
+            .voice-option label { padding: 10px 20px; font-size: 0.9rem; }
+            #translation { font-size: 1.5rem; }
+            .audio-controls button { padding: 10px 20px; font-size: 1rem; }
+            .leaderboard h2 { font-size: 2rem; }
+            #leaderboard-list li { padding: 12px 18px; font-size: 0.95rem; }
+            .user-info { font-size: 0.9rem; }
+            .language-selector { top: 15px; right: 15px; padding: 8px 15px; font-size: 0.9rem; }
+            .speech-bubble { font-size: 0.9rem; top: -60px; }
+            .speech-bubble.show { top: -75px; }
+        }
+
+        /* Custom Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--panel-bg-alpha);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 40px rgba(78,205,196,0.5), inset 0 0 20px rgba(78,205,196,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-content h3 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2rem;
+            color: var(--primary-glow);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .modal-buttons button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .modal-buttons button.confirm {
+            background: linear-gradient(45deg, #4ECDC4, #6DE7B8);
+            color: var(--dark-text);
+        }
+
+        .modal-buttons button.cancel {
+            background: rgba(255,255,255,0.1);
+            color: var(--light-text);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: none;
+        }
+
+        .modal-buttons button.cancel:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+    </style>
+    <!-- Carica i18next SDK -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/23.11.5/i18next.min.js"></script>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <!-- Selettore lingua -->
+    <select class="language-selector" id="language-selector">
+        <option value="en">English</option>
+        <option value="it">Italiano</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="pt">Português</option>
+        <option value="ru">Русский</option>
+        <option value="ja">日本語</option>
+        <option value="zh-CN">简体中文</option>
+        <option value="ko">한국어</option>
+        <option value="ar">العربية</option>
+        <option value="hi">हिन्दी</option>
+        <option value="id">Bahasa Indonesia</option>
+        <option value="tr">Türkçe</option>
+        <option value="vi">Tiếng Việt</option>
+        <option value="pl">Polski</option>
+        <option value="nl">Nederlands</option>
+        <option value="sv">Svenska</option>
+        <option value="th">ไทย</option>
+        <option value="bn">বাংলা</option>
+    </select>
+    
+    <div class="app-container">
+        <div class="header">
+            <h1 data-i18n="mainTitle">🐾 PET SOUNDS 🐾</h1>
+            <div class="tagline" data-i18n="tagline">Scopri cosa dice veramente il tuo animale!</div>
+        </div>
+        
+        <div class="pet-display-section">
+            <div class="pet-display">
+                <div class="pet-avatar" id="pet-avatar">
+                    <div class="pet-core" id="petCore"></div>
+                    <div class="pet-aura" id="petAura"></div>
+                    <canvas id="audioVisualizer"></canvas> <!-- Nuovo elemento canvas per il visualizzatore -->
+                    <div class="speech-bubble" id="speechBubble"></div>
+                </div>
+            </div>
+            <div class="user-info">
+                <span data-i18n="yourUserId">Il tuo ID utente:</span> <span id="user-id-display">Caricamento...</span>
+            </div>
+        </div>
+
+        <div class="main-panel controls-panel">
+            <div class="button-group">
+                <button id="record" data-i18n="recordButton">🎤 Registra Suoni Animale</button>
+                <button id="stop" disabled data-i18n="stopButton">⏹ Ferma Registrazione</button>
+                <span id="mic-status" data-i18n="microphoneStatusChecking">Controllo microfono...</span>
+                <button id="retryMicButton" style="display:none;" data-i18n="retryMicButton">Riprova Microfono</button>
+            </div>
+            
+            <div class="voice-options">
+                <div class="voice-option">
+                    <input type="radio" id="normal" name="voice" value="normal" checked>
+                    <label for="normal" data-i18n="voiceNormal">Normale</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="chipmunk" name="voice" value="chipmunk">
+                    <label for="chipmunk" data-i18n="voiceChipmunk">Chipmunk</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="demon" name="voice" value="demon">
+                    <label for="demon" data-i18n="voiceDemon">Demone</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="robot" name="voice" value="robot">
+                    <label for="robot" data-i18n="voiceRobot">Robot</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="echo" name="voice" value="echo">
+                    <label for="echo" data-i18n="voiceEcho">Eco</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="reverb" name="voice" value="reverb">
+                    <label for="reverb" data-i18n="voiceReverb">Riverbero</label>
+                </div>
+            </div>
+            
+            <div class="translation-container">
+                <div id="translation" data-i18n="initialMessage">Premi il pulsante di registrazione e lascia che il tuo animale parli!</div>
+                <div class="translation-meta" id="translationMeta"></div>
+            </div>
+            
+            <div id="loading-indicator">
+                <span data-i18n="analyzing">Analizzando i suoni dell'animale...</span> 🐾
+            </div>
+            
+            <div class="audio-controls">
+                <button id="shareAudio" disabled data-i18n="shareButton">📱 Condividi Audio</button>
+                <button id="shareImage" disabled data-i18n="shareImageButton">🖼️ Condividi Immagine</button>
+                <button id="download" disabled data-i18n="downloadButton">💾 Scarica Audio</button>
+            </div>
+        </div>
+        
+        <div class="leaderboard">
+            <h2 data-i18n="leaderboardTitle">Ultime Traduzioni</h2>
+            <ul id="leaderboard-list">
+                <!-- Le traduzioni verranno caricate qui -->
+            </ul>
+        </div>
+    </div>
+    
+    <audio id="playback" controls class="hidden"></audio>
+
+    <!-- Custom Microphone Permission Modal -->
+    <div class="modal-overlay" id="permissionModal">
+        <div class="modal-content">
+            <h3 data-i18n="permissionModalTitle">Permesso Microfono Richiesto</h3>
+            <p data-i18n="permissionModalText">Per tradurre i suoni del tuo animale, "PET SOUNDS" ha bisogno dell'accesso al tuo microfono. Clicca "Consenti" per procedere.</p>
+            <div class="modal-buttons">
+                <button class="confirm" id="allowMic" data-i18n="permissionModalAllow">Consenti</button>
+                <button class="cancel" id="denyMic" data-i18n="permissionModalDeny">Nega</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Classe principale dell'applicazione
+        class PetVoiceTranslator {
+            constructor() {
+                this.audioContext = null;
+                this.mediaRecorder = null;
+                this.audioChunks = [];
+                this.audioBlob = null;
+                this.audioBuffer = null;
+                this.analyserNode = null;
+                this.petType = 'cat'; // Default pet type
+                this.currentVoice = 'normal'; // Default voice effect
+                this.emotionalState = 'normal'; // New: emotional state
+                this.translations = []; // Array per le traduzioni salvate
+                this.userId = 'user-' + Math.random().toString(36).substr(2, 8); // Genera un ID utente casuale
+                this.animationFrameId = null; // Per il visualizzatore audio
+                
+                this.initElements(); // Inizializza gli elementi DOM
+                this.initI18n();     // Inizializza i18next per la localizzazione
+                this.initEventListeners(); // Configura gli event listener
+                this.initParticles(); // Inizializza lo sfondo con le particelle
+                this.loadTranslations(); // Carica le traduzioni dal Local Storage
+                this.updatePetAvatar(); // Aggiorna l'avatar iniziale
+                this.checkMicrophoneStatusOnLoad(); // Controlla lo stato del microfono all'avvio
+                
+                document.getElementById('user-id-display').textContent = this.userId;
+            }
+
+            // Inizializza i18next e carica le risorse di traduzione
+            initI18n() {
+                i18next.init({
+                    lng: 'it', // Lingua predefinita
+                    fallbackLng: 'en',
+                    debug: false, // Imposta su true per il debug delle traduzioni
+                    resources: {
+                        en: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Discover what your pet is REALLY saying!',
+                                recordButton: '🎤 Record Pet Sounds',
+                                stopButton: '⏹ Stop Recording',
+                                voiceNormal: 'Normal',
+                                voiceChipmunk: 'Chipmunk',
+                                voiceDemon: 'Demon',
+                                voiceRobot: 'Robot',
+                                voiceEcho: 'Echo',
+                                voiceReverb: 'Reverb',
+                                initialMessage: 'Press the record button and let your pet speak!',
+                                analyzing: 'Analyzing pet sounds...',
+                                shareButton: '📱 Share Audio',
+                                shareImageButton: '🖼️ Share Image',
+                                downloadButton: '💾 Download Audio',
+                                leaderboardTitle: 'Latest Translations',
+                                yourUserId: 'Your User ID:',
+                                listening: 'Listening to your pet...',
+                                microphoneError: 'Cannot access microphone. Check permissions.',
+                                processingError: 'Audio processing error. Please try again.',
+                                noAudioToShare: 'No audio to share. Record something first!',
+                                shareCancelled: 'Share cancelled or failed.',
+                                shareNotSupported: 'Direct sharing is not supported in this browser. You can download the audio.',
+                                noAudioToDownload: 'No audio to download. Record something first!',
+                                audioDownloaded: 'Audio downloaded!',
+                                llmError: 'Error generating translation with AI. Please try again.',
+                                permissionModalTitle: 'Microphone Permission Required',
+                                permissionModalText: 'To translate your pet\'s sounds, "PET SOUNDS" needs access to your microphone. Click "Allow" to proceed.',
+                                permissionModalAllow: 'Allow',
+                                permissionModalDeny: 'Deny',
+                                imageShareSuccess: 'Image shared successfully!',
+                                imageShareFail: 'Failed to share image.',
+                                microphonePermissionDenied: 'Microphone access permanently denied. Please enable it in your browser settings.',
+                                microphonePermissionBlocked: 'Microphone access blocked. Please allow it in your browser\'s address bar.',
+                                microphoneStatusChecking: 'Checking microphone...',
+                                microphoneStatusReady: 'Microphone ready!',
+                                microphoneStatusDenied: 'Microphone access denied.',
+                                microphoneStatusBlocked: 'Microphone access blocked. Enable in browser settings.',
+                                retryMicButton: 'Retry Microphone',
+                                // LLM prompts
+                                llmPromptExcited: "Generate a short, funny, and excited phrase a {{petType}} might say, considering a {{voiceType}} effect. Make it sound like they are demanding something or very happy. Use emojis. Keep it under 15 words.",
+                                llmPromptNormal: "Generate a short, curious, or affectionate phrase a {{petType}} might say, considering a {{voiceType}} effect. Use emojis. Keep it under 15 words.",
+                                llmPromptRelaxed: "Generate a short, sleepy, or relaxed phrase a {{petType}} might say, considering a {{voiceType}} effect. Use emojis. Keep it under 15 words.",
+                                petTypeCat: "cat",
+                                petTypeDog: "dog"
+                            }
+                        },
+                        it: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Scopri cosa dice veramente il tuo animale!',
+                                recordButton: '🎤 Registra Suoni Animale',
+                                stopButton: '⏹ Ferma Registrazione',
+                                voiceNormal: 'Normale',
+                                voiceChipmunk: 'Chipmunk',
+                                voiceDemon: 'Demone',
+                                voiceRobot: 'Robot',
+                                voiceEcho: 'Eco',
+                                voiceReverb: 'Riverbero',
+                                initialMessage: 'Premi il pulsante di registrazione e lascia che il tuo animale parli!',
+                                analyzing: 'Analizzando i suoni dell\'animale...',
+                                shareButton: '📱 Condividi Audio',
+                                shareImageButton: '🖼️ Condividi Immagine',
+                                downloadButton: '💾 Scarica Audio',
+                                leaderboardTitle: 'Ultime Traduzioni',
+                                yourUserId: 'Il tuo ID utente:',
+                                listening: 'In ascolto del tuo animale...',
+                                microphoneError: 'Impossibile accedere al microfono. Controlla i permessi.',
+                                processingError: 'Errore durante l\'elaborazione audio. Riprova.',
+                                noAudioToShare: 'Nessun audio da condividere. Registra prima qualcosa!',
+                                shareCancelled: 'Condivisione annullata o fallita.',
+                                shareNotSupported: 'La condivisione diretta non è supportata in questo browser. Puoi scaricare l\'audio.',
+                                noAudioToDownload: 'Nessun audio da scaricare. Registra prima qualcosa!',
+                                audioDownloaded: 'Audio scaricato!',
+                                llmError: 'Errore nella generazione della traduzione con l\'IA. Riprova.',
+                                permissionModalTitle: 'Permesso Microfono Richiesto',
+                                permissionModalText: 'Per tradurre i suoni del tuo animale, "PET SOUNDS" ha bisogno dell\'accesso al tuo microfono. Clicca "Consenti" per procedere.',
+                                permissionModalAllow: 'Consenti',
+                                permissionModalDeny: 'Nega',
+                                imageShareSuccess: 'Immagine condivisa con successo!',
+                                imageShareFail: 'Impossibile condividere l\'immagine.',
+                                microphonePermissionDenied: 'Accesso al microfono negato permanentemente. Abilitalo nelle impostazioni del tuo browser.',
+                                microphonePermissionBlocked: 'Accesso al microfono bloccato. Abilitalo nella barra degli indirizzi del tuo browser.',
+                                microphoneStatusChecking: 'Controllo microfono...',
+                                microphoneStatusReady: 'Microfono pronto!',
+                                microphoneStatusDenied: 'Accesso microfono negato.',
+                                microphoneStatusBlocked: 'Accesso microfono bloccato. Abilita nelle impostazioni del browser.',
+                                retryMicButton: 'Riprova Microfono',
+                                // LLM prompts
+                                llmPromptExcited: "Genera una frase breve, divertente ed eccitata che un {{petType}} potrebbe dire, considerando un effetto {{voiceType}}. Fai in modo che sembri che stia chiedendo qualcosa o sia molto felice. Usa emoji. Max 15 parole.",
+                                llmPromptNormal: "Genera una frase breve, curiosa o affettuosa che un {{petType}} potrebbe dire, considerando un effetto {{voiceType}}. Usa emoji. Max 15 parole.",
+                                llmPromptRelaxed: "Genera una frase breve, assonnata o rilassata che un {{petType}} potrebbe dire, considerando un effetto {{voiceType}}. Usa emoji. Max 15 parole.",
+                                petTypeCat: "gatto",
+                                petTypeDog: "cane"
+                            }
+                        },
+                        es: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: '¡Descubre lo que tu mascota REALMENTE está diciendo!',
+                                recordButton: '🎤 Grabar Sonidos de Mascota',
+                                stopButton: '⏹ Detener Grabación',
+                                voiceNormal: 'Normal',
+                                voiceChipmunk: 'Ardilla',
+                                voiceDemon: 'Demonio',
+                                voiceRobot: 'Robô',
+                                voiceEcho: 'Eco',
+                                voiceReverb: 'Reverberación',
+                                initialMessage: '¡Pulsa el botón de grabar y deja que tu mascota hable!',
+                                analyzing: 'Analizando sonidos de mascota...',
+                                shareButton: '📱 Compartir Audio',
+                                shareImageButton: '🖼️ Compartir Imagen',
+                                downloadButton: '💾 Descargar Audio',
+                                leaderboardTitle: 'Últimas Traducciones',
+                                yourUserId: 'Tu ID de usuario:',
+                                listening: 'Escuchando a tu mascota...',
+                                microphoneError: 'No se puede acceder al micrófono. Revisa los permisos.',
+                                processingError: 'Error de procesamiento de audio. Inténtalo de nuevo.',
+                                noAudioToShare: 'No hay audio para compartir. ¡Graba algo primero!',
+                                shareCancelled: 'Compartir cancelado o fallido.',
+                                shareNotSupported: 'La función de compartir directamente no es compatible con este navegador. Puedes descargar el audio.',
+                                noAudioToDownload: 'No hay audio para descargar. ¡Graba algo primero!',
+                                audioDownloaded: '¡Audio descargado!',
+                                llmError: 'Error al generar la traducción con IA. Inténtalo de nuevo.',
+                                permissionModalTitle: 'Permiso de Micrófono Requerido',
+                                permissionModalText: 'Para traducir los sonidos de tu mascota, "PET SOUNDS" necesita acceso a tu micrófono. Haz clic en "Permitir" para continuar.',
+                                permissionModalAllow: 'Permitir',
+                                permissionModalDeny: 'Denegar',
+                                imageShareSuccess: '¡Imagen compartida con éxito!',
+                                imageShareFail: 'Error al compartir la imagen.',
+                                microphonePermissionDenied: 'Acceso al micrófono denegado permanentemente. Habilítalo en la configuración de tu navegador.',
+                                microphonePermissionBlocked: 'Acceso al micrófono bloqueado. Habilítalo en la barra de direcciones de tu navegador.',
+                                microphoneStatusChecking: 'Comprobando micrófono...',
+                                microphoneStatusReady: '¡Micrófono listo!',
+                                microphoneStatusDenied: 'Acceso al micrófono denegado.',
+                                microphoneStatusBlocked: 'Acceso al micrófono bloqueado. Habilítalo en la configuración del navegador.',
+                                retryMicButton: 'Reintentar Micrófono',
+                                llmPromptExcited: "Genera una frase corta, divertida y emocionada que una {{petType}} podría decir, considerando un efecto {{voiceType}}. Haz que suene como si estuviera exigiendo algo o muy feliz. Usa emojis. Máx. 15 palabras.",
+                                llmPromptNormal: "Genera una frase corta, curiosa o cariñosa que una {{petType}} podría decir, considerando un efecto {{voiceType}}. Usa emojis. Máx. 15 palabras.",
+                                llmPromptRelaxed: "Genera una frase corta, somnolienta o relajada que una {{petType}} podría decir, considerando un efecto {{voiceType}}. Usa emojis. Máx. 15 palabras.",
+                                petTypeCat: "gato",
+                                petTypeDog: "perro"
+                            }
+                        },
+                        fr: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Découvrez ce que votre animal dit VRAIMENT !',
+                                recordButton: '🎤 Enregistrer les Sons de l\'Animal',
+                                stopButton: '⏹ Arrêter l\'Enregistrement',
+                                voiceNormal: 'Normal',
+                                voiceChipmunk: 'Chipmunk',
+                                voiceDemon: 'Démon',
+                                voiceRobot: 'Robot',
+                                voiceEcho: 'Écho',
+                                voiceReverb: 'Réverbération',
+                                initialMessage: 'Appuyez sur le bouton d\'enregistrement et laissez votre animal parler !',
+                                analyzing: 'Analyse des sons de l\'animal...',
+                                shareButton: '📱 Partager l\'Audio',
+                                shareImageButton: '🖼️ Partager l\'Image',
+                                downloadButton: '💾 Télécharger l\'Audio',
+                                leaderboardTitle: 'Dernières Traductions',
+                                yourUserId: 'Votre ID utilisateur :',
+                                listening: 'Écoute de votre animal...',
+                                microphoneError: 'Impossible d\'accéder au microphone. Vérifiez les autorisations.',
+                                processingError: 'Erreur de traitement audio. Veuillez réessayer.',
+                                noAudioToShare: 'Aucun audio à partager. Enregistrez quelque chose d\'abord !',
+                                shareCancelled: 'Partage annulé ou échoué.',
+                                shareNotSupported: 'Le partage direct n\'est pas pris en charge par ce navigateur. Vous pouvez télécharger l\'audio.',
+                                noAudioToDownload: 'Aucun audio à télécharger. Enregistrez quelque chose d\'abord !',
+                                audioDownloaded: 'Audio téléchargé !',
+                                llmError: 'Erreur lors de la génération de la traduction avec l\'IA. Veuillez réessayer.',
+                                permissionModalTitle: 'Autorisation du Microphone Requise',
+                                permissionModalText: 'Pour traduire les sons de votre animal, "PET SOUNDS" a besoin d\'accéder à votre microphone. Cliquez sur "Autoriser" pour continuer.',
+                                permissionModalAllow: 'Autoriser',
+                                permissionModalDeny: 'Refuser',
+                                imageShareSuccess: 'Image partagée avec succès !',
+                                imageShareFail: 'Échec du partage de l\'image.',
+                                microphonePermissionDenied: 'Accès au microphone refusé de manière permanente. Veuillez l\'activer dans les paramètres de votre navigateur.',
+                                microphonePermissionBlocked: 'Accès au microphone bloqué. Veuillez l\'autoriser dans la barre d\'adresse de votre navigateur.',
+                                microphoneStatusChecking: 'Vérification du microphone...',
+                                microphoneStatusReady: 'Microphone prêt !',
+                                microphoneStatusDenied: 'Accès microphone refusé.',
+                                microphoneStatusBlocked: 'Accès microphone bloqué. Activez dans les paramètres du navigateur.',
+                                retryMicButton: 'Réessayer le microphone',
+                                llmPromptExcited: "Générez une phrase courte, drôle et excitée qu'un {{petType}} pourrait dire, en tenant compte d'un effet {{voiceType}}. Faites en sorte qu'il semble qu'il réclame quelque chose ou qu'il soit très heureux. Utilisez des emojis. Moins de 15 mots.",
+                                llmPromptNormal: "Générez une phrase courte, curieuse ou affectueuse qu'un {{petType}} pourrait dire, en tenant compte d'un effet {{voiceType}}. Utilisez des emojis. Moins de 15 mots.",
+                                llmPromptRelaxed: "Générez une phrase courte, endormie ou détendue qu'un {{petType}} pourrait dire, en tenant compte d'un effet {{voiceType}}. Utilisez des emojis. Moins de 15 mots.",
+                                petTypeCat: "chat",
+                                petTypeDog: "chien"
+                            }
+                        },
+                        de: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Entdecke, was dein Haustier WIRKLICH sagt!',
+                                recordButton: '🎤 Haustiergeräusche aufnehmen',
+                                stopButton: '⏹ Aufnahme stoppen',
+                                voiceNormal: 'Normal',
+                                voiceChipmunk: 'Chipmunk',
+                                voiceDemon: 'Dämon',
+                                voiceRobot: 'Roboter',
+                                voiceEcho: 'Echo',
+                                voiceReverb: 'Hall',
+                                initialMessage: 'Drücke den Aufnahme-Button und lass dein Haustier sprechen!',
+                                analyzing: 'Haustiergeräusche analysieren...',
+                                shareButton: '📱 Audio teilen',
+                                shareImageButton: '🖼️ Bild teilen',
+                                downloadButton: '💾 Audio herunterladen',
+                                leaderboardTitle: 'Neueste Übersetzungen',
+                                yourUserId: 'Deine Benutzer-ID:',
+                                listening: 'Höre deinem Haustier zu...',
+                                microphoneError: 'Zugriff auf Mikrofon nicht möglich. Berechtigungen überprüfen.',
+                                processingError: 'Fehler bei der Audioverarbeitung. Bitte versuche es erneut.',
+                                noAudioToShare: 'Kein Audio zum Teilen. Nimm zuerst etwas auf!',
+                                shareCancelled: 'Teilen abgebrochen oder fehlgeschlagen.',
+                                shareNotSupported: 'Direktes Teilen wird in diesem Browser nicht unterstützt. Du kannst das Audio herunterladen.',
+                                noAudioToDownload: 'Kein Audio zum Herunterladen. Nimm zuerst etwas auf!',
+                                audioDownloaded: 'Audio heruntergeladen!',
+                                llmError: 'Fehler beim Generieren der Übersetzung mit KI. Bitte versuche es erneut.',
+                                permissionModalTitle: 'Mikrofonberechtigung erforderlich',
+                                permissionModalText: 'Um die Geräusche deines Haustiers zu übersetzen, benötigt "PET SOUNDS" Zugriff auf dein Mikrofon. Klicke auf "Zulassen", um fortzufahren.',
+                                permissionModalAllow: 'Zulassen',
+                                permissionModalDeny: 'Ablehnen',
+                                imageShareSuccess: 'Bild erfolgreich geteilt!',
+                                imageShareFail: 'Fehler beim Teilen des Bildes.',
+                                microphonePermissionDenied: 'Mikrofonzugriff dauerhaft verweigert. Bitte aktiviere ihn in deinen Browsereinstellungen.',
+                                microphonePermissionBlocked: 'Mikrofonzugriff blockiert. Bitte erlaube ihn in der Adressleiste deines Browsers.',
+                                microphoneStatusChecking: 'Mikrofon wird geprüft...',
+                                microphoneStatusReady: 'Mikrofon bereit!',
+                                microphoneStatusDenied: 'Mikrofonzugriff verweigert.',
+                                microphoneStatusBlocked: 'Mikrofonzugriff blockiert. In Browsereinstellungen aktivieren.',
+                                retryMicButton: 'Mikrofon erneut versuchen',
+                                llmPromptExcited: "Generiere einen kurzen, lustigen und aufgeregten Satz, den ein {{petType}} sagen könnte, unter Berücksichtigung eines {{voiceType}}-Effekts. Lass es so klingen, als würde es etwas fordern oder sehr glücklich sein. Verwende Emojis. Max. 15 Wörter.",
+                                llmPromptNormal: "Generiere einen kurzen, neugierigen oder liebevollen Satz, den ein {{petType}} sagen könnte, unter Berücksichtigung eines {{voiceType}}-Effekts. Verwende Emojis. Max. 15 Wörter.",
+                                llmPromptRelaxed: "Generiere einen kurzen, schläfrigen oder entspannten Satz, den ein {{petType}} sagen könnte, unter Berücksichtigung eines {{voiceType}}-Effekts. Verwende Emojis. Max. 15 Wörter.",
+                                petTypeCat: "Katze",
+                                petTypeDog: "Hund"
+                            }
+                        },
+                        pt: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Descubra o que seu animal de estimação REALMENTE está dizendo!',
+                                recordButton: '🎤 Gravar Sons do Animal',
+                                stopButton: '⏹ Parar Gravação',
+                                voiceNormal: 'Normal',
+                                voiceChipmunk: 'Esquilo',
+                                voiceDemon: 'Demônio',
+                                voiceRobot: 'Robô',
+                                voiceEcho: 'Eco',
+                                voiceReverb: 'Reverberação',
+                                initialMessage: 'Pressione o botão de gravar e deixe seu animal falar!',
+                                analyzing: 'Analisando sons do animal...',
+                                shareButton: '📱 Compartilhar Áudio',
+                                shareImageButton: '🖼️ Compartilhar Imagem',
+                                downloadButton: '💾 Baixar Áudio',
+                                leaderboardTitle: 'Últimas Traduções',
+                                yourUserId: 'Seu ID de usuário:',
+                                listening: 'Ouvindo seu animal de estimação...',
+                                microphoneError: 'Não é possível acessar o microfone. Verifique as permissões.',
+                                processingError: 'Erro de processamento de áudio. Por favor, tente novamente.',
+                                noAudioToShare: 'Nenhum áudio para compartilhar. Grave algo primeiro!',
+                                shareCancelled: 'Compartilhamento cancelado ou falhou.',
+                                shareNotSupported: 'O compartilhamento direto não é suportado neste navegador. Você pode baixar o áudio.',
+                                noAudioToDownload: 'Nenhum áudio para baixar. Grave algo primeiro!',
+                                audioDownloaded: 'Áudio baixado!',
+                                llmError: 'Erro ao gerar a tradução com IA. Por favor, tente novamente.',
+                                permissionModalTitle: 'Permissão de Microfone Necessária',
+                                permissionModalText: 'Para traduzir os sons do seu animal de estimação, "PET SOUNDS" precisa de acesso ao seu microfone. Clique em "Permitir" para continuar.',
+                                permissionModalAllow: 'Permitir',
+                                permissionModalDeny: 'Negar',
+                                imageShareSuccess: 'Imagem compartilhada com sucesso!',
+                                imageShareFail: 'Falha ao compartilhar imagem.',
+                                microphonePermissionDenied: 'Acesso ao microfone negado permanentemente. Por favor, ative-o nas configurações do seu navegador.',
+                                microphonePermissionBlocked: 'Acesso ao microfone bloqueado. Por favor, permita-o na barra de endereços do seu navegador.',
+                                microphoneStatusChecking: 'Verificando microfone...',
+                                microphoneStatusReady: 'Microfone pronto!',
+                                microphoneStatusDenied: 'Acesso ao microfone negado.',
+                                microphoneStatusBlocked: 'Acesso ao microfone bloqueado. Ative nas configurações do navegador.',
+                                retryMicButton: 'Tentar novamente o microfone',
+                                llmPromptExcited: "Gere uma frase curta, engraçada e animada que um(a) {{petType}} poderia dizer, considerando um efeito {{voiceType}}. Faça parecer que está exigindo algo ou muito feliz. Use emojis. Máx. 15 palavras.",
+                                llmPromptNormal: "Gere uma frase curta, curiosa ou afetuosa que um(a) {{petType}} poderia dizer, considerando um efeito {{voiceType}}. Use emojis. Máx. 15 palavras.",
+                                llmPromptRelaxed: "Gere uma frase curta, sonolenta ou relaxada que um(a) {{petType}} poderia dizer, considerando um efeito {{voiceType}}. Use emojis. Máx. 15 palavras.",
+                                petTypeCat: "gato",
+                                petTypeDog: "cachorro"
+                            }
+                        },
+                        ru: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Узнайте, что на самом деле говорит ваш питомец!',
+                                recordButton: '🎤 Записать звуки питомца',
+                                stopButton: '⏹ Остановить запись',
+                                voiceNormal: 'Обычный',
+                                voiceChipmunk: 'Бурундук',
+                                voiceDemon: 'Демон',
+                                voiceRobot: 'Робот',
+                                voiceEcho: 'Эхо',
+                                voiceReverb: 'Реверберация',
+                                initialMessage: 'Нажмите кнопку записи и дайте вашему питомцу высказаться!',
+                                analyzing: 'Анализ звуков питомца...',
+                                shareButton: '📱 Поделиться аудио',
+                                shareImageButton: '🖼️ Поделиться изображением',
+                                downloadButton: '💾 Скачать аудио',
+                                leaderboardTitle: 'Последние переводы',
+                                yourUserId: 'Ваш ID пользователя:',
+                                listening: 'Слушаю вашего питомца...',
+                                microphoneError: 'Нет доступа к микрофону. Проверьте разрешения.',
+                                processingError: 'Ошибка обработки аудио. Пожалуйста, попробуйте снова.',
+                                noAudioToShare: 'Нет аудио для обмена. Запишите что-нибудь сначала!',
+                                shareCancelled: 'Обмен отменен или не удался.',
+                                shareNotSupported: 'Прямой обмен не поддерживается в этом браузере. Вы можете скачать аудио.',
+                                noAudioToDownload: 'Нет аудио для скачивания. Запишите что-нибудь сначала!',
+                                audioDownloaded: 'Аудио скачано!',
+                                llmError: 'Ошибка при генерации перевода с помощью ИИ. Пожалуйста, попробуйте снова.',
+                                permissionModalTitle: 'Требуется разрешение микрофона',
+                                permissionModalText: 'Для перевода звуков вашего питомца "PET SOUNDS" требуется доступ к вашему микрофону. Нажмите "Разрешить", чтобы продолжить.',
+                                permissionModalAllow: 'Разрешить',
+                                permissionModalDeny: 'Отклонить',
+                                imageShareSuccess: 'Изображение успешно опубликовано!',
+                                imageShareFail: 'Не удалось опубликовать изображение.',
+                                microphonePermissionDenied: 'Доступ к микрофону постоянно запрещен. Включите его в настройках браузера.',
+                                microphonePermissionBlocked: 'Доступ к микрофону заблокирован. Разрешите его в адресной строке браузера.',
+                                microphoneStatusChecking: 'Проверка микрофона...',
+                                microphoneStatusReady: 'Микрофон готов!',
+                                microphoneStatusDenied: 'Доступ к микрофону запрещен.',
+                                microphoneStatusBlocked: 'Доступ к микрофону заблокирован. Включите в настройках браузера.',
+                                retryMicButton: 'Повторить попытку с микрофоном',
+                                llmPromptExcited: "Сгенерируйте короткую, забавную и возбужденную фразу, которую мог бы сказать {{petType}}, учитывая эффект {{voiceType}}. Пусть это звучит так, будто он что-то требует или очень счастлив. Используйте эмодзи. Не более 15 слов.",
+                                llmPromptNormal: "Сгенерируйте короткую, любопытную или ласковую фразу, которую мог бы сказать {{petType}}, учитывая эффект {{voiceType}}. Используйте эмодзи. Не более 15 слов.",
+                                llmPromptRelaxed: "Сгенерируйте короткую, сонную или расслабленную фразу, которую мог бы сказать {{petType}}, учитывая эффект {{voiceType}}. Используйте эмодзи. Не более 15 слов.",
+                                petTypeCat: "кошка",
+                                petTypeDog: "собака"
+                            }
+                        },
+                        ja: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'あなたのペットが本当に何を言っているのか発見しよう！',
+                                recordButton: '🎤 ペットの音を録音',
+                                stopButton: '⏹ 録音を停止',
+                                voiceNormal: 'ノーマル',
+                                voiceChipmunk: 'シマリス',
+                                voiceDemon: '悪魔',
+                                voiceRobot: 'ロボット',
+                                voiceEcho: 'エコー',
+                                voiceReverb: 'リバーブ',
+                                initialMessage: '録音ボタンを押して、ペットに話させてください！',
+                                analyzing: 'ペットの音を分析中...',
+                                shareButton: '📱 音声を共有',
+                                shareImageButton: '🖼️ 画像を共有',
+                                downloadButton: '💾 音声をダウンロード',
+                                leaderboardTitle: '最新の翻訳',
+                                yourUserId: 'あなたのユーザーID:',
+                                listening: 'ペットの音を聞いています...',
+                                microphoneError: 'マイクにアクセスできません。権限を確認してください。',
+                                processingError: '音声処理エラー。もう一度お試しください。',
+                                noAudioToShare: '共有する音声がありません。まず何かを録音してください！',
+                                shareCancelled: '共有がキャンセルされたか失敗しました。',
+                                shareNotSupported: 'このブラウザでは直接共有はサポートされていません。音声をダウンロードできます。',
+                                noAudioToDownload: 'ダウンロードする音声がありません。まず何かを録音してください！',
+                                audioDownloaded: '音声をダウンロードしました！',
+                                llmError: 'AIによる翻訳の生成中にエラーが発生しました。もう一度お試しください。',
+                                permissionModalTitle: 'マイクの許可が必要です',
+                                permissionModalText: 'ペットの音を翻訳するために、「PET SOUNDS」はマイクへのアクセスが必要です。「許可」をクリックして続行してください。',
+                                permissionModalAllow: '許可',
+                                permissionModalDeny: '拒否',
+                                imageShareSuccess: '画像を正常に共有しました！',
+                                imageShareFail: '画像の共有に失敗しました。',
+                                microphonePermissionDenied: 'マイクへのアクセスが永続的に拒否されました。ブラウザの設定で有効にしてください。',
+                                microphonePermissionBlocked: 'マイクへのアクセスがブロックされました。ブラウザのアドレスバーで許可してください。',
+                                microphoneStatusChecking: 'マイクを確認中...',
+                                microphoneStatusReady: 'マイク準備完了！',
+                                microphoneStatusDenied: 'マイクアクセスが拒否されました。',
+                                microphoneStatusBlocked: 'マイクアクセスがブロックされました。ブラウザ設定で有効にしてください。',
+                                retryMicButton: 'マイクを再試行',
+                                llmPromptExcited: "{{petType}}が言うかもしれない短く、面白く、興奮したフレーズを、{{voiceType}}効果を考慮して生成してください。何かを要求しているか、非常に喜んでいるように聞こえるようにしてください。絵文字を使用してください。15語以内。",
+                                llmPromptNormal: "{{petType}}が言うかもしれない短く、好奇心旺盛な、または愛情深いフレーズを、{{voiceType}}効果を考慮して生成してください。絵文字を使用してください。15語以内。",
+                                llmPromptRelaxed: "{{petType}}が言うかもしれない短く、眠そうな、またはリラックスしたフレーズを、{{voiceType}}効果を考慮して生成してください。絵文字を使用してください。15語以内。",
+                                petTypeCat: "猫",
+                                petTypeDog: "犬"
+                            }
+                        },
+                        'zh-CN': {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: '发现你的宠物到底在说什么！',
+                                recordButton: '🎤 录制宠物声音',
+                                stopButton: '⏹ 停止录制',
+                                voiceNormal: '正常',
+                                voiceChipmunk: '花栗鼠',
+                                voiceDemon: '恶魔',
+                                voiceRobot: '机器人',
+                                voiceEcho: '回声',
+                                voiceReverb: '混响',
+                                initialMessage: '按下录制按钮，让你的宠物说话！',
+                                analyzing: '正在分析宠物声音...',
+                                shareButton: '📱 分享音频',
+                                shareImageButton: '🖼️ 分享图片',
+                                downloadButton: '💾 下载音频',
+                                leaderboardTitle: '最新翻译',
+                                yourUserId: '您的用户ID:',
+                                listening: '正在聆听你的宠物...',
+                                microphoneError: '无法访问麦克风。请检查权限。',
+                                processingError: '音频处理错误。请重试。',
+                                noAudioToShare: '没有可分享的音频。请先录制！',
+                                shareCancelled: '分享已取消或失败。',
+                                shareNotSupported: '此浏览器不支持直接分享。您可以下载音频。',
+                                noAudioToDownload: '没有可下载的音频。请先录制！',
+                                audioDownloaded: '音频已下载！',
+                                llmError: '使用AI生成翻译时出错。请重试。',
+                                permissionModalTitle: '需要麦克风权限',
+                                permissionModalText: '为了翻译您的宠物声音，“PET SOUNDS”需要访问您的麦克风。点击“允许”继续。',
+                                permissionModalAllow: '允许',
+                                permissionModalDeny: '拒绝',
+                                imageShareSuccess: '图片分享成功！',
+                                imageShareFail: '图片分享失败。',
+                                microphonePermissionDenied: '麦克风访问权限被永久拒绝。请在浏览器设置中启用它。',
+                                microphonePermissionBlocked: '麦克风访问权限被阻止。请在浏览器地址栏中允许它。',
+                                microphoneStatusChecking: '正在检查麦克风...',
+                                microphoneStatusReady: '麦克风已准备就绪！',
+                                microphoneStatusDenied: '麦克风访问被拒绝。',
+                                microphoneStatusBlocked: '麦克风访问被阻止。请在浏览器设置中启用。',
+                                retryMicButton: '重试麦克风',
+                                llmPromptExcited: "生成一个简短、有趣、兴奋的短语，{{petType}}可能会说，考虑{{voiceType}}效果。让它听起来像是它们在要求什么或者非常开心。使用表情符号。保持在15字以内。",
+                                llmPromptNormal: "生成一个简短、好奇或亲切的短语，{{petType}}可能会说，考虑{{voiceType}}效果。使用表情符号。保持在15字以内。",
+                                llmPromptRelaxed: "生成一个简短、困倦或放松的短语，{{petType}}可能会说，考虑{{voiceType}}效果。使用表情符号。保持在15字以内。",
+                                petTypeCat: "猫",
+                                petTypeDog: "狗"
+                            }
+                        },
+                        ko: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: '당신의 반려동물이 정말로 무슨 말을 하는지 알아보세요!',
+                                recordButton: '🎤 반려동물 소리 녹음',
+                                stopButton: '⏹ 녹음 중지',
+                                voiceNormal: '보통',
+                                voiceChipmunk: '다람쥐',
+                                voiceDemon: '악마',
+                                voiceRobot: '로봇',
+                                voiceEcho: '에코',
+                                voiceReverb: '리버브',
+                                initialMessage: '녹음 버튼을 누르고 반려동물이 말하게 하세요!',
+                                analyzing: '반려동물 소리 분석 중...',
+                                shareButton: '📱 오디오 공유',
+                                shareImageButton: '🖼️ 이미지 공유',
+                                downloadButton: '💾 오디오 다운로드',
+                                leaderboardTitle: '최신 번역',
+                                yourUserId: '회원 ID:',
+                                listening: '반려동물 소리 듣는 중...',
+                                microphoneError: '마이크에 접근할 수 없습니다. 권한을 확인하세요.',
+                                processingError: '오디오 처리 오류. 다시 시도해주세요.',
+                                noAudioToShare: '공유할 오디오가 없습니다. 먼저 녹음하세요!',
+                                shareCancelled: '공유 취소 또는 실패.',
+                                shareNotSupported: '이 브라우저에서는 직접 공유가 지원되지 않습니다. 오디오를 다운로드할 수 있습니다.',
+                                noAudioToDownload: '다운로드할 오디오가 없습니다. 먼저 녹음하세요!',
+                                audioDownloaded: '오디오 다운로드 완료!',
+                                llmError: 'AI 번역 생성 오류. 다시 시도해주세요.',
+                                permissionModalTitle: '마이크 권한 필요',
+                                permissionModalText: '반려동물 소리를 번역하려면 "PET SOUNDS"가 마이크에 접근해야 합니다. "허용"을 클릭하여 진행하세요.',
+                                permissionModalAllow: '허용',
+                                permissionModalDeny: '거부',
+                                imageShareSuccess: '이미지 공유 성공!',
+                                imageShareFail: '이미지 공유 실패.',
+                                microphonePermissionDenied: '마이크 접근이 영구적으로 거부되었습니다. 브라우저 설정에서 활성화하십시오.',
+                                microphonePermissionBlocked: '마이크 접근이 차단되었습니다. 브라우저 주소 표시줄에서 허용하십시오.',
+                                microphoneStatusChecking: '마이크 확인 중...',
+                                microphoneStatusReady: '마이크 준비 완료!',
+                                microphoneStatusDenied: '마이크 접근 거부됨.',
+                                microphoneStatusBlocked: '마이크 접근 차단됨. 브라우저 설정에서 활성화하세요.',
+                                retryMicButton: '마이크 재시도',
+                                llmPromptExcited: "{{petType}}가 {{voiceType}} 효과를 고려하여 말할 수 있는 짧고 재미있고 신나는 문구를 생성합니다. 마치 무언가를 요구하거나 매우 행복해하는 것처럼 들리게 합니다. 이모티콘을 사용합니다. 15단어 이내로 유지합니다.",
+                                llmPromptNormal: "{{petType}}가 {{voiceType}} 효과를 고려하여 말할 수 있는 짧고 호기심 많거나 애정 어린 문구를 생성합니다. 이모티콘을 사용합니다. 15단어 이내로 유지합니다.",
+                                llmPromptRelaxed: "{{petType}}가 {{voiceType}} 효과를 고려하여 말할 수 있는 짧고 졸리거나 편안한 문구를 생성합니다. 이모티콘을 사용합니다. 15단어 이내로 유지합니다.",
+                                petTypeCat: "고양이",
+                                petTypeDog: "개"
+                            }
+                        },
+                        ar: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'اكتشف ما يقوله حيوانك الأليف حقًا!',
+                                recordButton: '🎤 تسجيل أصوات الحيوانات الأليفة',
+                                stopButton: '⏹ إيقاف التسجيل',
+                                voiceNormal: 'عادي',
+                                voiceChipmunk: 'سنجاب',
+                                voiceDemon: 'شيطان',
+                                voiceRobot: 'روبوت',
+                                voiceEcho: 'صدى',
+                                voiceReverb: 'تردد',
+                                initialMessage: 'اضغط على زر التسجيل ودع حيوانك الأليف يتحدث!',
+                                analyzing: 'تحليل أصوات الحيوانات الأليفة...',
+                                shareButton: '📱 مشاركة الصوت',
+                                shareImageButton: '🖼️ مشاركة الصورة',
+                                downloadButton: '💾 تنزيل الصوت',
+                                leaderboardTitle: 'أحدث الترجمات',
+                                yourUserId: 'معرف المستخدم الخاص بك:',
+                                listening: 'الاستماع إلى حيوانك الأليف...',
+                                microphoneError: 'لا يمكن الوصول إلى الميكروفون. تحقق من الأذونات.',
+                                processingError: 'خطأ في معالجة الصوت. يرجى المحاولة مرة أخرى.',
+                                noAudioToShare: 'لا يوجد صوت للمشاركة. سجل شيئًا أولاً!',
+                                shareCancelled: 'تم إلغاء المشاركة أو فشلت.',
+                                shareNotSupported: 'المشاركة المباشرة غير مدعومة في هذا المتصفح. يمكنك تنزيل الصوت.',
+                                noAudioToDownload: 'لا يوجد صوت للتنزيل. سجل شيئًا أولاً!',
+                                audioDownloaded: 'تم تنزيل الصوت!',
+                                llmError: 'خطأ في إنشاء الترجمة باستخدام الذكاء الاصطناعي. يرجى المحاولة مرة أخرى.',
+                                permissionModalTitle: 'إذن الميكروفون مطلوب',
+                                permissionModalText: 'لترجمة أصوات حيوانك الأليف، يحتاج "PET SOUNDS" إلى الوصول إلى الميكروفون الخاص بك. انقر فوق "سماح" للمتابعة.',
+                                permissionModalAllow: 'سماح',
+                                permissionModalDeny: 'رفض',
+                                imageShareSuccess: 'تمت مشاركة الصورة بنجاح!',
+                                imageShareFail: 'فشل في مشاركة الصورة.',
+                                microphonePermissionDenied: 'تم رفض الوصول إلى الميكروفون بشكل دائم. يرجى تمكينه في إعدادات المتصفح الخاص بك.',
+                                microphonePermissionBlocked: 'تم حظر الوصول إلى الميكروفون. يرجى السماح به في شريط عنوان المتصفح الخاص بك.',
+                                microphoneStatusChecking: 'جاري فحص الميكروفون...',
+                                microphoneStatusReady: 'الميكروفون جاهز!',
+                                microphoneStatusDenied: 'تم رفض الوصول إلى الميكروفون.',
+                                microphoneStatusBlocked: 'تم حظر الوصول إلى الميكروفون. قم بتمكينه في إعدادات المتصفح.',
+                                retryMicButton: 'إعادة محاولة الميكروفون',
+                                llmPromptExcited: "قم بإنشاء عبارة قصيرة ومضحكة ومتحمسة قد يقولها {{petType}}، مع الأخذ في الاعتبار تأثير {{voiceType}}. اجعلها تبدو وكأنها تطالب بشيء أو سعيدة جدًا. استخدم الرموز التعبيرية. اجعلها أقل من 15 كلمة.",
+                                llmPromptNormal: "قم بإنشاء عبارة قصيرة وفضولية أو حنونة قد يقولها {{petType}}، مع الأخذ في الاعتبار تأثير {{voiceType}}. استخدم الرموز التعبيرية. اجعلها أقل من 15 كلمة.",
+                                llmPromptRelaxed: "قم بإنشاء عبارة قصيرة ونائمة أو مريحة قد يقولها {{petType}}، مع الأخذ في الاعتبار تأثير {{voiceType}}. استخدم الرموز التعبيرية. اجعلها أقل من 15 كلمة.",
+                                petTypeCat: "قطة",
+                                petTypeDog: "كلب"
+                            }
+                        },
+                        hi: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'जानें आपका पालतू जानवर वास्तव में क्या कह रहा है!',
+                                recordButton: '🎤 पालतू जानवर की आवाज़ रिकॉर्ड करें',
+                                stopButton: '⏹ रिकॉर्डिंग बंद करें',
+                                voiceNormal: 'सामान्य',
+                                voiceChipmunk: 'चिपमंक',
+                                voiceDemon: 'दानव',
+                                voiceRobot: 'रोबोट',
+                                voiceEcho: 'गूंज',
+                                voiceReverb: 'रिवर्ब',
+                                initialMessage: 'रिकॉर्ड बटन दबाएं और अपने पालतू जानवर को बोलने दें!',
+                                analyzing: 'पालतू जानवर की आवाज़ का विश्लेषण कर रहा है...',
+                                shareButton: '📱 ऑडियो साझा करें',
+                                shareImageButton: '🖼️ छवि साझा करें',
+                                downloadButton: '💾 ऑडियो डाउनलोड करें',
+                                leaderboardTitle: 'नवीनतम अनुवाद',
+                                yourUserId: 'आपकी उपयोगकर्ता आईडी:',
+                                listening: 'आपके पालतू जानवर को सुन रहा है...',
+                                microphoneError: 'माइक्रोफ़ोन तक पहुँच नहीं हो सकती। अनुमतियाँ जाँचें।',
+                                processingError: 'ऑडियो प्रोसेसिंग त्रुटि। कृपया पुनः प्रयास करें।',
+                                noAudioToShare: 'साझा करने के लिए कोई ऑडियो नहीं है। पहले कुछ रिकॉर्ड करें!',
+                                shareCancelled: 'साझाकरण रद्द या विफल।',
+                                shareNotSupported: 'इस ब्राउज़र में सीधा साझाकरण समर्थित नहीं है। आप ऑडियो डाउनलोड कर सकते हैं।',
+                                noAudioToDownload: 'डाउनलोड करने के लिए कोई ऑडियो नहीं है। पहले कुछ रिकॉर्ड करें!',
+                                audioDownloaded: 'ऑडियो डाउनलोड किया गया!',
+                                llmError: 'एआई के साथ अनुवाद उत्पन्न करने में त्रुटि। कृपया पुनः प्रयास करें।',
+                                permissionModalTitle: 'माइक्रोफ़ोन अनुमति आवश्यक है',
+                                permissionModalText: 'आपके पालतू जानवर की आवाज़ का अनुवाद करने के लिए, "PET SOUNDS" को आपके माइक्रोफ़ोन तक पहुँच की आवश्यकता है। जारी रखने के लिए "अनुमति दें" पर क्लिक करें।',
+                                permissionModalAllow: 'अनुमति दें',
+                                permissionModalDeny: 'अस्वीकार करें',
+                                imageShareSuccess: 'छवि सफलतापूर्वक साझा की गई!',
+                                imageShareFail: 'छवि साझा करने में विफल।',
+                                microphonePermissionDenied: 'माइक्रोफ़ोन एक्सेस स्थायी रूप से अस्वीकृत। कृपया इसे अपने ब्राउज़र सेटिंग्स में सक्षम करें।',
+                                microphonePermissionBlocked: 'माइक्रोफ़ोन एक्सेस अवरुद्ध। कृपया इसे अपने ब्राउज़र के पता बार में अनुमति दें।',
+                                microphoneStatusChecking: 'माइक्रोफ़ोन की जाँच हो रही है...',
+                                microphoneStatusReady: 'माइक्रोफ़ोन तैयार है!',
+                                microphoneStatusDenied: 'माइक्रोफ़ोन एक्सेस अस्वीकृत।',
+                                microphoneStatusBlocked: 'माइक्रोफ़ोन एक्सेस अवरुद्ध। ब्राउज़र सेटिंग्स में सक्षम करें।',
+                                retryMicButton: 'माइक्रोफ़ोन पुनः प्रयास करें',
+                                llmPromptExcited: "एक छोटा, मज़ेदार और उत्साहित वाक्यांश उत्पन्न करें जो एक {{petType}} कह सकता है, जिसमें {{voiceType}} प्रभाव का ध्यान रखा गया हो। इसे ऐसा बनाएं जैसे वे कुछ मांग रहे हों या बहुत खुश हों। इमोजी का उपयोग करें। 15 शब्दों से कम रखें।",
+                                llmPromptNormal: "एक छोटा, जिज्ञासु या स्नेही वाक्यांश उत्पन्न करें जो एक {{petType}} कह सकता है, जिसमें {{voiceType}} प्रभाव का ध्यान रखा गया हो। इमोजी का उपयोग करें। 15 शब्दों से कम रखें।",
+                                llmPromptRelaxed: "एक छोटा, नींद भरा या आरामदायक वाक्यांश उत्पन्न करें जो एक {{petType}} कह सकता है, जिसमें {{voiceType}} प्रभाव का ध्यान रखा गया हो। इमोजी का उपयोग करें। 15 शब्दों से कम रखें।",
+                                petTypeCat: "बिल्ली",
+                                petTypeDog: "कुत्ता"
+                            }
+                        },
+                        id: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Temukan apa yang sebenarnya dikatakan hewan peliharaan Anda!',
+                                recordButton: '🎤 Rekam Suara Hewan Peliharaan',
+                                stopButton: '⏹ Hentikan Rekaman',
+                                voiceNormal: 'Normal',
+                                voiceChipmunk: 'Chipmunk',
+                                voiceDemon: 'Setan',
+                                voiceRobot: 'Robot',
+                                voiceEcho: 'Gema',
+                                voiceReverb: 'Gema',
+                                initialMessage: 'Tekan tombol rekam dan biarkan hewan peliharaan Anda berbicara!',
+                                analyzing: 'Menganalisis suara hewan peliharaan...',
+                                shareButton: '📱 Bagikan Audio',
+                                shareImageButton: '🖼️ Bagikan Gambar',
+                                downloadButton: '💾 Unduh Audio',
+                                leaderboardTitle: 'Terjemahan Terbaru',
+                                yourUserId: 'ID Pengguna Anda:',
+                                listening: 'Mendengarkan hewan peliharaan Anda...',
+                                microphoneError: 'Tidak dapat mengakses mikrofon. Periksa izin.',
+                                processingError: 'Kesalahan pemrosesan audio. Silakan coba lagi.',
+                                noAudioToShare: 'Tidak ada audio untuk dibagikan. Rekam sesuatu terlebih dahulu!',
+                                shareCancelled: 'Berbagi dibatalkan atau gagal.',
+                                shareNotSupported: 'Berbagi langsung tidak didukung di browser ini. Anda dapat mengunduh audio.',
+                                noAudioToDownload: 'Tidak ada audio untuk diunduh. Rekam sesuatu terlebih dahulu!',
+                                audioDownloaded: 'Audio diunduh!',
+                                llmError: 'Kesalahan menghasilkan terjemahan dengan AI. Silakan coba lagi.',
+                                permissionModalTitle: 'Izin Mikrofon Diperlukan',
+                                permissionModalText: 'Untuk menerjemahkan suara hewan peliharaan Anda, "PET SOUNDS" memerlukan akses ke mikrofon Anda. Klik "Izinkan" untuk melanjutkan.',
+                                permissionModalAllow: 'Izinkan',
+                                permissionModalDeny: 'Tolak',
+                                imageShareSuccess: 'Gambar berhasil dibagikan!',
+                                imageShareFail: 'Gagal membagikan gambar.',
+                                microphonePermissionDenied: 'Akses mikrofon ditolak secara permanen. Harap aktifkan di pengaturan browser Anda.',
+                                microphonePermissionBlocked: 'Akses mikrofon diblokir. Harap izinkan di bilah alamat browser Anda.',
+                                microphoneStatusChecking: 'Memeriksa mikrofon...',
+                                microphoneStatusReady: 'Mikrofon siap!',
+                                microphoneStatusDenied: 'Akses mikrofon ditolak.',
+                                microphoneStatusBlocked: 'Akses mikrofon diblokir. Aktifkan di pengaturan browser.',
+                                retryMicButton: 'Coba lagi Mikrofon',
+                                llmPromptExcited: "Hasilkan frasa pendek, lucu, dan bersemangat yang mungkin diucapkan {{petType}}, dengan mempertimbangkan efek {{voiceType}}. Buatlah terdengar seperti mereka menuntut sesuatu atau sangat bahagia. Gunakan emoji. Batasi hingga 15 kata.",
+                                llmPromptNormal: "Hasilkan frasa pendek, penasaran, atau penuh kasih sayang yang mungkin diucapkan {{petType}}, dengan mempertimbangkan efek {{voiceType}}. Gunakan emoji. Batasi hingga 15 kata.",
+                                llmPromptRelaxed: "Hasilkan frasa pendek, mengantuk, atau santai yang mungkin diucapkan {{petType}}, dengan mempertimbangkan efek {{voiceType}}. Gunakan emoji. Batasi hingga 15 kata.",
+                                petTypeCat: "kucing",
+                                petTypeDog: "anjing"
+                            }
+                        },
+                        tr: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Evcil hayvanınızın GERÇEKTEN ne söylediğini keşfedin!',
+                                recordButton: '🎤 Evcil Hayvan Seslerini Kaydet',
+                                stopButton: '⏹ Kaydı Durdur',
+                                voiceNormal: 'Normal',
+                                voiceChipmunk: 'Sincap',
+                                voiceDemon: 'Şeytan',
+                                voiceRobot: 'Robot',
+                                voiceEcho: 'Yankı',
+                                voiceReverb: 'Reverb',
+                                initialMessage: 'Kayıt düğmesine basın ve evcil hayvanınız konuşsun!',
+                                analyzing: 'Evcil hayvan sesleri analiz ediliyor...',
+                                shareButton: '📱 Ses Paylaş',
+                                shareImageButton: '🖼️ Resim Paylaş',
+                                downloadButton: '💾 Ses İndir',
+                                leaderboardTitle: 'Son Çeviriler',
+                                yourUserId: 'Kullanıcı Kimliğiniz:',
+                                listening: 'Evcil hayvanınızı dinliyorum...',
+                                microphoneError: 'Mikrofona erişilemiyor. İzinleri kontrol edin.',
+                                processingError: 'Ses işleme hatası. Lütfen tekrar deneyin.',
+                                noAudioToShare: 'Paylaşılacak ses yok. Önce bir şeyler kaydedin!',
+                                shareCancelled: 'Paylaşım iptal edildi veya başarısız oldu.',
+                                shareNotSupported: 'Doğrudan paylaşım bu tarayıcıda desteklenmiyor. Sesi indirebilirsiniz.',
+                                noAudioToDownload: 'İndirilecek ses yok. Önce bir şeyler kaydedin!',
+                                audioDownloaded: 'Ses indirildi!',
+                                llmError: 'AI ile çeviri oluşturulurken hata oluştu. Lütfen tekrar deneyin.',
+                                permissionModalTitle: 'Mikrofon İzni Gerekli',
+                                permissionModalText: 'Evcil hayvanınızın seslerini çevirmek için "PET SOUNDS" mikrofonunuza erişmesi gerekiyor. Devam etmek için "İzin Ver"e tıklayın.',
+                                permissionModalAllow: 'İzin Ver',
+                                permissionModalDeny: 'Reddet',
+                                imageShareSuccess: 'Resim başarıyla paylaşıldı!',
+                                imageShareFail: 'Resim paylaşımı başarısız oldu.',
+                                microphonePermissionDenied: 'Mikrofon erişimi kalıcı olarak reddedildi. Lütfen tarayıcı ayarlarınızdan etkinleştirin.',
+                                microphonePermissionBlocked: 'Mikrofon erişimi engellendi. Lütfen tarayıcınızın adres çubuğundan izin verin.',
+                                microphoneStatusChecking: 'Mikrofon kontrol ediliyor...',
+                                microphoneStatusReady: 'Mikrofon hazır!',
+                                microphoneStatusDenied: 'Mikrofon erişimi reddedildi.',
+                                microphoneStatusBlocked: 'Mikrofon erişimi engellendi. Tarayıcı ayarlarında etkinleştirin.',
+                                retryMicButton: 'Mikrofonu Tekrar Dene',
+                                llmPromptExcited: "Bir {{petType}}'in söyleyebileceği kısa, komik ve heyecanlı bir ifade oluşturun, {{voiceType}} efektini göz önünde bulundurarak. Bir şeyler talep ediyormuş veya çok mutluymuş gibi ses çıkarın. Emojiler kullanın. 15 kelime altında tutun.",
+                                llmPromptNormal: "Bir {{petType}}'in söyleyebileceği kısa, meraklı veya sevecen bir ifade oluşturun, {{voiceType}} efektini göz önünde bulundurarak. Emojiler kullanın. 15 kelime altında tutun.",
+                                llmPromptRelaxed: "Bir {{petType}}'in söyleyebileceği kısa, uykulu veya rahat bir ifade oluşturun, {{voiceType}} efektini göz önünde bulundurarak. Emojiler kullanın. 15 kelime altında tutun.",
+                                petTypeCat: "kedi",
+                                petTypeDog: "köpek"
+                            }
+                        },
+                        vi: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Khám phá xem thú cưng của bạn THỰC SỰ đang nói gì!',
+                                recordButton: '🎤 Ghi âm Tiếng thú cưng',
+                                stopButton: '⏹ Dừng ghi âm',
+                                voiceNormal: 'Bình thường',
+                                voiceChipmunk: 'Sóc chuột',
+                                voiceDemon: 'Quỷ',
+                                voiceRobot: 'Robot',
+                                voiceEcho: 'Tiếng vang',
+                                voiceReverb: 'Tiếng vọng',
+                                initialMessage: 'Nhấn nút ghi âm và để thú cưng của bạn nói chuyện!',
+                                analyzing: 'Đang phân tích tiếng thú cưng...',
+                                shareButton: '📱 Chia sẻ Âm thanh',
+                                shareImageButton: '🖼️ Chia sẻ Hình ảnh',
+                                downloadButton: '💾 Tải xuống Âm thanh',
+                                leaderboardTitle: 'Bản dịch mới nhất',
+                                yourUserId: 'ID người dùng của bạn:',
+                                listening: 'Đang lắng nghe thú cưng của bạn...',
+                                microphoneError: 'Không thể truy cập micrô. Kiểm tra quyền.',
+                                processingError: 'Lỗi xử lý âm thanh. Vui lòng thử lại.',
+                                noAudioToShare: 'Không có âm thanh để chia sẻ. Hãy ghi âm trước!',
+                                shareCancelled: 'Chia sẻ đã bị hủy hoặc thất bại.',
+                                shareNotSupported: 'Chia sẻ trực tiếp không được hỗ trợ trong trình duyệt này. Bạn có thể tải xuống âm thanh.',
+                                noAudioToDownload: 'Không có âm thanh để tải xuống. Hãy ghi âm trước!',
+                                audioDownloaded: 'Đã tải xuống âm thanh!',
+                                llmError: 'Lỗi khi tạo bản dịch bằng AI. Vui lòng thử lại.',
+                                permissionModalTitle: 'Yêu cầu quyền truy cập micrô',
+                                permissionModalText: 'Để dịch tiếng thú cưng của bạn, "PET SOUNDS" cần truy cập micrô của bạn. Nhấp vào "Cho phép" để tiếp tục.',
+                                permissionModalAllow: 'Cho phép',
+                                permissionModalDeny: 'Từ chối',
+                                imageShareSuccess: 'Chia sẻ hình ảnh thành công!',
+                                imageShareFail: 'Chia sẻ hình ảnh thất bại.',
+                                microphonePermissionDenied: 'Quyền truy cập micrô bị từ chối vĩnh viễn. Vui lòng bật nó trong cài đặt trình duyệt của bạn.',
+                                microphonePermissionBlocked: 'Quyền truy cập micrô bị chặn. Vui lòng cho phép nó trong thanh địa chỉ trình duyệt của bạn.',
+                                microphoneStatusChecking: 'Đang kiểm tra micrô...',
+                                microphoneStatusReady: 'Micrô sẵn sàng!',
+                                microphoneStatusDenied: 'Quyền truy cập micrô bị từ chối.',
+                                microphoneStatusBlocked: 'Quyền truy cập micrô bị chặn. Vui lòng bật trong cài đặt trình duyệt.',
+                                retryMicButton: 'Thử lại micrô',
+                                llmPromptExcited: "Tạo một cụm từ ngắn, hài hước và phấn khích mà một {{petType}} có thể nói, xem xét hiệu ứng {{voiceType}}. Làm cho nó nghe như thể chúng đang đòi hỏi điều gì đó hoặc rất hạnh phúc. Sử dụng biểu tượng cảm xúc. Giữ dưới 15 từ.",
+                                llmPromptNormal: "Tạo một cụm từ ngắn, tò mò hoặc trìu mến mà một {{petType}} có thể nói, xem xét hiệu ứng {{voiceType}}. Sử dụng biểu tượng cảm xúc. Giữ dưới 15 từ.",
+                                llmPromptRelaxed: "Tạo một cụm từ ngắn, buồn ngủ hoặc thư giãn mà một {{petType}} có thể nói, xem xét hiệu ứng {{voiceType}}. Sử dụng biểu tượng cảm xúc. Giữ dưới 15 từ.",
+                                petTypeCat: "mèo",
+                                petTypeDog: "chó"
+                            }
+                        },
+                        pl: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Odkryj, co NAPRAWDĘ mówi Twój zwierzak!',
+                                recordButton: '🎤 Nagraj Dźwięki Zwierząt',
+                                stopButton: '⏹ Zatrzymaj Nagrywanie',
+                                voiceNormal: 'Normalny',
+                                voiceChipmunk: 'Wiewiórka',
+                                voiceDemon: 'Demon',
+                                voiceRobot: 'Robot',
+                                voiceEcho: 'Echo',
+                                voiceReverb: 'Pogłos',
+                                initialMessage: 'Naciśnij przycisk nagrywania i pozwól swojemu zwierzakowi mówić!',
+                                analyzing: 'Analizowanie dźwięków zwierząt...',
+                                shareButton: '📱 Udostępnij Audio',
+                                shareImageButton: '🖼️ Udostępnij Obraz',
+                                downloadButton: '💾 Pobierz Audio',
+                                leaderboardTitle: 'Najnowsze Tłumaczenia',
+                                yourUserId: 'Twój ID użytkownika:',
+                                listening: 'Słucham Twojego zwierzaka...',
+                                microphoneError: 'Brak dostępu do mikrofonu. Sprawdź uprawnienia.',
+                                processingError: 'Błąd przetwarzania audio. Spróbuj ponownie.',
+                                noAudioToShare: 'Brak audio do udostępnienia. Najpierw coś nagraj!',
+                                shareCancelled: 'Udostępnianie anulowane lub nieudane.',
+                                shareNotSupported: 'Bezpośrednie udostępnianie nie jest obsługiwane w tej przeglądarce. Możesz pobrać audio.',
+                                noAudioToDownload: 'Brak audio do pobrania. Najpierw coś nagraj!',
+                                audioDownloaded: 'Audio pobrane!',
+                                llmError: 'Błąd generowania tłumaczenia za pomocą AI. Spróbuj ponownie.',
+                                permissionModalTitle: 'Wymagane pozwolenie na mikrofon',
+                                permissionModalText: 'Aby przetłumaczyć dźwięki Twojego zwierzaka, "PET SOUNDS" potrzebuje dostępu do Twojego mikrofonu. Kliknij "Zezwól", aby kontynuować.',
+                                permissionModalAllow: 'Zezwól',
+                                permissionModalDeny: 'Odmów',
+                                imageShareSuccess: 'Obraz udostępniono pomyślnie!',
+                                imageShareFail: 'Nie udało się udostępnić obrazu.',
+                                microphonePermissionDenied: 'Dostęp do mikrofonu został trwale odrzucony. Włącz go w ustawieniach przeglądarki.',
+                                microphonePermissionBlocked: 'Dostęp do mikrofonu zablokowany. Zezwól na niego w pasku adresu przeglądarki.',
+                                microphoneStatusChecking: 'Sprawdzanie mikrofonu...',
+                                microphoneStatusReady: 'Mikrofon gotowy!',
+                                microphoneStatusDenied: 'Dostęp do mikrofonu odrzucony.',
+                                microphoneStatusBlocked: 'Dostęp do mikrofonu zablokowany. Włącz w ustawieniach przeglądarki.',
+                                retryMicButton: 'Ponów próbę mikrofonu',
+                                llmPromptExcited: "Wygeneruj krótką, zabawną i podekscytowaną frazę, którą {{petType}} mógłby powiedzieć, biorąc pod uwagę efekt {{voiceType}}. Spraw, aby brzmiało to, jakby czegoś żądały lub były bardzo szczęśliwe. Użyj emoji. Maksymalnie 15 słów.",
+                                llmPromptNormal: "Wygeneruj krótką, ciekawą lub czułą frazę, którą {{petType}} mógłby powiedzieć, biorąc pod uwagę efekt {{voiceType}}. Użyj emoji. Maksymalnie 15 słów.",
+                                llmPromptRelaxed: "Wygeneruj krótką, senną lub zrelaksowaną frazę, którą {{petType}} mógłby powiedzieć, biorąc pod uwagę efekt {{voiceType}}. Użyj emoji. Maksymalnie 15 słów.",
+                                petTypeCat: "kot",
+                                petTypeDog: "pies"
+                            }
+                        },
+                        nl: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Ontdek wat uw huisdier ECHT zegt!',
+                                recordButton: '🎤 Geluiden huisdier opnemen',
+                                stopButton: '⏹ Opname stoppen',
+                                voiceNormal: 'Normaal',
+                                voiceChipmunk: 'Eekhoorn',
+                                voiceDemon: 'Demon',
+                                voiceRobot: 'Robot',
+                                voiceEcho: 'Echo',
+                                voiceReverb: 'Reverb',
+                                initialMessage: 'Druk op de opnameknop en laat uw huisdier spreken!',
+                                analyzing: 'Huisdiergeluiden analyseren...',
+                                shareButton: '📱 Audio delen',
+                                shareImageButton: '🖼️ Afbeelding delen',
+                                downloadButton: '💾 Audio downloaden',
+                                leaderboardTitle: 'Laatste vertalingen',
+                                yourUserId: 'Uw gebruikers-ID:',
+                                listening: 'Luisteren naar uw huisdier...',
+                                microphoneError: 'Geen toegang tot microfoon. Controleer machtigingen.',
+                                processingError: 'Audioverwerkingsfout. Probeer het opnieuw.',
+                                noAudioToShare: 'Geen audio om te delen. Neem eerst iets op!',
+                                shareCancelled: 'Delen geannuleerd of mislukt.',
+                                shareNotSupported: 'Direct delen wordt niet ondersteund in deze browser. U kunt de audio downloaden.',
+                                noAudioToDownload: 'Geen audio om te downloaden. Neem eerst iets op!',
+                                audioDownloaded: 'Audio gedownload!',
+                                llmError: 'Fout bij het genereren van vertaling met AI. Probeer het opnieuw.',
+                                permissionModalTitle: 'Microfoonmachtiging vereist',
+                                permissionModalText: 'Om de geluiden van uw huisdier te vertalen, heeft "PET SOUNDS" toegang tot uw microfoon nodig. Klik op "Toestaan" om door te gaan.',
+                                permissionModalAllow: 'Toestaan',
+                                permissionModalDeny: 'Weigeren',
+                                imageShareSuccess: 'Afbeelding succesvol gedeeld!',
+                                imageShareFail: 'Afbeelding delen mislukt.',
+                                microphonePermissionDenied: 'Microfoontoegang permanent geweigerd. Schakel deze in via de browserinstellingen.',
+                                microphonePermissionBlocked: 'Microfoontoegang geblokkeerd. Sta dit toe in de adresbalk van uw browser.',
+                                microphoneStatusChecking: 'Microfoon wordt gecontroleerd...',
+                                microphoneStatusReady: 'Microfoon is klaar!',
+                                microphoneStatusDenied: 'Microfoontoegang geweigerd.',
+                                microphoneStatusBlocked: 'Microfoontoegang geblokkeerd. Schakel in browserinstellingen in.',
+                                retryMicButton: 'Microfoon opnieuw proberen',
+                                llmPromptExcited: "Genereer een korte, grappige en opgewonden zin die een {{petType}} zou kunnen zeggen, rekening houdend met een {{voiceType}}-effect. Laat het klinken alsof ze iets eisen of erg blij zijn. Gebruik emoji's. Houd het onder de 15 woorden.",
+                                llmPromptNormal: "Genereer een korte, nieuwsgierige of liefdevolle zin die een {{petType}} zou kunnen zeggen, rekening houdend met een {{voiceType}}-effect. Gebruik emoji's. Houd het onder de 15 woorden.",
+                                llmPromptRelaxed: "Genereer een korte, slaperige of ontspannen zin die een {{petType}} zou kunnen zeggen, rekening houdend met een {{voiceType}}-effect. Gebruik emoji's. Houd het onder de 15 woorden.",
+                                petTypeCat: "kat",
+                                petTypeDog: "hond"
+                            }
+                        },
+                        sv: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'Upptäck vad ditt husdjur VERKLIGEN säger!',
+                                recordButton: '🎤 Spela in husdjursljud',
+                                stopButton: '⏹ Stoppa inspelning',
+                                voiceNormal: 'Normal',
+                                voiceChipmunk: 'Chipmunk',
+                                voiceDemon: 'Demon',
+                                voiceRobot: 'Robot',
+                                voiceEcho: 'Eko',
+                                voiceReverb: 'Reverb',
+                                initialMessage: 'Tryck på inspelningsknappen och låt ditt husdjur tala!',
+                                analyzing: 'Analyserar husdjursljud...',
+                                shareButton: '📱 Dela ljud',
+                                shareImageButton: '🖼️ Dela bild',
+                                downloadButton: '💾 Ladda ner ljud',
+                                leaderboardTitle: 'Senaste översättningar',
+                                yourUserId: 'Ditt användar-ID:',
+                                listening: 'Lyssnar på ditt husdjur...',
+                                microphoneError: 'Kan inte komma åt mikrofonen. Kontrollera behörigheter.',
+                                processingError: 'Fel vid ljudbehandling. Försök igen.',
+                                noAudioToShare: 'Inget ljud att dela. Spela in något först!',
+                                shareCancelled: 'Delning avbruten eller misslyckades.',
+                                shareNotSupported: 'Direktdelning stöds inte i den här webbläsaren. Du kan ladda ner ljudet.',
+                                noAudioToDownload: 'Inget ljud att ladda ner. Spela in något först!',
+                                audioDownloaded: 'Ljud nedladdat!',
+                                llmError: 'Fel vid generering av översättning med AI. Försök igen.',
+                                permissionModalTitle: 'Mikrofonbehörighet krävs',
+                                permissionModalText: 'För att översätta ditt husdjurs ljud behöver "PET SOUNDS" åtkomst till din mikrofon. Klicka på "Tillåt" för att fortsätta.',
+                                permissionModalAllow: 'Tillåt',
+                                permissionModalDeny: 'Neka',
+                                imageShareSuccess: 'Bilden delades framgångsrikt!',
+                                imageShareFail: 'Misslyckades med att dela bilden.',
+                                microphonePermissionDenied: 'Mikrofonåtkomst nekades permanent. Vänligen aktivera den i dina webbläsarinställningar.',
+                                microphonePermissionBlocked: 'Mikrofonåtkomst blockerad. Vänligen tillåt den i webbläsarens adressfält.',
+                                microphoneStatusChecking: 'Kontrollerar mikrofon...',
+                                microphoneStatusReady: 'Mikrofon redo!',
+                                microphoneStatusDenied: 'Mikrofonåtkomst nekades.',
+                                microphoneStatusBlocked: 'Mikrofonåtkomst blockerad. Aktivera i webbläsarinställningar.',
+                                retryMicButton: 'Försök igen mikrofon',
+                                llmPromptExcited: "Generera en kort, rolig och upphetsad fras som en {{petType}} kan säga, med tanke på en {{voiceType}}-effekt. Få det att låta som om de kräver något eller är mycket glada. Använd emojis. Håll det under 15 ord.",
+                                llmPromptNormal: "Generera en kort, nyfiken eller tillgiven fras som en {{petType}} kan säga, med tanke på en {{voiceType}}-effekt. Använd emojis. Håll det under 15 ord.",
+                                llmPromptRelaxed: "Generera en kort, sömnig eller avslappnad fras som en {{petType}} kan säga, med tanke på een {{voiceType}}-effekt. Använd emojis. Håll det under 15 ord.",
+                                petTypeCat: "katt",
+                                petTypeDog: "hund"
+                            }
+                        },
+                        th: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'ค้นพบว่าสัตว์เลี้ยงของคุณกำลังพูดอะไรอยู่!',
+                                recordButton: '🎤 บันทึกเสียงสัตว์เลี้ยง',
+                                stopButton: '⏹ หยุดบันทึก',
+                                voiceNormal: 'ปกติ',
+                                voiceChipmunk: 'กระรอก',
+                                voiceDemon: 'ปีศาจ',
+                                voiceRobot: 'หุ่นยนต์',
+                                voiceEcho: 'เสียงสะท้อน',
+                                voiceReverb: 'เสียงก้อง',
+                                initialMessage: 'กดปุ่มบันทึกและให้สัตว์เลี้ยงของคุณพูด!',
+                                analyzing: 'กำลังวิเคราะห์เสียงสัตว์เลี้ยง...',
+                                shareButton: '📱 แชร์เสียง',
+                                shareImageButton: '🖼️ แชร์รูปภาพ',
+                                downloadButton: '💾 ดาวน์โหลดเสียง',
+                                leaderboardTitle: 'การแปลล่าสุด',
+                                yourUserId: 'ID ผู้ใช้ของคุณ:',
+                                listening: 'กำลังฟังสัตว์เลี้ยงของคุณ...',
+                                microphoneError: 'ไม่สามารถเข้าถึงไมโครโฟนได้ ตรวจสอบการอนุญาต',
+                                processingError: 'ข้อผิดพลาดในการประมวลผลเสียง โปรดลองอีกครั้ง',
+                                noAudioToShare: 'ไม่มีเสียงให้แชร์ บันทึกอะไรบางอย่างก่อน!',
+                                shareCancelled: 'การแชร์ถูกยกเลิกหรือล้มเหลว',
+                                shareNotSupported: 'การแชร์โดยตรงไม่รองรับในเบราว์เซอร์นี้ คุณสามารถดาวน์โหลดเสียงได้',
+                                noAudioToDownload: 'ไม่มีเสียงให้ดาวน์โหลด บันทึกอะไรบางอย่างก่อน!',
+                                audioDownloaded: 'ดาวน์โหลดเสียงแล้ว!',
+                                llmError: 'ข้อผิดพลาดในการสร้างการแปลด้วย AI โปรดลองอีกครั้ง',
+                                permissionModalTitle: 'ต้องได้รับอนุญาตไมโครโฟน',
+                                permissionModalText: 'ในการแปลเสียงสัตว์เลี้ยงของคุณ "PET SOUNDS" ต้องการเข้าถึงไมโครโฟนของคุณ คลิก "อนุญาต" เพื่อดำเนินการต่อ',
+                                permissionModalAllow: 'อนุญาต',
+                                permissionModalDeny: 'ปฏิเสธ',
+                                imageShareSuccess: 'แชร์รูปภาพสำเร็จ!',
+                                imageShareFail: 'แชร์รูปภาพล้มเหลว',
+                                microphonePermissionDenied: 'การเข้าถึงไมโครโฟนถูกปฏิเสธอย่างถาวร โปรดเปิดใช้งานในการตั้งค่าเบราว์เซอร์ของคุณ',
+                                microphonePermissionBlocked: 'การเข้าถึงไมโครโฟนถูกบล็อก โปรดอนุญาตในแถบที่อยู่ของเบราว์เซอร์ของคุณ',
+                                microphoneStatusChecking: 'กำลังตรวจสอบไมโครโฟน...',
+                                microphoneStatusReady: 'ไมโครโฟนพร้อมใช้งาน!',
+                                microphoneStatusDenied: 'การเข้าถึงไมโครโฟนถูกปฏิเสธ',
+                                microphoneStatusBlocked: 'การเข้าถึงไมโครโฟนถูกบล็อก เปิดใช้งานในการตั้งค่าเบราว์เซอร์',
+                                retryMicButton: 'ลองอีกครั้งไมโครโฟน',
+                                llmPromptExcited: "สร้างวลีสั้นๆ ตลกๆ และตื่นเต้นที่ {{petType}} อาจพูด โดยพิจารณาถึงเอฟเฟกต์ {{voiceType}} ทำให้ฟังดูเหมือนพวกเขากำลังเรียกร้องบางสิ่งหรือมีความสุขมาก ใช้สัญลักษณ์อีโมจิ จำกัดไม่เกิน 15 คำ",
+                                llmPromptNormal: "สร้างวลีสั้นๆ อยากรู้อยากเห็น หรือแสดงความรักที่ {{petType}} อาจพูด โดยพิจารณาถึงเอฟเฟกต์ {{voiceType}} ใช้สัญลักษณ์อีโมจิ จำกัดไม่เกิน 15 คำ",
+                                llmPromptRelaxed: "สร้างวลีสั้นๆ ง่วงนอน หรือผ่อนคลายที่ {{petType}} อาจพูด โดยพิจารณาถึงเอฟเฟกต์ {{voiceType}} ใช้สัญลักษณ์อีโมจิ จำกัดไม่เกิน 15 คำ",
+                                petTypeCat: "แมว",
+                                petTypeDog: "สุนัข"
+                            }
+                        },
+                        bn: {
+                            translation: {
+                                appTitle: 'PET SOUNDS',
+                                mainTitle: 'PET SOUNDS',
+                                tagline: 'আপনার পোষা প্রাণী আসলে কী বলছে তা আবিষ্কার করুন!',
+                                recordButton: '🎤 পোষা প্রাণীর শব্দ রেকর্ড করুন',
+                                stopButton: '⏹ রেকর্ডিং বন্ধ করুন',
+                                voiceNormal: 'সাধারণ',
+                                voiceChipmunk: 'চিপমঙ্ক',
+                                voiceDemon: 'দানব',
+                                voiceRobot: 'রোবট',
+                                voiceEcho: 'প্রতিধ্বনি',
+                                voiceReverb: 'রিভার্ব',
+                                initialMessage: 'রেকর্ড বোতাম টিপুন এবং আপনার পোষা প্রাণীকে কথা বলতে দিন!',
+                                analyzing: 'পোষা প্রাণীর শব্দ বিশ্লেষণ করা হচ্ছে...',
+                                shareButton: '📱 অডিও শেয়ার করুন',
+                                shareImageButton: '🖼️ ছবি শেয়ার করুন',
+                                downloadButton: '💾 অডিও ডাউনলোড করুন',
+                                leaderboardTitle: 'সর্বশেষ অনুবাদ',
+                                yourUserId: 'আপনার ব্যবহারকারী আইডি:',
+                                listening: 'আপনার পোষা প্রাণীর কথা শুনছি...',
+                                microphoneError: 'মাইক্রোফোন অ্যাক্সেস করা যাচ্ছে না। অনুমতি পরীক্ষা করুন।',
+                                processingError: 'অডিও প্রক্রিয়াকরণ ত্রুটি। অনুগ্রহ করে আবার চেষ্টা করুন।',
+                                noAudioToShare: 'শেয়ার করার জন্য কোনো অডিও নেই। প্রথমে কিছু রেকর্ড করুন!',
+                                shareCancelled: 'শেয়ার বাতিল করা হয়েছে বা ব্যর্থ হয়েছে।',
+                                shareNotSupported: 'এই ব্রাউজারে সরাসরি শেয়ারিং সমর্থিত নয়। আপনি অডিও ডাউনলোড করতে পারেন।',
+                                noAudioToDownload: 'ডাউনলোড করার জন্য কোনো অডিও নেই। প্রথমে কিছু রেকর্ড করুন!',
+                                audioDownloaded: 'অডিও ডাউনলোড করা হয়েছে!',
+                                llmError: 'এআই দিয়ে অনুবাদ তৈরি করতে ত্রুটি। অনুগ্রহ করে আবার চেষ্টা করুন।',
+                                permissionModalTitle: 'মাইক্রোফোন অনুমতি প্রয়োজন',
+                                permissionModalText: 'আপনার পোষা প্রাণীর শব্দ অনুবাদ করার জন্য, "PET SOUNDS" আপনার মাইক্রোফোন অ্যাক্সেস করতে হবে। চালিয়ে যেতে "অনুমতি দিন" এ ক্লিক করুন।',
+                                permissionModalAllow: 'অনুমতি দিন',
+                                permissionModalDeny: 'প্রত্যাখ্যান করুন',
+                                imageShareSuccess: 'ছবি সফলভাবে শেয়ার করা হয়েছে!',
+                                imageShareFail: 'ছবি শেয়ার করতে ব্যর্থ হয়েছে।',
+                                microphonePermissionDenied: 'মাইক্রোফোন অ্যাক্সেস স্থায়ীভাবে অস্বীকার করা হয়েছে। অনুগ্রহ করে আপনার ব্রাউজার সেটিংসে এটি সক্ষম করুন।',
+                                microphonePermissionBlocked: 'মাইক্রোফোন অ্যাক্সেস অবরুদ্ধ। অনুগ্রহ করে আপনার ব্রাউজারের ঠিকানা বারে এটি অনুমতি দিন।',
+                                microphoneStatusChecking: 'মাইক্রোফোন পরীক্ষা করা হচ্ছে...',
+                                microphoneStatusReady: 'মাইক্রোফোন প্রস্তুত!',
+                                microphoneStatusDenied: 'মাইক্রোফোন অ্যাক্সেস অস্বীকার করা হয়েছে।',
+                                microphoneStatusBlocked: 'মাইক্রোফোন অ্যাক্সেস অবরুদ্ধ। ব্রাউজার সেটিংসে সক্ষম করুন।',
+                                retryMicButton: 'মাইক্রোফোন পুনরায় চেষ্টা করুন',
+                                llmPromptExcited: "একটি সংক্ষিপ্ত, মজার, এবং উত্তেজিত বাক্য তৈরি করুন যা একটি {{petType}} বলতে পারে, একটি {{voiceType}} প্রভাব বিবেচনা করে। এটিকে এমনভাবে শোনান যেন তারা কিছু দাবি করছে বা খুব খুশি। ইমোজি ব্যবহার করুন। 15 শব্দের নিচে রাখুন।",
+                                llmPromptNormal: "একটি সংক্ষিপ্ত, কৌতূহলী, বা স্নেহপূর্ণ বাক্য তৈরি করুন যা একটি {{petType}} বলতে পারে, একটি {{voiceType}} প্রভাব বিবেচনা করে। ইমোজি ব্যবহার করুন। 15 শব্দের নিচে রাখুন।",
+                                llmPromptRelaxed: "একটি সংক্ষিপ্ত, ঘুমন্ত, বা আরামদায়ক বাক্য তৈরি করুন যা একটি {{petType}} বলতে পারে, একটি {{voiceType}} প্রভাব বিবেচনা করে। ইমোজি ব্যবহার করুন। 15 শব্দের নিচে রাখুন।",
+                                petTypeCat: "বিড়াল",
+                                petTypeDog: "কুকুর"
+                            }
+                        }
+                    }
+                }, (err, t) => {
+                    if (err) return console.error(err);
+                    this.updateContent(); // Aggiorna i testi dell'UI dopo l'inizializzazione
+                    console.log('i18next initialized');
+                    // Dopo l'inizializzazione, imposta la lingua dal localStorage se presente
+                    const savedLang = localStorage.getItem('petTranslatorLang');
+                    if (savedLang) {
+                        document.getElementById('language-selector').value = savedLang;
+                        i18next.changeLanguage(savedLang, (err) => {
+                            if (err) console.error(err);
+                            this.updateContent();
+                        });
+                    }
+                });
+
+                // Event listener per il cambio lingua
+                document.getElementById('language-selector').addEventListener('change', (event) => {
+                    const newLang = event.target.value;
+                    i18next.changeLanguage(newLang, (err, t) => {
+                        if (err) return console.error(err);
+                        this.updateContent();
+                        localStorage.setItem('petTranslatorLang', newLang); // Salva la lingua scelta
+                    });
+                });
+            }
+
+            // Aggiorna tutti gli elementi dell'UI con i testi tradotti
+            updateContent() {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    el.textContent = i18next.t(el.getAttribute('data-i18n'));
+                });
+                document.querySelector('title').textContent = i18next.t('appTitle');
+                // Aggiornamenti specifici per messaggi dinamici
+                if (!this.mediaRecorder || this.mediaRecorder.state === 'inactive') {
+                    this.translationElement.textContent = i18next.t('initialMessage');
+                } else if (this.mediaRecorder.state === 'recording') {
+                    this.translationElement.textContent = i18next.t('listening');
+                }
+                this.loadingIndicator.querySelector('span').textContent = i18next.t('analyzing');
+                // Aggiorna lo stato del microfono visualizzato
+                this.checkMicrophoneStatusOnLoad();
+            }
+            
+            // Inizializza gli elementi DOM
+            initElements() {
+                this.recordButton = document.getElementById('record');
+                this.stopButton = document.getElementById('stop');
+                this.playbackElement = document.getElementById('playback');
+                this.translationElement = document.getElementById('translation');
+                this.translationMetaElement = document.getElementById('translationMeta');
+                this.shareAudioButton = document.getElementById('shareAudio'); // Renamed
+                this.shareImageButton = document.getElementById('shareImage'); // New
+                this.downloadButton = document.getElementById('download');
+                this.loadingIndicator = document.getElementById('loading-indicator');
+                this.leaderboardList = document.getElementById('leaderboard-list');
+                this.petAvatar = document.getElementById('pet-avatar');
+                this.speechBubble = document.getElementById('speechBubble');
+                this.petCore = document.getElementById('petCore');
+                this.petAura = document.getElementById('petAura');
+                this.audioVisualizerCanvas = document.getElementById('audioVisualizer');
+                this.audioVisualizerCtx = this.audioVisualizerCanvas.getContext('2d');
+                this.permissionModal = document.getElementById('permissionModal');
+                this.allowMicButton = document.getElementById('allowMic');
+                this.denyMicButton = document.getElementById('denyMic');
+                this.micStatusElement = document.getElementById('mic-status'); // Nuovo elemento
+                this.retryMicButton = document.getElementById('retryMicButton'); // Nuovo elemento
+            }
+            
+            // Configura gli event listener
+            initEventListeners() {
+                this.recordButton.addEventListener('click', () => this.handleRecordClick());
+                this.stopButton.addEventListener('click', () => this.stopRecording());
+                this.shareAudioButton.addEventListener('click', () => this.shareAudio()); // Renamed
+                this.shareImageButton.addEventListener('click', () => this.shareImage()); // New
+                this.downloadButton.addEventListener('click', () => this.downloadAudio());
+
+                this.allowMicButton.addEventListener('click', () => this.requestMicrophonePermission(true));
+                this.denyMicButton.addEventListener('click', () => this.requestMicrophonePermission(false));
+                this.retryMicButton.addEventListener('click', () => this.handleRecordClick()); // Riprova il flusso di registrazione
+                
+                // Gestisce il cambio delle opzioni vocali
+                document.querySelectorAll('input[name="voice"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        this.currentVoice = e.target.value;
+                        this.updatePetAvatar();
+                    });
+                });
+            }
+            
+            // Crea e anima le particelle di sfondo
+            initParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = 30;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    particle.style.width = `${Math.random() * 10 + 5}px`;
+                    particle.style.height = particle.style.width;
+                    particle.style.background = `rgba(255,255,255,${Math.random() * 0.5 + 0.1})`;
+                    particle.style.borderRadius = '50%';
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    
+                    const duration = Math.random() * 20 + 10;
+                    particle.style.animation = `float ${duration}s linear infinite`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+                
+                // Aggiunge i CSS per l'animazione delle particelle
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes float {
+                        0% { transform: translateY(0) translateX(0); opacity: 0; }
+                        10% { opacity: 1; }
+                        90% { opacity: 1; }
+                        100% { transform: translateY(-100vh) translateX(${Math.random() > 0.5 ? '-' : ''}20vw); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            // Controlla lo stato del microfono all'avvio e aggiorna l'UI
+            async checkMicrophoneStatusOnLoad() {
+                try {
+                    const permissionStatus = await navigator.permissions.query({ name: 'microphone' });
+                    this.updateMicStatus(permissionStatus.state);
+
+                    permissionStatus.onchange = () => {
+                        this.updateMicStatus(permissionStatus.state);
+                    };
+
+                    if (permissionStatus.state === 'granted') {
+                        this.recordButton.disabled = false;
+                        this.retryMicButton.style.display = 'none';
+                    } else {
+                        this.recordButton.disabled = true;
+                        this.retryMicButton.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Errore nel controllo dello stato del microfono:', error);
+                    this.updateMicStatus('error');
+                    this.recordButton.disabled = true;
+                    this.retryMicButton.style.display = 'block';
+                }
+            }
+
+            // Aggiorna l'indicatore di stato del microfono nell'UI
+            updateMicStatus(status) {
+                this.micStatusElement.className = ''; // Reset class
+                this.retryMicButton.style.display = 'none'; // Nascondi il pulsante di riprova per impostazione predefinita
+
+                switch (status) {
+                    case 'granted':
+                        this.micStatusElement.textContent = i18next.t('microphoneStatusReady');
+                        this.micStatusElement.classList.add('ready');
+                        this.recordButton.disabled = false;
+                        break;
+                    case 'prompt':
+                        this.micStatusElement.textContent = i18next.t('microphoneStatusChecking');
+                        this.micStatusElement.classList.add('checking');
+                        this.recordButton.disabled = false; // Può essere cliccato per aprire il modal/prompt
+                        break;
+                    case 'denied':
+                        this.micStatusElement.textContent = i18next.t('microphoneStatusDenied');
+                        this.micStatusElement.classList.add('denied');
+                        this.recordButton.disabled = true;
+                        this.retryMicButton.style.display = 'block'; // Mostra il pulsante di riprova
+                        break;
+                    case 'blocked': // Usato per errori specifici di getUserMedia
+                        this.micStatusElement.textContent = i18next.t('microphoneStatusBlocked');
+                        this.micStatusElement.classList.add('blocked');
+                        this.recordButton.disabled = true;
+                        this.retryMicButton.style.display = 'block'; // Mostra il pulsante di riprova
+                        break;
+                    default:
+                        this.micStatusElement.textContent = i18next.t('microphoneStatusChecking');
+                        this.micStatusElement.classList.add('checking');
+                        this.recordButton.disabled = true; // Disabilita per sicurezza
+                        break;
+                }
+                // Assicurati che i pulsanti di condivisione/download siano disabilitati se non c'è audio
+                if (!this.audioBlob) {
+                    this.shareAudioButton.disabled = true;
+                    this.shareImageButton.disabled = true;
+                    this.downloadButton.disabled = true;
+                }
+            }
+
+            // Gestisce il click sul pulsante "Registra"
+            async handleRecordClick() {
+                this.recordButton.disabled = true; // Disabilita immediatamente per evitare doppi click
+                this.retryMicButton.style.display = 'none'; // Nascondi il pulsante di riprova
+
+                try {
+                    const permissionStatus = await navigator.permissions.query({ name: 'microphone' });
+                    if (permissionStatus.state === 'granted') {
+                        this.startRecording();
+                    } else if (permissionStatus.state === 'prompt') {
+                        this.permissionModal.classList.add('show');
+                    } else if (permissionStatus.state === 'denied') {
+                        this.translationElement.textContent = i18next.t('microphonePermissionDenied');
+                        this.updateMicStatus('denied'); // Aggiorna lo stato visivo
+                    }
+                } catch (error) {
+                    console.error('Errore nella richiesta iniziale del microfono:', error);
+                    this.translationElement.textContent = i18next.t('microphoneError');
+                    this.updateMicStatus('blocked'); // Considera come bloccato se c'è un errore generico
+                } finally {
+                    // Se non è iniziata la registrazione, riabilita il pulsante di registrazione
+                    if (!this.mediaRecorder || this.mediaRecorder.state === 'inactive') {
+                        this.recordButton.disabled = false;
+                    }
+                }
+            }
+
+            // Richiede il permesso del microfono e avvia la registrazione
+            async requestMicrophonePermission(allow) {
+                this.permissionModal.classList.remove('show'); // Nasconde il modal
+
+                if (allow) {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        this.startRecording(stream);
+                        this.updateMicStatus('granted'); // Aggiorna lo stato a "pronto"
+                    } catch (error) {
+                        console.error('Errore nell\'accesso al microfono:', error);
+                        this.translationElement.textContent = i18next.t('microphonePermissionBlocked'); // Messaggio più specifico
+                        this.updateMicStatus('blocked'); // Aggiorna lo stato a "bloccato"
+                        this.recordButton.disabled = false; // Rendi il pulsante "Registra" cliccabile per riprovare
+                    }
+                } else {
+                    this.translationElement.textContent = i18next.t('microphonePermissionBlocked'); // L'utente ha negato esplicitamente dal modal personalizzato
+                    this.updateMicStatus('blocked'); // Aggiorna lo stato a "bloccato"
+                    this.recordButton.disabled = false; // Rendi il pulsante "Registra" cliccabile per riprovare
+                }
+            }
+            
+            // Avvia la registrazione audio
+            async startRecording(stream = null) {
+                try {
+                    this.audioChunks = [];
+                    this.translationElement.textContent = i18next.t('listening');
+                    this.translationMetaElement.textContent = "";
+                    this.playbackElement.classList.add('hidden');
+                    this.shareAudioButton.disabled = true;
+                    this.shareImageButton.disabled = true;
+                    this.downloadButton.disabled = true;
+                    this.retryMicButton.style.display = 'none'; // Nascondi il pulsante di riprova
+
+                    this.petAvatar.classList.add('bounce'); // Animazione avatar
+                    
+                    // Ottieni lo stream se non già fornito (dal modal)
+                    if (!stream) {
+                        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    }
+
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    this.analyserNode = this.audioContext.createAnalyser();
+                    this.analyserNode.fftSize = 2048; // Dimensione FFT per l'analisi dello spettro
+                    const source = this.audioContext.createMediaStreamSource(stream);
+                    source.connect(this.analyserNode);
+                    
+                    this.mediaRecorder = new MediaRecorder(stream);
+                    this.mediaRecorder.ondataavailable = (event) => {
+                        this.audioChunks.push(event.data);
+                    };
+                    
+                    this.mediaRecorder.onstop = async () => {
+                        cancelAnimationFrame(this.animationFrameId); // Ferma il visualizzatore
+                        this.audioVisualizerCanvas.classList.remove('active'); // Nasconde il visualizzatore
+                        this.loadingIndicator.classList.add('show');
+                        this.audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+                        this.audioBuffer = await this.audioContext.decodeAudioData(await this.audioBlob.arrayBuffer());
+                        
+                        await this.processAudio(); // Elabora l'audio
+                        
+                        this.playbackElement.src = URL.createObjectURL(this.audioBlob);
+                        this.playbackElement.classList.remove('hidden');
+                        this.shareAudioButton.disabled = false;
+                        this.shareImageButton.disabled = false;
+                        this.downloadButton.disabled = false;
+                        this.loadingIndicator.classList.remove('show');
+                        
+                        this.showSpeechBubble(this.translationElement.textContent); // Mostra la bolla di dialogo
+                        this.updateMicStatus('granted'); // Microfono ancora pronto dopo la registrazione
+                    };
+                    
+                    this.mediaRecorder.start();
+                    this.recordButton.disabled = true;
+                    this.stopButton.disabled = false;
+
+                    this.audioVisualizerCanvas.classList.add('active'); // Mostra il visualizzatore
+                    this.drawAudioVisualizer(); // Avvia il disegno del visualizzatore
+                    this.updateMicStatus('listening'); // Aggiorna lo stato a "in ascolto"
+                    
+                    console.log('Recording started');
+                } catch (error) {
+                    console.error('Error starting recording:', error);
+                    this.translationElement.textContent = i18next.t('microphoneError');
+                    this.petAvatar.classList.remove('bounce');
+                    if (this.audioContext) {
+                        this.audioContext.close(); // Chiudi l'audio context in caso di errore
+                        this.audioContext = null;
+                    }
+                    this.recordButton.disabled = false;
+                    this.stopButton.disabled = true;
+                    this.shareAudioButton.disabled = true;
+                    this.shareImageButton.disabled = true;
+                    this.downloadButton.disabled = true;
+                    this.updateMicStatus('blocked'); // Aggiorna lo stato a "bloccato"
+                }
+            }
+            
+            // Ferma la registrazione audio
+            stopRecording() {
+                if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+                    this.mediaRecorder.stop();
+                    this.recordButton.disabled = false;
+                    this.stopButton.disabled = true;
+                    
+                    this.mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                    
+                    this.petAvatar.classList.remove('bounce'); // Ferma animazione
+                    cancelAnimationFrame(this.animationFrameId); // Ferma il visualizzatore
+                    this.audioVisualizerCanvas.classList.remove('active'); // Nasconde il visualizzatore
+                    
+                    console.log('Recording stopped');
+                }
+            }
+
+            // Disegna il visualizzatore audio in tempo reale
+            drawAudioVisualizer() {
+                const canvas = this.audioVisualizerCanvas;
+                const ctx = this.audioVisualizerCtx;
+                const WIDTH = canvas.width;
+                const HEIGHT = canvas.height;
+
+                // Assicurati che il canvas abbia le dimensioni corrette
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+
+                const draw = () => {
+                    this.animationFrameId = requestAnimationFrame(draw);
+
+                    if (!this.analyserNode) return;
+
+                    const bufferLength = this.analyserNode.fftSize;
+                    const dataArray = new Uint8Array(bufferLength);
+                    this.analyserNode.getByteTimeDomainData(dataArray); // Ottieni i dati del dominio del tempo
+
+                    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = 'var(--secondary-glow)'; // Colore del visualizzatore
+                    ctx.beginPath();
+
+                    const sliceWidth = WIDTH * 1.0 / bufferLength;
+                    let x = 0;
+
+                    for (let i = 0; i < bufferLength; i++) {
+                        const v = dataArray[i] / 128.0; // Normalizza da 0-255 a 0-2
+                        const y = v * HEIGHT / 2;
+
+                        if (i === 0) {
+                            ctx.moveTo(x, y);
+                        } else {
+                            ctx.lineTo(x, y);
+                        }
+
+                        x += sliceWidth;
+                    }
+
+                    ctx.lineTo(WIDTH, HEIGHT / 2);
+                    ctx.stroke();
+
+                    // Aggiorna l'animazione dell'avatar in base all'energia media
+                    // Calcola l'energia media dai dati del visualizzatore
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) {
+                        sum += dataArray[i];
+                    }
+                    const avg = sum / dataArray.length;
+                    // Normalizza l'energia per un fattore di scala dell'avatar (es. da 0.5 a 1.5)
+                    const scaleFactor = 1 + (avg / 255) * 0.2; // Scala da 1 a 1.2
+                    this.petAvatar.style.transform = `scale(${scaleFactor})`;
+                };
+
+                draw();
+            }
+            
+            // Elabora l'audio registrato usando JavaScript e l'LLM
+            async processAudio() {
+                if (!this.audioBuffer || !this.analyserNode) {
+                    console.error('Required components not initialized for audio processing.');
+                    this.translationElement.textContent = i18next.t('processingError');
+                    return;
+                }
+                
+                try {
+                    // --- Analisi Audio usando WebAudio API's AnalyserNode ---
+                    const bufferLength = this.analyserNode.frequencyBinCount; // Metà della fftSize
+                    const dataArray = new Float32Array(bufferLength);
+                    this.analyserNode.getFloatFrequencyData(dataArray); // Ottieni i dati di frequenza
+
+                    let sumOfSquares = 0;
+                    let maxAmplitude = -Infinity;
+                    let dominantFrequency = 0;
+                    let maxFreqIndex = -1;
+
+                    // Calcola l'energia (RMS) e trova la frequenza dominante
+                    for (let i = 0; i < bufferLength; i++) {
+                        const amplitude = dataArray[i]; // Ampiezza in dB
+                        sumOfSquares += Math.pow(10, amplitude / 10); // Converti dB in ampiezza per l'energia
+                        
+                        if (amplitude > maxAmplitude && amplitude < 0) { // Ignora -Infinity (silenzio)
+                            maxAmplitude = amplitude;
+                            maxFreqIndex = i;
+                        }
+                    }
+                    const averageEnergy = Math.sqrt(sumOfSquares / bufferLength); // Energia RMS
+
+                    if (maxFreqIndex !== -1) {
+                        // Calcola la frequenza dominante in Hz
+                        const sampleRate = this.audioContext.sampleRate;
+                        dominantFrequency = (maxFreqIndex * sampleRate) / this.analyserNode.fftSize;
+                    } else {
+                        dominantFrequency = 0; // Nessuna frequenza significativa rilevata
+                    }
+
+                    console.log(`Energia media (RMS): ${averageEnergy.toFixed(4)}`);
+                    console.log(`Frequenza dominante: ${dominantFrequency.toFixed(2)} Hz`);
+                    
+                    // Determina il tipo di animale in base alla frequenza dominante (euristica semplice)
+                    this.petType = (dominantFrequency > 500) ? 'cat' : 'dog'; // I gatti hanno generalmente miagolii con pitch più alti rispetto ai latrati dei cani
+                    
+                    // Determina lo stato emotivo basato su energia e frequenza (euristica)
+                    if (averageEnergy > 0.05 && dominantFrequency > 800) { // Valori indicativi per "eccitato"
+                        this.emotionalState = 'excited';
+                    } else if (averageEnergy < 0.01 && dominantFrequency < 200) { // Valori indicativi per "rilassato"
+                        this.emotionalState = 'relaxed';
+                    } else {
+                        this.emotionalState = 'normal';
+                    }
+                    console.log(`Stato emotivo rilevato: ${this.emotionalState}`);
+
+                    // Applica l'effetto vocale all'audio
+                    await this.applyVoiceEffect(this.currentVoice);
+                    
+                    // Genera la traduzione usando l'LLM
+                    const translation = await this.generateTextWithLLM(averageEnergy, dominantFrequency, this.currentVoice, this.petType, this.emotionalState);
+                    this.translationElement.textContent = translation;
+                    
+                    // Aggiorna i metadati della traduzione
+                    const now = new Date();
+                    this.translationMetaElement.textContent = `${i18next.t('petType' + this.petType.charAt(0).toUpperCase() + this.petType.slice(1))} • ${now.toLocaleString()}`;
+                    
+                    this.updatePetAvatar(); // Aggiorna l'avatar in base al tipo di animale e stato emotivo
+                    this.saveTranslation(translation); // Salva la traduzione
+                    
+                } catch (error) {
+                    console.error('Error processing audio:', error);
+                    this.translationElement.textContent = i18next.t('processingError');
+                }
+            }
+            
+            // Genera il testo della traduzione usando la Gemini API
+            async generateTextWithLLM(energy, pitch, voiceType, petType, emotionalState) {
+                let promptKey;
+                // Usa lo stato emotivo per scegliere il prompt
+                if (emotionalState === 'excited') {
+                    promptKey = 'llmPromptExcited';
+                } else if (emotionalState === 'relaxed') {
+                    promptKey = 'llmPromptRelaxed';
+                } else {
+                    promptKey = 'llmPromptNormal';
+                }
+
+                const petTypeName = i18next.t(`petType${petType.charAt(0).toUpperCase() + petType.slice(1)}`);
+                const voiceTypeName = i18next.t(`voice${voiceType.charAt(0).toUpperCase() + voiceType.slice(1)}`);
+                
+                const prompt = i18next.t(promptKey, { petType: petTypeName, voiceType: voiceTypeName });
+
+                const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // La chiave API sarà fornita dall'ambiente Canvas
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        console.error("LLM response structure unexpected:", result);
+                        return i18next.t('llmError');
+                    }
+                } catch (error) {
+                    console.error("Error calling LLM API:", error);
+                    return i18next.t('llmError');
+                }
+            }
+
+            // Applica effetti vocali all'audio
+            async applyVoiceEffect(voiceType) {
+                if (!this.audioBuffer) return;
+
+                const offlineCtx = new OfflineAudioContext(
+                    this.audioBuffer.numberOfChannels,
+                    this.audioBuffer.length,
+                    this.audioBuffer.sampleRate
+                );
+
+                const source = offlineCtx.createBufferSource();
+                source.buffer = this.audioBuffer;
+                
+                let lastNode = source;
+
+                // Effetti comuni
+                const gainNode = offlineCtx.createGain();
+                gainNode.gain.value = 1.0;
+                lastNode.connect(gainNode);
+                lastNode = gainNode;
+
+                const filter = offlineCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = offlineCtx.sampleRate / 2; // Passa tutto
+                filter.Q.value = 1;
+                
+                // Effetti specifici
+                switch(voiceType) {
+                    case 'chipmunk':
+                        source.playbackRate.value = 1.5; // Aumenta il pitch
+                        filter.type = 'highpass';
+                        filter.frequency.value = 1500; // Taglia le basse frequenze
+                        lastNode.connect(filter);
+                        lastNode = filter;
+                        gainNode.gain.value = 1.2;
+                        break;
+                    case 'demon':
+                        source.playbackRate.value = 0.7; // Diminuisce il pitch
+                        filter.type = 'lowpass';
+                        filter.frequency.value = 600; // Taglia le alte frequenze
+                        lastNode.connect(filter);
+                        lastNode = filter;
+                        gainNode.gain.value = 1.5; // Aumenta il volume per un suono più "demoniaco"
+                        break;
+                    case 'robot':
+                        // Ring Modulation per effetto robotico
+                        const oscillator = offlineCtx.createOscillator();
+                        oscillator.type = 'square';
+                        oscillator.frequency.value = 70; // Frequenza di modulazione
+                        
+                        const oscillatorGain = offlineCtx.createGain();
+                        oscillatorGain.gain.value = 0.4; // Profondità di modulazione
+                        
+                        oscillator.connect(oscillatorGain);
+                        oscillatorGain.connect(lastNode.gain); // Modula il gain del nodo precedente
+                        oscillator.start(0);
+                        // Ferma l'oscillatore dopo la durata dell'audio + un piccolo buffer
+                        setTimeout(() => oscillator.stop(), this.audioBuffer.duration * 1000 + 100);
+                        break;
+                    case 'echo':
+                        const delayNode = offlineCtx.createDelay(1.0); // Max 1 secondo di delay
+                        delayNode.delayTime.value = 0.3; // 300ms di delay
+                        const feedbackGain = offlineCtx.createGain();
+                        feedbackGain.gain.value = 0.6; // 60% di feedback
+                        
+                        lastNode.connect(delayNode);
+                        delayNode.connect(feedbackGain);
+                        feedbackGain.connect(delayNode); // Loop di feedback
+                        
+                        // Connette sia il suono diretto che il delay alla destinazione
+                        lastNode.connect(offlineCtx.destination);
+                        feedbackGain.connect(offlineCtx.destination);
+                        lastNode = null; // Gestito da connessioni multiple
+                        break;
+                    case 'reverb':
+                        const convolverNode = offlineCtx.createConvolver();
+                        // Crea una semplice risposta all'impulso per il riverbero
+                        const impulseLength = offlineCtx.sampleRate * 2; // 2 secondi
+                        const impulseBuffer = offlineCtx.createBuffer(2, impulseLength, offlineCtx.sampleRate);
+                        const leftChannel = impulseBuffer.getChannelData(0);
+                        const rightChannel = impulseBuffer.getChannelData(1);
+
+                        for (let i = 0; i < impulseLength; i++) {
+                            // Decadimento casuale per simulare il riverbero
+                            leftChannel[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / impulseLength, 2);
+                            rightChannel[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / impulseLength, 2);
+                        }
+                        convolverNode.buffer = impulseBuffer;
+
+                        lastNode.connect(convolverNode);
+                        convolverNode.connect(offlineCtx.destination);
+                        
+                        // Aggiunge anche un segnale "dry" (originale) con meno guadagno
+                        const dryGain = offlineCtx.createGain();
+                        dryGain.gain.value = 0.7; // Mix del segnale dry
+                        lastNode.connect(dryGain);
+                        dryGain.connect(offlineCtx.destination);
+                        lastNode = null; // Gestito da connessioni multiple
+                        break;
+                    default: // normal
+                        // Nessun effetto aggiuntivo, solo il gainNode
+                        break;
+                }
+
+                // Connette l'ultimo nodo alla destinazione se non è già stato fatto
+                if (lastNode) {
+                    lastNode.connect(offlineCtx.destination);
+                }
+
+                source.start(0); // Avvia la riproduzione dall'inizio
+                const renderedBuffer = await offlineCtx.startRendering();
+                
+                // Converti l'AudioBuffer elaborato in un Blob WAV
+                this.audioBlob = await this.audioBufferToWav(renderedBuffer);
+            }
+
+            // Helper per convertire AudioBuffer in WAV Blob
+            audioBufferToWav(buffer) {
+                return new Promise((resolve) => {
+                    const numChannels = buffer.numberOfChannels;
+                    const sampleRate = buffer.sampleRate;
+                    const length = buffer.length * numChannels * 2; // 2 bytes per sample (Int16)
+                    const bufferArray = new ArrayBuffer(44 + length);
+                    const view = new DataView(bufferArray);
+
+                    // Scrittura dell'header WAV
+                    // RIFF chunk descriptor
+                    writeString(view, 0, 'RIFF');
+                    view.setUint32(4, 36 + length, true);
+                    writeString(view, 8, 'WAVE');
+                    // FMT chunk
+                    writeString(view, 12, 'fmt ');
+                    view.setUint32(16, 16, true);
+                    view.setUint16(20, 1, true); // AudioFormat (1 = PCM)
+                    view.setUint16(22, numChannels, true);
+                    view.setUint32(24, sampleRate, true);
+                    view.setUint32(28, sampleRate * numChannels * 2, true); // ByteRate
+                    view.setUint16(32, numChannels * 2, true); // BlockAlign
+                    view.setUint16(34, 16, true); // BitsPerSample
+                    // DATA chunk
+                    writeString(view, 36, 'data');
+                    view.setUint32(40, length, true);
+
+                    // Scrittura dei dati PCM
+                    let offset = 44;
+                    for (let i = 0; i < buffer.length; i++) {
+                        for (let channel = 0; channel < numChannels; channel++) {
+                            const sample = Math.max(-1, Math.min(1, buffer.getChannelData(channel)[i]));
+                            view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true); // Converti a Int16
+                            offset += 2;
+                        }
+                    }
+
+                    resolve(new Blob([view], { type: 'audio/wav' }));
+                });
+
+                function writeString(view, offset, string) {
+                    for (let i = 0; i < string.length; i++) {
+                        view.setUint8(offset + i, string.charCodeAt(i));
+                    }
+                }
+            }
+            
+            // Aggiorna l'aspetto dell'avatar dell'animale
+            updatePetAvatar() {
+                // Reset a stili predefiniti
+                this.petCore.style.background = 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%)';
+                this.petCore.style.boxShadow = '0 0 25px var(--accent-glow)';
+                this.petAura.style.borderColor = 'rgba(255,255,255,0.3)';
+                this.petAura.style.animation = 'auraRotate 15s infinite linear'; // Reset animation
+                this.petAvatar.style.borderColor = 'var(--primary-glow)';
+                this.petAvatar.style.boxShadow = '0 0 40px var(--primary-glow), inset 0 0 20px var(--primary-glow)';
+                this.petAvatar.style.transform = 'scale(1)';
+                
+                // Applica stili specifici per tipo di animale
+                if (this.petType === 'cat') {
+                    this.petCore.style.background = 'radial-gradient(circle, #FFD3B6 0%, rgba(255,211,182,0) 70%)'; /* Tonalità più calda per gatto */
+                    this.petCore.style.boxShadow = '0 0 30px #FFD3B6';
+                } else { // Dog
+                    this.petCore.style.background = 'radial-gradient(circle, #A8E6CF 0%, rgba(168,230,207,0) 70%)'; /* Tonalità più fredda per cane */
+                    this.petCore.style.boxShadow = '0 0 30px #A8E6CF';
+                }
+                
+                // Applica stili specifici per effetto vocale
+                switch (this.currentVoice) {
+                    case 'chipmunk':
+                        this.petAvatar.style.transform = 'scale(0.9) rotate(10deg)';
+                        this.petCore.style.boxShadow = '0 0 40px #FFD93D';
+                        this.petAura.style.borderColor = '#FFD93D';
+                        break;
+                    case 'demon':
+                        this.petAvatar.style.transform = 'scale(1.05)';
+                        this.petCore.style.background = 'radial-gradient(circle, #C94C4C 0%, rgba(201,76,76,0) 70%)';
+                        this.petCore.style.boxShadow = '0 0 40px #C94C4C';
+                        this.petAura.style.borderColor = '#C94C4C';
+                        this.petAvatar.style.borderColor = '#C94C4C';
+                        break;
+                    case 'robot':
+                        this.petAvatar.style.transform = 'scale(1.02) rotate(-5deg)';
+                        this.petCore.style.background = 'radial-gradient(circle, #B0E0E6 0%, rgba(176,224,230,0) 70%)';
+                        this.petCore.style.boxShadow = '0 0 40px #B0E0E6';
+                        this.petAura.style.borderColor = '#B0E0E6';
+                        this.petAvatar.style.borderColor = '#B0E0E6';
+                        break;
+                    case 'echo':
+                        this.petAvatar.style.boxShadow = '0 0 60px var(--secondary-glow), inset 0 0 30px var(--secondary-glow)';
+                        this.petAvatar.style.borderColor = 'var(--secondary-glow)';
+                        this.petAura.style.animation = 'auraRotate 8s infinite linear, corePulse 2s infinite alternate ease-in-out';
+                        break;
+                    case 'reverb':
+                        this.petAvatar.style.background = 'radial-gradient(circle, #E6B6D3 0%, rgba(230,182,211,0) 70%)';
+                        this.petAvatar.style.boxShadow = '0 0 60px #E6B6D3, inset 0 0 30px #E6B6D3';
+                        this.petAvatar.style.borderColor = '#E6B6D3';
+                        this.petAura.style.animation = 'auraRotate 20s infinite linear reverse, corePulse 3s infinite alternate ease-in-out';
+                        break;
+                    default:
+                        // Normal state already handled by reset
+                        break;
+                }
+
+                // Applica stili basati sullo stato emotivo
+                if (this.emotionalState === 'excited') {
+                    this.petCore.style.animationDuration = '1.5s'; // Pulsazione più veloce
+                    this.petAura.style.animationDuration = '8s'; // Rotazione più veloce
+                    this.petCore.style.boxShadow = `0 0 40px ${this.petType === 'cat' ? '#FFD3B6' : '#A8E6CF'}, 0 0 80px var(--accent-glow)`;
+                } else if (this.emotionalState === 'relaxed') {
+                    this.petCore.style.animationDuration = '5s'; // Pulsazione più lenta
+                    this.petAura.style.animationDuration = '25s'; // Rotazione più lenta
+                    this.petCore.style.boxShadow = `0 0 15px ${this.petType === 'cat' ? '#FFD3B6' : '#A8E6CF'}`;
+                } else { // normal
+                    this.petCore.style.animationDuration = '3s';
+                    this.petAura.style.animationDuration = '15s';
+                    this.petCore.style.boxShadow = `0 0 25px ${this.petType === 'cat' ? '#FFD3B6' : '#A8E6CF'}`;
+                }
+                
+                this.petAvatar.classList.add('wiggle'); // Animazione "scuoti"
+                setTimeout(() => this.petAvatar.classList.remove('wiggle'), 500);
+            }
+            
+            // Mostra una bolla di dialogo sopra l'avatar
+            showSpeechBubble(text) {
+                this.speechBubble.textContent = text;
+                this.speechBubble.classList.add('show');
+                
+                setTimeout(() => {
+                    this.speechBubble.classList.remove('show');
+                }, 3000); // Nasconde dopo 3 secondi
+            }
+            
+            // Condivide l'audio registrato tramite Web Share API
+            async shareAudio() {
+                if (!this.audioBlob) {
+                    this.translationElement.textContent = i18next.t('noAudioToShare');
+                    return;
+                }
+                
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [this.audioBlob] })) {
+                    try {
+                        const shareData = {
+                            files: [new File([this.audioBlob], 'pet_translation.wav', { type: 'audio/wav' })],
+                            title: i18next.t('appTitle'),
+                            text: this.translationElement.textContent,
+                        };
+                        await navigator.share(shareData);
+                        console.log('Audio shared successfully!');
+                    } catch (error) {
+                        console.error('Error sharing:', error);
+                        this.translationElement.textContent = i18next.t('shareCancelled');
+                    }
+                } else {
+                    this.translationElement.textContent = i18next.t('shareNotSupported');
+                    console.warn('Web Share API not available or cannot share files.');
+                }
+            }
+
+            // Genera e condivide un'immagine della traduzione
+            async shareImage() {
+                const translationText = this.translationElement.textContent;
+                if (!translationText || translationText === i18next.t('initialMessage')) {
+                    this.translationElement.textContent = i18next.t('noAudioToShare'); // Riutilizza lo stesso messaggio
+                    return;
+                }
+
+                const canvas = document.createElement('canvas');
+                canvas.width = 800; // Dimensioni fisse per l'immagine di condivisione
+                canvas.height = 600;
+                const ctx = canvas.getContext('2d');
+
+                // Sfondo (sfumatura simile al body)
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                gradient.addColorStop(0, '#1A0033'); /* Darker start */
+                gradient.addColorStop(0.5, '#2C0059'); /* Medium */
+                gradient.addColorStop(1, '#1A0033'); /* Darker end */
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Disegna il pannello principale (per coerenza visiva)
+                ctx.fillStyle = 'rgba(44, 0, 89, 0.7)';
+                ctx.roundRect(50, 50, canvas.width - 100, canvas.height - 100, 30);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                ctx.lineWidth = 2;
+                ctx.roundRect(50, 50, canvas.width - 100, canvas.height - 100, 30);
+                ctx.stroke();
+
+                // Disegna l'avatar (semplificato)
+                const avatarCenterX = canvas.width / 2;
+                const avatarCenterY = 200;
+                const avatarRadius = 80;
+
+                // Avatar background glow (using current avatar's border color for consistency)
+                ctx.beginPath();
+                ctx.arc(avatarCenterX, avatarCenterY, avatarRadius + 5, 0, Math.PI * 2, false);
+                ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                ctx.shadowColor = this.petAvatar.style.borderColor; 
+                ctx.shadowBlur = 30;
+                ctx.fill();
+                ctx.shadowBlur = 0; // Reset shadow
+
+                // Avatar main circle (using current petCore background color)
+                ctx.beginPath();
+                ctx.arc(avatarCenterX, avatarCenterY, avatarRadius, 0, Math.PI * 2, false);
+                // Extract the first color from the radial gradient string
+                const petCoreBgColor = this.petCore.style.background.match(/rgb[^,)]+\)|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}/);
+                ctx.fillStyle = petCoreBgColor ? petCoreBgColor[0] : 'white'; 
+                ctx.strokeStyle = this.petAvatar.style.borderColor;
+                ctx.lineWidth = 4;
+                ctx.fill();
+                ctx.stroke();
+
+                // Disegna la bolla di dialogo
+                // Misura il testo per adattare la larghezza della bolla
+                ctx.font = '700 36px "Fredoka One"';
+                const textMetrics = ctx.measureText(translationText);
+                const textWidth = textMetrics.width;
+                const bubblePadding = 40; // Padding interno della bolla
+                const bubbleWidth = Math.min(canvas.width - 150, textWidth + bubblePadding * 2);
+                const bubbleHeight = 80;
+                const bubbleX = avatarCenterX - bubbleWidth / 2;
+                const bubbleY = avatarCenterY - avatarRadius - bubbleHeight - 20;
+
+                ctx.fillStyle = 'rgba(255,255,255,0.95)';
+                ctx.shadowColor = 'rgba(0,0,0,0.2)';
+                ctx.shadowBlur = 15;
+                ctx.roundRect(bubbleX, bubbleY, bubbleWidth, bubbleHeight, 20);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+
+                // Coda della bolla
+                ctx.beginPath();
+                ctx.moveTo(avatarCenterX - 15, bubbleY + bubbleHeight);
+                ctx.lineTo(avatarCenterX + 15, bubbleY + bubbleHeight);
+                ctx.lineTo(avatarCenterX, bubbleY + bubbleHeight + 15);
+                ctx.closePath();
+                ctx.fill();
+
+                // Testo della traduzione
+                ctx.font = '700 36px "Fredoka One"';
+                ctx.fillStyle = 'var(--dark-text)';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(translationText, avatarCenterX, bubbleY + bubbleHeight / 2);
+
+                // Titolo dell'app in basso
+                ctx.font = '400 24px "Orbitron"';
+                ctx.fillStyle = 'var(--light-text)';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.textShadow = '0 0 5px rgba(255,255,255,0.5)';
+                ctx.fillText(i18next.t('appTitle'), canvas.width / 2, canvas.height - 40);
+
+                // Converti canvas in Blob e condividi
+                canvas.toBlob(async (blob) => {
+                    if (blob) {
+                        const file = new File([blob], 'pet_sounds_translation.png', { type: 'image/png' });
+                        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                            try {
+                                await navigator.share({
+                                    files: [file],
+                                    title: i18next.t('appTitle'),
+                                    text: i18next.t('tagline')
+                                });
+                                this.translationElement.textContent = i18next.t('imageShareSuccess');
+                            } catch (error) {
+                                console.error('Error sharing image:', error);
+                                this.translationElement.textContent = i18next.t('imageShareFail');
+                            }
+                        } else {
+                            // Fallback: download dell'immagine se la condivisione diretta non è supportata
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'pet-sounds-translation.png';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                            this.translationElement.textContent = i18next.t('audioDownloaded'); // Riutilizza il messaggio di download
+                        }
+                    } else {
+                        this.translationElement.textContent = i18next.t('imageShareFail');
+                    }
+                }, 'image/png');
+            }
+
+            // Scarica l'audio registrato
+            downloadAudio() {
+                if (!this.audioBlob) {
+                    this.translationElement.textContent = i18next.t('noAudioToDownload');
+                    return;
+                }
+                
+                const url = URL.createObjectURL(this.audioBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'pet-translation.wav';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url); // Pulisce l'URL oggetto
+                this.translationElement.textContent = i18next.t('audioDownloaded');
+            }
+
+            // Salva la traduzione nel Local Storage
+            saveTranslation(translation) {
+                const translationData = {
+                    text: translation,
+                    petType: this.petType,
+                    voice: this.currentVoice,
+                    timestamp: new Date().toISOString(),
+                    userId: this.userId
+                };
+
+                this.translations.unshift(translationData); // Aggiunge in testa all'array
+                if (this.translations.length > 10) {
+                    this.translations = this.translations.slice(0, 10); // Mantiene solo le ultime 10
+                }
+
+                localStorage.setItem('petTranslations', JSON.stringify(this.translations)); // Salva
+                this.updateLeaderboard(); // Aggiorna la classifica
+            }
+
+            // Carica le traduzioni dal Local Storage
+            loadTranslations() {
+                const saved = localStorage.getItem('petTranslations');
+                if (saved) {
+                    this.translations = JSON.parse(saved);
+                    this.updateLeaderboard();
+                }
+            }
+
+            // Aggiorna la lista della classifica nell'UI
+            updateLeaderboard() {
+                this.leaderboardList.innerHTML = '';
+                this.translations.forEach(trans => {
+                    const li = document.createElement('li');
+                    const displayUserId = trans.userId === this.userId ? i18next.t('yourUserId').split(':')[0] : trans.userId.substring(0, 8);
+                    li.innerHTML = `
+                        <strong>"${trans.text}"</strong>
+                        <div class="translation-meta">
+                            ${trans.petType === 'cat' ? '🐱' : '🐶'} • 
+                            ${new Date(trans.timestamp).toLocaleString()} • 
+                            ${displayUserId}...
+                        </div>
+                    `;
+                    this.leaderboardList.appendChild(li);
+                });
+            }
+
+            // Pulisce le risorse audio (non strettamente necessario per questa demo, ma buona pratica)
+            cleanupAudio() {
+                if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+                    this.mediaRecorder.stop();
+                }
+                if (this.audioContext) {
+                    this.audioContext.close();
+                    this.audioContext = null;
+                }
+                if (this.playbackElement.src) {
+                    URL.revokeObjectURL(this.playbackElement.src);
+                    this.playbackElement.removeAttribute('src');
+                }
+            }
+        }
+
+        // Aggiungi un metodo roundRect al prototipo di CanvasRenderingContext2D
+        if (CanvasRenderingContext2D.prototype.roundRect === undefined) {
+            CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius) {
+                if (typeof radius === 'number') {
+                    radius = { tl: radius, tr: radius, br: radius, bl: radius };
+                } else if (typeof radius === 'object') {
+                    radius = { ...{ tl: 0, tr: 0, br: 0, bl: 0 }, ...radius };
+                } else {
+                    radius = { tl: 0, tr: 0, br: 0, bl: 0 };
+                }
+                this.beginPath();
+                this.moveTo(x + radius.tl, y);
+                this.lineTo(x + width - radius.tr, y);
+                this.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+                this.lineTo(x + width, y + height - radius.br);
+                this.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+                this.lineTo(x + radius.bl, y + height);
+                this.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+                this.lineTo(x, y + radius.tl);
+                this.quadraticCurveTo(x, y, x + radius.tl, y);
+                this.closePath();
+            };
+        }
+
+        // Inizializza l'applicazione dopo che il DOM è completamente caricato
+        window.addEventListener('DOMContentLoaded', () => {
+            new PetVoiceTranslator();
+        });
+        
+        window.addEventListener('beforeunload', () => {
+            // Esempio di pulizia prima che la pagina venga scaricata
+            // if (window.petTranslatorInstance) {
+            //     window.petTranslatorInstance.cleanupAudio();
+            // }
+        });
+    </script>
+</body>
+</html>
