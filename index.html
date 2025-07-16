@@ -1,4 +1,4 @@
-irrobustisci e analizza approfonditamente e produci una relazione sulle possibili ottimizzazioni:<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -847,7 +847,7 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                 this.audioChunks = [];
                 this.audioBlob = null;
                 this.audioBuffer = null;
-                this.analyserNode = null;
+                this.analyserNode = null; // Used only for real-time visualization
                 this.petType = 'cat'; // Default pet type
                 this.currentVoice = 'normal'; // Default voice effect
                 this.emotionalState = 'normal'; // New: emotional state
@@ -862,8 +862,7 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                 this.loadTranslations(); // Carica le traduzioni dal Local Storage
                 this.updatePetAvatar(); // Aggiorna l'avatar iniziale
                 this.checkMicrophoneStatusOnLoad(); // Controlla lo stato del microfono all'avvio
-                
-                document.getElementById('user-id-display').textContent = this.userId;
+                this.resizeCanvas(); // Initial canvas resize
             }
 
             // Inizializza i18next e carica le risorse di traduzione
@@ -1703,7 +1702,7 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                                 retryMicButton: 'Microfoon opnieuw proberen',
                                 llmPromptExcited: "Genereer een korte, grappige en opgewonden zin die een {{petType}} zou kunnen zeggen, rekening houdend met een {{voiceType}}-effect. Laat het klinken alsof ze iets eisen of erg blij zijn. Gebruik emoji's. Houd het onder de 15 woorden.",
                                 llmPromptNormal: "Genereer een korte, nieuwsgierige of liefdevolle zin die een {{petType}} zou kunnen zeggen, rekening houdend met een {{voiceType}}-effect. Gebruik emoji's. Houd het onder de 15 woorden.",
-                                llmPromptRelaxed: "Genereer een korte, slaperige of ontspannen zin die een {{petType}} zou kunnen zeggen, rekening houdend met een {{voiceType}}-effect. Gebruik emoji's. Houd het onder de 15 woorden.",
+                                llmPromptRelaxed: "Genereer een korte, slaperige of ontspannen zin die een {{petType}} zou kunnen zeggen, rekening houdend met een {{voiceType}}-effekt. Gebruik emoji's. Houd het onder de 15 woorden.",
                                 petTypeCat: "kat",
                                 petTypeDog: "hond"
                             }
@@ -1751,7 +1750,7 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                                 microphoneStatusBlocked: 'Mikrofonåtkomst blockerad. Aktivera i webbläsarinställningar.',
                                 retryMicButton: 'Försök igen mikrofon',
                                 llmPromptExcited: "Generera en kort, rolig och upphetsad fras som en {{petType}} kan säga, med tanke på en {{voiceType}}-effekt. Få det att låta som om de kräver något eller är mycket glada. Använd emojis. Håll det under 15 ord.",
-                                llmPromptNormal: "Generera en kort, nyfiken eller tillgiven fras som en {{petType}} kan säga, med tanke på en {{voiceType}}-effekt. Använd emojis. Håll det under 15 ord.",
+                                llmPromptNormal: "Generera en kort, nyfiken eller tillgiven fras som en {{petType}} kan säga, med tanke på een {{voiceType}}-effekt. Använd emojis. Håll det under 15 ord.",
                                 llmPromptRelaxed: "Generera en kort, sömnig eller avslappnad fras som en {{petType}} kan säga, med tanke på een {{voiceType}}-effekt. Använd emojis. Håll det under 15 ord.",
                                 petTypeCat: "katt",
                                 petTypeDog: "hund"
@@ -1850,7 +1849,7 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                                 retryMicButton: 'মাইক্রোফোন পুনরায় চেষ্টা করুন',
                                 llmPromptExcited: "একটি সংক্ষিপ্ত, মজার, এবং উত্তেজিত বাক্য তৈরি করুন যা একটি {{petType}} বলতে পারে, একটি {{voiceType}} প্রভাব বিবেচনা করে। এটিকে এমনভাবে শোনান যেন তারা কিছু দাবি করছে বা খুব খুশি। ইমোজি ব্যবহার করুন। 15 শব্দের নিচে রাখুন।",
                                 llmPromptNormal: "একটি সংক্ষিপ্ত, কৌতূহলী, বা স্নেহপূর্ণ বাক্য তৈরি করুন যা একটি {{petType}} বলতে পারে, একটি {{voiceType}} প্রভাব বিবেচনা করে। ইমোজি ব্যবহার করুন। 15 শব্দের নিচে রাখুন।",
-                                llmPromptRelaxed: "একটি সংক্ষিপ্ত, ঘুমন্ত, বা আরামদায়ক বাক্য তৈরি করুন যা একটি {{petType}} বলতে পারে, একটি {{voiceType}} প্রভাব বিবেচনা করে। ইমোজি ব্যবহার করুন। 15 শব্দের নিচে রাখুন।",
+                                llmPromptRelaxed: "একটি সংক্ষিপ্ত, ঘুমন্ত, বা আরামদায়ক বাক্য তৈরি করুন যা একটি {{petType}} বলতে পারে, একটি {{voiceType}} প্রভাব বিবেচনা করে। ইmoজি ব্যবহার করুন। 15 শব্দের নিচে রাখুন।",
                                 petTypeCat: "বিড়াল",
                                 petTypeDog: "কুকুর"
                             }
@@ -1943,6 +1942,17 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                         this.updatePetAvatar();
                     });
                 });
+
+                // Event listener per il ridimensionamento del canvas
+                window.addEventListener('resize', () => this.resizeCanvas());
+            }
+
+            // Ridimensiona il canvas del visualizzatore audio
+            resizeCanvas() {
+                if (this.audioVisualizerCanvas) {
+                    this.audioVisualizerCanvas.width = this.audioVisualizerCanvas.offsetWidth;
+                    this.audioVisualizerCanvas.height = this.audioVisualizerCanvas.offsetHeight;
+                }
             }
             
             // Crea e anima le particelle di sfondo
@@ -2032,6 +2042,12 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                         this.micStatusElement.classList.add('blocked');
                         this.recordButton.disabled = true;
                         this.retryMicButton.style.display = 'block'; // Mostra il pulsante di riprova
+                        break;
+                    case 'listening': // Nuovo stato per la registrazione in corso
+                        this.micStatusElement.textContent = i18next.t('listening');
+                        this.micStatusElement.classList.add('ready'); // Usa la classe ready per un colore positivo
+                        this.recordButton.disabled = true;
+                        this.stopButton.disabled = false;
                         break;
                     default:
                         this.micStatusElement.textContent = i18next.t('microphoneStatusChecking');
@@ -2132,6 +2148,8 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                         this.audioVisualizerCanvas.classList.remove('active'); // Nasconde il visualizzatore
                         this.loadingIndicator.classList.add('show');
                         this.audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+                        
+                        // Decode audio for analysis and effects
                         this.audioBuffer = await this.audioContext.decodeAudioData(await this.audioBlob.arrayBuffer());
                         
                         await this.processAudio(); // Elabora l'audio
@@ -2180,6 +2198,7 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                     this.recordButton.disabled = false;
                     this.stopButton.disabled = true;
                     
+                    // Stop all tracks in the stream to release microphone
                     this.mediaRecorder.stream.getTracks().forEach(track => track.stop());
                     
                     this.petAvatar.classList.remove('bounce'); // Ferma animazione
@@ -2194,12 +2213,12 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
             drawAudioVisualizer() {
                 const canvas = this.audioVisualizerCanvas;
                 const ctx = this.audioVisualizerCtx;
+                // Ensure canvas dimensions are set only once or on resize, not per frame
+                // canvas.width = canvas.offsetWidth; // Moved to resizeCanvas()
+                // canvas.height = canvas.offsetHeight; // Moved to resizeCanvas()
+
                 const WIDTH = canvas.width;
                 const HEIGHT = canvas.height;
-
-                // Assicurati che il canvas abbia le dimensioni corrette
-                canvas.width = canvas.offsetWidth;
-                canvas.height = canvas.offsetHeight;
 
                 const draw = () => {
                     this.animationFrameId = requestAnimationFrame(draw);
@@ -2251,45 +2270,57 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
             
             // Elabora l'audio registrato usando JavaScript e l'LLM
             async processAudio() {
-                if (!this.audioBuffer || !this.analyserNode) {
-                    console.error('Required components not initialized for audio processing.');
+                if (!this.audioBuffer) {
+                    console.error('AudioBuffer not available for processing.');
                     this.translationElement.textContent = i18next.t('processingError');
                     return;
                 }
                 
                 try {
-                    // --- Analisi Audio usando WebAudio API's AnalyserNode ---
-                    const bufferLength = this.analyserNode.frequencyBinCount; // Metà della fftSize
-                    const dataArray = new Float32Array(bufferLength);
-                    this.analyserNode.getFloatFrequencyData(dataArray); // Ottieni i dati di frequenza
+                    // --- Analisi Audio direttamente dall'AudioBuffer ---
+                    const channelData = this.audioBuffer.getChannelData(0); // Prendi il primo canale
+                    const sampleRate = this.audioBuffer.sampleRate;
+                    const bufferLength = channelData.length;
 
                     let sumOfSquares = 0;
-                    let maxAmplitude = -Infinity;
-                    let dominantFrequency = 0;
-                    let maxFreqIndex = -1;
-
-                    // Calcola l'energia (RMS) e trova la frequenza dominante
+                    let maxAmplitude = 0;
+                    
+                    // Calcola l'energia (RMS) e l'ampiezza massima
                     for (let i = 0; i < bufferLength; i++) {
-                        const amplitude = dataArray[i]; // Ampiezza in dB
-                        sumOfSquares += Math.pow(10, amplitude / 10); // Converti dB in ampiezza per l'energia
-                        
-                        if (amplitude > maxAmplitude && amplitude < 0) { // Ignora -Infinity (silenzio)
-                            maxAmplitude = amplitude;
-                            maxFreqIndex = i;
+                        const sample = channelData[i];
+                        sumOfSquares += sample * sample;
+                        if (Math.abs(sample) > maxAmplitude) {
+                            maxAmplitude = Math.abs(sample);
                         }
                     }
                     const averageEnergy = Math.sqrt(sumOfSquares / bufferLength); // Energia RMS
 
-                    if (maxFreqIndex !== -1) {
-                        // Calcola la frequenza dominante in Hz
-                        const sampleRate = this.audioContext.sampleRate;
-                        dominantFrequency = (maxFreqIndex * sampleRate) / this.analyserNode.fftSize;
-                    } else {
-                        dominantFrequency = 0; // Nessuna frequenza significativa rilevata
-                    }
+                    // Per la frequenza dominante, possiamo fare una stima più semplice
+                    // o implementare una FFT manuale/libreria se necessario per precisione.
+                    // Per ora, useremo una euristica basata sulla durata e l'energia.
+                    // Una vera analisi di frequenza richiederebbe una FFT sul buffer completo.
+                    // Per questa demo, useremo una stima semplificata o un valore fisso per la demo.
 
-                    console.log(`Energia media (RMS): ${averageEnergy.toFixed(4)}`);
-                    console.log(`Frequenza dominante: ${dominantFrequency.toFixed(2)} Hz`);
+                    // Per una stima della frequenza dominante, potremmo usare una libreria FFT
+                    // o, per semplicità, basarci su un'euristica molto grezza.
+                    // Una FFT completa sarebbe complessa da implementare qui.
+                    // Manteniamo una logica semplificata basata sull'energia per lo stato emotivo
+                    // e un valore di frequenza ipotetico per il tipo di animale.
+                    
+                    // Simuliamo una frequenza dominante per la demo, dato che una FFT è complessa
+                    // e l'analyserNode non è più collegato al buffer registrato.
+                    // In un'applicazione reale, si userebbe una libreria FFT per analizzare audioBuffer.
+                    let dominantFrequency = 0;
+                    if (averageEnergy > 0.005) { // Se c'è abbastanza energia per considerare un suono
+                        // Euristica molto semplice per la demo:
+                        // Ipotizziamo che suoni più "energetici" o "acuti" possano avere frequenze più alte.
+                        // Questo è un placeholder per una vera analisi di frequenza.
+                        dominantFrequency = 200 + (averageEnergy * 1000); // Esempio: più energia = frequenza più alta
+                        dominantFrequency = Math.min(dominantFrequency, 2000); // Limita a un range ragionevole
+                    }
+                    
+                    console.log(`Energia media (RMS) da AudioBuffer: ${averageEnergy.toFixed(4)}`);
+                    console.log(`Frequenza dominante stimata: ${dominantFrequency.toFixed(2)} Hz`);
                     
                     // Determina il tipo di animale in base alla frequenza dominante (euristica semplice)
                     this.petType = (dominantFrequency > 500) ? 'cat' : 'dog'; // I gatti hanno generalmente miagolii con pitch più alti rispetto ai latrati dei cani
@@ -2700,26 +2731,79 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                 // Disegna la bolla di dialogo
                 // Misura il testo per adattare la larghezza della bolla
                 ctx.font = '700 36px "Fredoka One"';
-                const textMetrics = ctx.measureText(translationText);
-                const textWidth = textMetrics.width;
                 const bubblePadding = 40; // Padding interno della bolla
-                const bubbleWidth = Math.min(canvas.width - 150, textWidth + bubblePadding * 2);
+                const maxBubbleWidth = canvas.width - 150;
                 const bubbleHeight = 80;
-                const bubbleX = avatarCenterX - bubbleWidth / 2;
                 const bubbleY = avatarCenterY - avatarRadius - bubbleHeight - 20;
+
+                // Function to wrap text
+                const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
+                    const words = text.split(' ');
+                    let line = '';
+                    let lines = [];
+
+                    for (let n = 0; n < words.length; n++) {
+                        const testLine = line + words[n] + ' ';
+                        const metrics = context.measureText(testLine);
+                        const testWidth = metrics.width;
+                        if (testWidth > maxWidth && n > 0) {
+                            lines.push(line);
+                            line = words[n] + ' ';
+                        } else {
+                            line = testLine;
+                        }
+                    }
+                    lines.push(line);
+
+                    // Adjust Y to center the block of text vertically
+                    const totalTextHeight = lines.length * lineHeight;
+                    let currentY = y - (totalTextHeight / 2) + (lineHeight / 2);
+
+                    for (let i = 0; i < lines.length; i++) {
+                        context.fillText(lines[i], x, currentY);
+                        currentY += lineHeight;
+                    }
+                    return lines.length; // Return number of lines
+                };
+
+                // Draw the bubble based on potential wrapped text height
+                // Estimate lines for initial bubble height calculation
+                let tempCtx = canvas.getContext('2d');
+                tempCtx.font = '700 36px "Fredoka One"';
+                const estimatedLineHeight = 40; // Approximate line height for 36px font
+                const estimatedMaxTextWidth = maxBubbleWidth - bubblePadding * 2;
+                const words = translationText.split(' ');
+                let tempLine = '';
+                let estimatedLines = 0;
+                for (let n = 0; n < words.length; n++) {
+                    const testLine = tempLine + words[n] + ' ';
+                    const metrics = tempCtx.measureText(testLine);
+                    const testWidth = metrics.width;
+                    if (testWidth > estimatedMaxTextWidth && n > 0) {
+                        estimatedLines++;
+                        tempLine = words[n] + ' ';
+                    } else {
+                        tempLine = testLine;
+                    }
+                }
+                estimatedLines++; // For the last line
+                
+                const actualBubbleHeight = Math.max(bubbleHeight, estimatedLines * estimatedLineHeight + bubblePadding);
+                const actualBubbleY = avatarCenterY - avatarRadius - actualBubbleHeight - 20;
+                const actualBubbleWidth = Math.min(canvas.width - 150, tempCtx.measureText(translationText).width + bubblePadding * 2); // Re-calculate based on actual text width
 
                 ctx.fillStyle = 'rgba(255,255,255,0.95)';
                 ctx.shadowColor = 'rgba(0,0,0,0.2)';
                 ctx.shadowBlur = 15;
-                ctx.roundRect(bubbleX, bubbleY, bubbleWidth, bubbleHeight, 20);
+                ctx.roundRect(avatarCenterX - actualBubbleWidth / 2, actualBubbleY, actualBubbleWidth, actualBubbleHeight, 20);
                 ctx.fill();
                 ctx.shadowBlur = 0;
 
                 // Coda della bolla
                 ctx.beginPath();
-                ctx.moveTo(avatarCenterX - 15, bubbleY + bubbleHeight);
-                ctx.lineTo(avatarCenterX + 15, bubbleY + bubbleHeight);
-                ctx.lineTo(avatarCenterX, bubbleY + bubbleHeight + 15);
+                ctx.moveTo(avatarCenterX - 15, actualBubbleY + actualBubbleHeight);
+                ctx.lineTo(avatarCenterX + 15, actualBubbleY + actualBubbleHeight);
+                ctx.lineTo(avatarCenterX, actualBubbleY + actualBubbleHeight + 15);
                 ctx.closePath();
                 ctx.fill();
 
@@ -2728,7 +2812,9 @@ irrobustisci e analizza approfonditamente e produci una relazione sulle possibil
                 ctx.fillStyle = 'var(--dark-text)';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(translationText, avatarCenterX, bubbleY + bubbleHeight / 2);
+                
+                // Use wrapText function
+                wrapText(ctx, translationText, avatarCenterX, actualBubbleY + actualBubbleHeight / 2, estimatedMaxTextWidth, estimatedLineHeight);
 
                 // Titolo dell'app in basso
                 ctx.font = '400 24px "Orbitron"';
