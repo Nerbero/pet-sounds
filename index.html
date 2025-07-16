@@ -3,1684 +3,1680 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convertitore HTML a Prompt per Applicazioni Mobile (v2)</title>
-    <!-- Font Awesome per le icone: essenziale per un'interfaccia utente moderna -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>PET SOUNDS - Traduttore per Animali Domestici</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Definizione delle variabili CSS per una gestione centralizzata dei colori e delle dimensioni.
-           Questo approccio migliora la manutenibilità e la coerenza del design. */
         :root {
-            --primary: #4361ee; /* Blu primario */
-            --primary-dark: #3a0ca3; /* Blu scuro per il contrasto */
-            --secondary: #4cc9f0; /* Azzurro secondario */
-            --accent: #f72585; /* Rosa acceso per gli accenti */
-            --light: #f8f9fa; /* Sfondo chiaro */
-            --dark: #212529; /* Testo scuro */
-            --gray: #6c757d; /* Grigio per testo secondario */
-            --light-gray: #e9ecef; /* Grigio chiaro per bordi e sfondi */
-            --success: #4ade80; /* Verde per successo */
-            --warning: #f59e0b; /* Giallo-arancio per avvisi */
-            --danger: #ef4444; /* Rosso per errori */
-            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); /* Ombra per le schede */
-            --border-radius: 12px; /* Raggio del bordo per elementi arrotondati */
-            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transizione fluida */
+            --primary-glow: #FF6B6B;
+            --secondary-glow: #4ECDC4;
+            --accent-glow: #FFE66D;
+            --dark-bg: #1A0033;
+            --medium-bg: #2C0059;
+            --light-text: #E0E0E0;
+            --dark-text: #0A001A;
+            --panel-bg-alpha: rgba(44, 0, 89, 0.7);
+            --border-glow: 2px solid rgba(255,255,255,0.2);
+            --text-shadow-light: 0 0 8px rgba(255,255,255,0.5);
+            --text-shadow-dark: 0 0 8px rgba(0,0,0,0.5);
         }
         
-        /* Reset di base per padding e margin, e impostazione del box-sizing per un layout prevedibile. */
-        * {
-            box-sizing: border-box;
+        /* Stili globali con miglioramenti responsive */
+        body {
+            font-family: 'Orbitron', sans-serif;
             margin: 0;
             padding: 0;
-        }
-        
-        /* Stili globali per il corpo della pagina.
-           Utilizzo di un gradiente di sfondo per un aspetto moderno e `min-height: 100vh` per occupare l'intera altezza del viewport. */
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background: linear-gradient(135deg, #f0f4ff 0%, #e6f7ff 100%);
+            background: radial-gradient(circle at 50% 50%, var(--medium-bg) 0%, var(--dark-bg) 100%);
             min-height: 100vh;
-            padding: 20px;
+            color: var(--light-text);
+            overflow-x: hidden;
             display: flex;
-            flex-direction: column;
-            align-items: center; /* Centra il contenuto orizzontalmente */
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: backgroundShift 30s infinite alternate ease-in-out;
+        }
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
         
-        /* Contenitore principale per centrare il contenuto e limitarne la larghezza massima.
-           `flex-grow: 1` permette al container di espandersi e occupare lo spazio disponibile. */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            width: 100%;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* Centra verticalmente il contenuto se c'è spazio */
-        }
-        
-        /* Stili per l'intestazione della pagina.
-           Include un effetto di vetro smerigliato (`backdrop-filter`). */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            width: 100%; /* Assicura che l'header occupi tutta la larghezza disponibile */
-        }
-        
-        h1 {
-            color: var(--primary-dark);
-            margin-bottom: 10px;
-            font-size: clamp(2rem, 5vw, 2.8rem); /* Dimensione del font responsiva */
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .subtitle {
-            color: var(--gray);
-            font-size: clamp(1rem, 2.5vw, 1.25rem); /* Dimensione del font responsiva */
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 10px 0;
-        }
-        
-        /* Contenitore principale per i pannelli di input/output.
-           Utilizza Grid Layout per un layout flessibile a due colonne su desktop e singola colonna su mobile. */
+        /* Contenitore principale adattivo */
         .app-container {
+            max-width: 1200px;
+            width: 95%;
+            margin: 20px auto;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Due colonne per desktop */
-            gap: 30px;
-            margin-bottom: 40px;
-            width: 100%; /* Occupa tutta la larghezza disponibile */
+            grid-template-columns: 1fr;
+            gap: 25px;
+            position: relative;
+            z-index: 1;
+            padding: 15px;
         }
-        
-        /* Media query per layout a singola colonna su schermi più piccoli (max 900px). */
-        @media (max-width: 900px) {
+
+        @media (min-width: 768px) {
             .app-container {
-                grid-template-columns: 1fr; /* Singola colonna per schermi più piccoli */
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
         }
         
-        /* Stili per i pannelli (input HTML e output prompt).
-           Include effetti hover e di vetro smerigliato. */
-        .panel {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            padding: 30px;
+        @media (min-width: 992px) {
+            .app-container {
+                grid-template-columns: 1.5fr 1fr;
+                gap: 40px;
+                margin: 40px auto;
+                padding: 20px;
+            }
+        }
+        
+        /* Stili dell'intestazione */
+        .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: headerGlow 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes headerGlow {
+            0% { text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow); }
+            50% { text-shadow: 0 0 20px var(--secondary-glow), 0 0 40px var(--secondary-glow); }
+            100% { text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow); }
+        }
+        
+        /* Titolo principale con adattamento dimensionale */
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.8rem;
+            color: white;
+            margin: 10px 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 480px) {
+            h1 { font-size: 3.5rem; }
+        }
+        
+        @media (min-width: 768px) {
+            h1 { font-size: 4rem; }
+        }
+        
+        @media (min-width: 992px) {
+            h1 { font-size: 4.5rem; }
+        }
+        
+        /* Tagline responsive */
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            text-shadow: var(--text-shadow-light);
+            font-weight: 300;
+            line-height: 1.4;
+            padding: 0 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .tagline { font-size: 1.4rem; }
+        }
+        
+        @media (min-width: 992px) {
+            .tagline { font-size: 1.6rem; }
+        }
+        
+        /* Pannelli principali con layout adattivo */
+        .main-panel, .leaderboard {
+            background: var(--panel-bg-alpha);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 0 25px rgba(78,205,196,0.3), inset 0 0 10px rgba(78,205,196,0.1);
+            backdrop-filter: blur(15px);
+            border: var(--border-glow);
+            transition: all 0.4s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .main-panel, .leaderboard {
+                padding: 30px;
+                border-radius: 35px;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .main-panel, .leaderboard {
+                padding: 40px;
+                border-radius: 40px;
+            }
+        }
+        
+        .main-panel:hover, .leaderboard:hover {
+            box-shadow: 0 0 35px rgba(78,205,196,0.5), inset 0 0 15px rgba(78,205,196,0.2);
+            transform: translateY(-5px) scale(1.01);
+        }
+
+        /* Sezione Avatar Centrale - completamente adattiva */
+        .pet-display-section {
+            grid-column: 1 / -1;
             display: flex;
             flex-direction: column;
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            min-height: 450px; /* Altezza minima per i pannelli */
-        }
-        
-        .panel:hover {
-            transform: translateY(-5px); /* Effetto hover di sollevamento */
-            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15);
-        }
-        
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--light-gray);
-            flex-wrap: wrap; /* Permette al titolo e al contatore di andare a capo */
-        }
-        
-        .panel-title {
-            font-size: clamp(1.2rem, 3vw, 1.5rem); /* Dimensione del font responsiva */
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .counter {
-            background: var(--primary);
-            color: white;
-            border-radius: 20px;
-            padding: 5px 15px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            white-space: nowrap; /* Evita che il contatore vada a capo */
-        }
-        
-        /* Selettore del framework mobile. */
-        .framework-selector {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap; /* Permette agli elementi di andare a capo */
-        }
-
-        .framework-selector label {
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 1.1rem;
-        }
-
-        .framework-selector select {
-            padding: 12px 20px;
-            border: 2px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            background: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            flex-grow: 1;
-            max-width: 300px;
-            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
-            font-weight: 500;
-            appearance: none; /* Rimuove lo stile predefinito del sistema operativo */
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%234361ee%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-6.5%200-12.3%203.2-15.9%208.7-3.6%205.4-3.6%2012.4%200%2017.9l132.8%20132.8c3.2%203.2%207%204.6%2011%204.6s7.8-1.4%2011-4.6l132.8-132.8c3.6-5.5%203.6-12.5%200-18z%22%2F%3E%3C%2Fsvg%3E');
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 12px;
-        }
-
-        .framework-selector select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
-        }
-        
-        /* Stili per le textarea.
-           `flex-grow: 1` permette alle textarea di espandersi e riempire lo spazio disponibile nel pannello. */
-        textarea {
-            width: 100%;
-            flex-grow: 1;
+            justify-content: center;
             padding: 20px;
-            border: 2px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 15px;
-            resize: vertical; /* Permette solo il ridimensionamento verticale */
-            transition: var(--transition);
-            background: rgba(255, 255, 255, 0.7);
-            line-height: 1.7;
-            min-height: 150px; /* Altezza minima per le textarea */
-            margin-bottom: 15px; /* Spazio sotto la textarea */
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+            background: var(--panel-bg-alpha);
+            border-radius: 30px;
+            box-shadow: 0 0 25px rgba(255,107,107,0.3), inset 0 0 10px rgba(255,107,107,0.1);
+            border: var(--border-glow);
+            transition: all 0.4s ease-in-out;
+            margin-bottom: 20px;
         }
 
-        .additional-requirements label {
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 8px;
+        @media (min-width: 768px) {
+            .pet-display-section {
+                padding: 25px;
+                border-radius: 35px;
+            }
         }
         
-        /* Stili specifici per l'output del prompt. */
-        #promptOutput {
-            min-height: 150px; /* Altezza minima */
-            background: #f8f9fa;
-            white-space: pre-wrap; /* Mantiene la formattazione del testo */
-            word-break: break-word; /* Permette alle parole lunghe di andare a capo */
-            padding: 20px;
-            border: 2px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 15px;
-            overflow: auto; /* Aggiunge scrollbar se il contenuto è troppo grande */
-            line-height: 1.7;
-            flex-grow: 1;
+        @media (min-width: 992px) {
+            .pet-display-section {
+                padding: 30px;
+                border-radius: 40px;
+                margin-bottom: 0;
+            }
         }
         
-        /* Controlli (pulsanti) per le azioni principali.
-           Utilizza flexbox per centrare e distribuire i pulsanti. */
-        .controls {
+        .pet-display {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 30px;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 30px 0;
-            flex-wrap: wrap; /* Permette ai pulsanti di andare a capo su schermi piccoli */
-        }
-        
-        .btn {
-            padding: 14px 30px;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0; /* Impedisce ai pulsanti di restringersi */
         }
         
-        .btn-primary {
-            background: var(--primary);
-            color: white;
+        @media (min-width: 480px) {
+            .pet-display {
+                width: 280px;
+                height: 280px;
+            }
         }
         
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        @media (min-width: 768px) {
+            .pet-display {
+                width: 320px;
+                height: 320px;
+                margin-bottom: 40px;
+            }
         }
         
-        .btn-secondary {
-            background: var(--light-gray);
-            color: var(--dark);
+        @media (min-width: 992px) {
+            .pet-display {
+                width: 350px;
+                height: 350px;
+            }
         }
         
-        .btn-secondary:hover {
-            background: #d1d5db;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-        
-        .btn-success:hover {
-            background: #22c55e;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Sezione delle funzionalità: utilizza Grid Layout per una disposizione flessibile delle schede. */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin: 50px 0;
-            width: 100%;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            text-align: center;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15);
-        }
-        
-        .feature-icon {
-            font-size: 2.8rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-        
-        .feature-title {
-            font-size: 1.4rem;
-            color: var(--primary-dark);
-            margin-bottom: 15px;
-        }
-        
-        .feature-description {
-            color: var(--gray);
-        }
-        
-        /* Sezione esempi: layout a griglia per gli esempi di codice. */
-        .examples {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            margin: 40px 0;
-            box-shadow: var(--card-shadow);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            width: 100%;
-        }
-        
-        .examples-title {
-            text-align: center;
-            margin-bottom: 25px;
-            color: var(--primary-dark);
-            font-size: 1.8rem;
-        }
-        
-        .example-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-        }
-        
-        .example {
-            background: var(--light);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 2px solid transparent;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-        
-        .example:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .example-title {
-            color: var(--primary);
-            margin-bottom: 12px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .example-code {
-            font-family: monospace;
-            font-size: 0.95rem;
-            background: rgba(0,0,0,0.03);
-            padding: 12px;
-            border-radius: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        /* Footer della pagina. */
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: var(--gray);
-            font-size: 1rem;
-            margin-top: 40px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            width: 100%;
-        }
-        
-        /* Notifica di copia: posizionata fissa in basso a destra. */
-        .copy-notice {
-            background: var(--success);
-            color: white;
-            padding: 15px 25px;
-            border-radius: var(--border-radius);
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition);
-            box-shadow: var(--card-shadow);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 100;
-        }
-        
-        .copy-notice.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Indicatore di caricamento. */
-        .loading {
-            display: none; /* Nascosto di default */
-            text-align: center;
-            padding: 30px;
-            color: var(--primary);
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: var(--border-radius);
-            margin: 20px 0;
-            width: 100%;
-            box-shadow: var(--card-shadow);
-        }
-        
-        .spinner {
-            border: 5px solid rgba(0, 0, 0, 0.1);
-            border-top: 5px solid var(--primary);
+        .pet-avatar {
+            width: 90%;
+            height: 90%;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            border: 3px solid var(--primary-glow);
+            box-shadow: 0 0 30px var(--primary-glow), inset 0 0 15px var(--primary-glow);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: pulseGlow 4s infinite alternate ease-in-out;
+        }
+
+        @media (min-width: 480px) {
+            .pet-avatar {
+                border-width: 4px;
+            }
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 30px var(--primary-glow), inset 0 0 15px var(--primary-glow); }
+            50% { box-shadow: 0 0 50px var(--secondary-glow), inset 0 0 25px var(--secondary-glow); }
+            100% { box-shadow: 0 0 30px var(--primary-glow), inset 0 0 15px var(--primary-glow); }
         }
+
+        .pet-avatar.bounce { animation: avatarBounce 0.6s ease-out; }
+        @keyframes avatarBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .pet-avatar.wiggle { animation: avatarWiggle 0.4s ease-in-out; }
+        @keyframes avatarWiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(8deg); } 75% { transform: rotate(-8deg); } }
         
-        /* Statistiche nell'header. */
-        .stats {
+        .pet-core, .pet-aura {
+            position: absolute;
+            border-radius: 50%;
+            transition: all 0.5s ease-in-out;
+        }
+        .pet-core {
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            box-shadow: 0 0 20px var(--accent-glow);
+            animation: corePulse 3s infinite alternate ease-in-out;
+        }
+        .pet-aura {
+            width: 90%;
+            height: 90%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%);
+            border: 1px dashed rgba(255,255,255,0.3);
+            animation: auraRotate 15s infinite linear;
+        }
+
+        @keyframes corePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        @keyframes auraRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        #audioVisualizer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #audioVisualizer.active {
+            opacity: 1;
+        }
+
+        /* Controlli adattivi */
+        .controls-panel {
             display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 20px;
         }
         
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: var(--border-radius);
+        @media (min-width: 992px) {
+            .controls-panel {
+                gap: 30px;
+            }
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        @media (min-width: 768px) {
+            .button-group {
+                gap: 20px;
+            }
+        }
+        
+        button {
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            color: var(--dark-text);
+            border: none;
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(255,107,107,0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-transform: uppercase;
+            width: 100%;
+            max-width: 350px;
+        }
+        
+        @media (min-width: 480px) {
+            button {
+                font-size: 1.2rem;
+                padding: 18px 35px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            button {
+                font-size: 1.3rem;
+                padding: 20px 40px;
+            }
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            z-index: -1;
+        }
+        
+        button:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 0 25px rgba(255,107,107,0.7);
+        }
+        
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 10px rgba(255,107,107,0.4);
+        }
+        
+        button:disabled {
+            background: #444;
+            box-shadow: none;
+            transform: none !important;
+            cursor: not-allowed;
+            opacity: 0.6;
+            color: #888;
+        }
+
+        #retryMicButton {
+            background: linear-gradient(45deg, #FFE66D, #FFD93D);
+            color: var(--dark-text);
+            box-shadow: 0 0 15px rgba(255,230,109,0.5);
+            margin-top: 10px;
+        }
+
+        #retryMicButton:hover {
+            box-shadow: 0 0 25px rgba(255,230,109,0.7);
+        }
+        
+        /* Opzioni voce adattive */
+        .voice-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        @media (min-width: 480px) {
+            .voice-options {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .voice-options {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .voice-options {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 15px;
+            }
+        }
+        
+        .voice-option input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .voice-option label {
+            display: block;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: inset 0 0 8px rgba(255,255,255,0.1);
+            transition: all 0.3s ease-out;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--light-text);
+            text-shadow: var(--text-shadow-light);
             text-align: center;
-            min-width: 150px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            font-size: 0.9rem;
         }
         
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 5px;
+        @media (min-width: 480px) {
+            .voice-option label {
+                padding: 14px 20px;
+                font-size: 1rem;
+            }
         }
         
-        .stat-label {
-            color: var(--gray);
-            font-size: 0.95rem;
+        .voice-option input:checked + label {
+            background: var(--accent-glow);
+            border-color: var(--primary-glow);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-glow), inset 0 0 8px rgba(255,255,255,0.5);
+            color: var(--dark-text);
+            text-shadow: var(--text-shadow-dark);
+        }
+        
+        .voice-option label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 10px rgba(255,255,255,0.3), inset 0 0 5px rgba(255,255,255,0.2);
+        }
+        
+        /* Contenitore traduzione adattivo */
+        .translation-container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 20px;
+            min-height: 120px;
+            margin: 20px 0;
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.1);
+            border: 2px dashed rgba(255,255,255,0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        @media (min-width: 768px) {
+            .translation-container {
+                padding: 25px;
+                min-height: 140px;
+            }
+        }
+        
+        #translation {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.6rem;
+            text-align: center;
+            margin: auto;
+            color: var(--light-text);
+            line-height: 1.3;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: var(--text-shadow-light);
+            padding: 10px;
+        }
+        
+        @media (min-width: 480px) {
+            #translation {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            #translation {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            #translation {
+                font-size: 2.2rem;
+            }
+        }
+        
+        .translation-meta {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            margin-top: 15px;
+            text-align: right;
+            font-weight: 300;
+        }
+        
+        @media (min-width: 768px) {
+            .translation-meta {
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Controlli audio adattivi */
+        .audio-controls {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (min-width: 480px) {
+            .audio-controls {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .audio-controls button {
+            padding: 14px 20px;
+            font-size: 1rem;
+            border-radius: 40px;
+        }
+        
+        @media (min-width: 480px) {
+            .audio-controls button {
+                padding: 14px 20px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .audio-controls button {
+                padding: 15px 25px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        #shareAudio {
+            background: linear-gradient(45deg, #4ECDC4, #6DE7B8);
+            box-shadow: 0 0 15px rgba(78,205,196,0.5);
+        }
+        
+        #shareAudio:hover {
+            box-shadow: 0 0 25px rgba(78,205,196,0.7);
+        }
+
+        #shareImage {
+            background: linear-gradient(45deg, #FFE66D, #FFD93D);
+            color: var(--dark-text);
+            box-shadow: 0 0 15px rgba(255,230,109,0.5);
+        }
+
+        #shareImage:hover {
+            box-shadow: 0 0 25px rgba(255,230,109,0.7);
+        }
+        
+        #download {
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            box-shadow: 0 0 15px rgba(255,107,107,0.5);
+        }
+        
+        #download:hover {
+            box-shadow: 0 0 25px rgba(255,107,107,0.7);
+        }
+        
+        /* Indicatore di caricamento */
+        #loading-indicator {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            color: var(--light-text);
+            display: none;
+            font-weight: 500;
+            text-shadow: var(--text-shadow-light);
+        }
+        
+        @media (min-width: 768px) {
+            #loading-indicator {
+                font-size: 1.4rem;
+            }
+        }
+        
+        #loading-indicator.show {
+            display: block;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Sezione classifica adattiva */
+        .leaderboard {
+            grid-column: 1 / -1;
+            background: var(--panel-bg-alpha);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 0 25px rgba(255,107,107,0.3), inset 0 0 10px rgba(255,107,107,0.1);
+            border: var(--border-glow);
+            position: relative;
+        }
+
+        @media (min-width: 992px) {
+            .leaderboard {
+                grid-column: 2 / 3;
+                margin-top: 0;
+            }
+        }
+        
+        .leaderboard h2 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--primary-glow);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-shadow: 0 0 12px var(--primary-glow);
+        }
+        
+        @media (min-width: 768px) {
+            .leaderboard h2 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        #leaderboard-list {
+            list-style: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-glow) rgba(255,255,255,0.1);
+        }
+
+        @media (min-width: 768px) {
+            #leaderboard-list {
+                max-height: 400px;
+            }
+        }
+        
+        #leaderboard-list::-webkit-scrollbar { width: 8px; }
+        #leaderboard-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 8px; }
+        #leaderboard-list::-webkit-scrollbar-thumb { background: var(--secondary-glow); border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); }
+        
+        #leaderboard-list li {
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-glow);
+            transition: all 0.3s ease-out;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--light-text);
+            text-shadow: var(--text-shadow-light);
+            font-size: 0.9rem;
+        }
+        
+        @media (min-width: 480px) {
+            #leaderboard-list li {
+                padding: 16px 22px;
+                font-size: 1rem;
+            }
+        }
+        
+        #leaderboard-list li:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            border-left-color: var(--secondary-glow);
+            background: rgba(255,255,255,0.15);
+        }
+        
+        /* Informazioni utente adattiva */
+        .user-info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: var(--light-text);
+            font-weight: 300;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 18px;
+            box-shadow: inset 0 0 8px rgba(255,255,255,0.05);
+            text-shadow: var(--text-shadow-light);
+        }
+        
+        @media (min-width: 768px) {
+            .user-info {
+                margin-top: 30px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Selettore lingua adattivo */
+        .language-selector {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 2px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px 16px;
+            padding-right: 40px;
+            text-shadow: var(--text-shadow-light);
+            font-size: 0.85rem;
+            max-width: 200px;
+        }
+        
+        @media (min-width: 480px) {
+            .language-selector {
+                top: 20px;
+                right: 20px;
+                padding: 12px 18px;
+                font-size: 0.9rem;
+                max-width: 220px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .language-selector {
+                top: 25px;
+                right: 25px;
+                padding: 12px 20px;
+                font-size: 1rem;
+                max-width: 240px;
+            }
+        }
+        
+        .language-selector:hover {
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+        
+        /* Sfondo con particelle */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.2)"/></svg>') repeat;
+            background-size: 20px 20px;
+            animation: particleFlow 60s linear infinite;
+        }
+
+        @keyframes particleFlow {
+            from { background-position: 0 0; }
+            to { background-position: 100px 100px; }
+        }
+        
+        /* Bolla di dialogo adattiva */
+        .speech-bubble {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.5), inset 0 0 8px rgba(255,255,255,0.2);
+            font-size: 1rem;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 10;
+            font-family: 'Fredoka One', cursive;
+            color: var(--dark-text);
+            text-shadow: none;
+            max-width: 300px;
+            text-align: center;
+            white-space: normal;
+            word-break: break-word;
+        }
+        
+        @media (min-width: 480px) {
+            .speech-bubble {
+                top: -65px;
+                font-size: 1.1rem;
+                max-width: 350px;
+            }
+        }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 12px 12px 0;
+            border-style: solid;
+            border-color: rgba(255,255,255,0.95) transparent transparent;
+        }
+        
+        .speech-bubble.show {
+            opacity: 1;
+            top: -80px;
+        }
+
+        /* Indicatore stato microfono */
+        #mic-status {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--light-text);
+            text-shadow: var(--text-shadow-light);
+            min-height: 20px;
+            display: block;
+        }
+        
+        @media (min-width: 768px) {
+            #mic-status {
+                font-size: 1rem;
+            }
+        }
+
+        #mic-status.ready { color: var(--secondary-glow); }
+        #mic-status.denied, #mic-status.blocked { color: var(--primary-glow); }
+        
+        /* Modal adattivo */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--panel-bg-alpha);
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 0 35px rgba(78,205,196,0.5), inset 0 0 15px rgba(78,205,196,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            text-align: center;
+            max-width: 90%;
+            width: 100%;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        @media (min-width: 480px) {
+            .modal-content {
+                padding: 35px;
+                border-radius: 20px;
+                max-width: 450px;
+            }
+        }
+        
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-content h3 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+            color: var(--primary-glow);
+            margin-bottom: 15px;
+            text-shadow: 0 0 8px var(--primary-glow);
+        }
+        
+        @media (min-width: 480px) {
+            .modal-content h3 {
+                font-size: 2rem;
+            }
+        }
+
+        .modal-content p {
+            font-size: 1rem;
+            color: var(--light-text);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        @media (min-width: 480px) {
+            .modal-content p {
+                font-size: 1.1rem;
+            }
+        }
+
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        @media (min-width: 480px) {
+            .modal-buttons {
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+            }
+        }
+
+        .modal-buttons button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        @media (min-width: 480px) {
+            .modal-buttons button {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+        }
+
+        .modal-buttons button.confirm {
+            background: linear-gradient(45deg, #4ECDC4, #6DE7B8);
+            color: var(--dark-text);
+        }
+
+        .modal-buttons button.cancel {
+            background: rgba(255,255,255,0.1);
+            color: var(--light-text);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: none;
+        }
+
+        .modal-buttons button.cancel:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Indicatore di dispositivo */
+        .device-indicator {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            opacity: 0.7;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-mobile-alt"></i> Convertitore HTML a Prompt per Applicazioni Mobile</h1>
-            <p class="subtitle">Trasforma il tuo codice HTML in prompt di generazione per applicazioni mobile sicure, ingegnerizzate e performanti</p>
-            
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-value">4</div>
-                    <div class="stat-label">Framework Supportati</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">12+</div>
-                    <div class="stat-label">Componenti Riconosciuti</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">8</div>
-                    <div class="stat-label">Ottimizzazioni</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">5</div>
-                    <div class="stat-label">Misure di Sicurezza</div>
-                </div>
-            </div>
-        </header>
-        
-        <main class="app-container">
-            <section class="panel">
-                <div class="panel-header">
-                    <h2 class="panel-title"><i class="fas fa-code"></i> Input HTML</h2>
-                    <span id="inputCounter" class="counter">0 righe</span>
-                </div>
-                <div class="framework-selector">
-                    <label for="framework"><i class="fas fa-layer-group"></i> Framework Mobile:</label>
-                    <select id="framework" aria-label="Seleziona il framework mobile">
-                        <option value="react">React Native</option>
-                        <option value="flutter">Flutter</option>
-                        <option value="swiftui">SwiftUI (iOS)</option>
-                        <option value="compose">Jetpack Compose (Android)</option>
-                    </select>
-                </div>
-                <textarea id="htmlInput" placeholder="Incolla qui il tuo codice HTML..." aria-label="Area di testo per l'input HTML"></textarea>
-                <div class="additional-requirements">
-                    <label for="extraRequirements"><i class="fas fa-plus-circle"></i> Requisiti Aggiuntivi per l'IA:</label>
-                    <textarea id="extraRequirements" placeholder="Es. 'Stile minimalista', 'Animazioni fluide', 'Integrazione con Firestore', 'Richiede autenticazione utente'..." aria-label="Area di testo per requisiti aggiuntivi"></textarea>
-                </div>
-            </section>
-            
-            <section class="panel">
-                <div class="panel-header">
-                    <h2 class="panel-title"><i class="fas fa-terminal"></i> Prompt Generato</h2>
-                    <span id="outputCounter" class="counter">0 righe</span>
-                </div>
-                <div id="promptOutput" role="textbox" aria-readonly="true" aria-label="Output del prompt generato">Il prompt generato apparirà qui...</div>
-            </section>
-        </main>
-        
-        <div class="loading" id="loadingIndicator" role="status" aria-live="polite">
-            <div class="spinner"></div>
-            <p>Analisi HTML e generazione prompt in corso...</p>
+    <div class="particles" id="particles"></div>
+    
+    <select class="language-selector" id="language-selector">
+        <option value="en">English</option>
+        <option value="it" selected>Italiano</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="pt">Português</option>
+    </select>
+    
+    <div class="app-container">
+        <div class="header">
+            <h1>🐾 PET SOUNDS 🐾</h1>
+            <div class="tagline">Scopri cosa dice veramente il tuo animale!</div>
         </div>
         
-        <div class="controls">
-            <button id="generateBtn" class="btn btn-primary" aria-label="Genera prompt dall'HTML">
-                <i class="fas fa-bolt"></i> Genera Prompt
-            </button>
-            <button id="copyBtn" class="btn btn-success" aria-label="Copia il prompt negli appunti">
-                <i class="fas fa-copy"></i> Copia Prompt
-            </button>
-            <button id="clearBtn" class="btn btn-secondary" aria-label="Pulisci tutti i campi">
-                <i class="fas fa-broom"></i> Pulisci Tutto
-            </button>
-            <button id="exampleBtn" class="btn btn-secondary" aria-label="Carica un esempio di codice HTML">
-                <i class="fas fa-lightbulb"></i> Carica Esempio
-            </button>
+        <div class="pet-display-section">
+            <div class="pet-display">
+                <div class="pet-avatar" id="pet-avatar">
+                    <div class="pet-core" id="petCore"></div>
+                    <div class="pet-aura" id="petAura"></div>
+                    <canvas id="audioVisualizer"></canvas>
+                    <div class="speech-bubble" id="speechBubble"></div>
+                </div>
+            </div>
+            <div class="user-info">
+                <span>Il tuo ID utente:</span> <span id="user-id-display">user-8d3f7a</span>
+            </div>
+        </div>
+
+        <div class="main-panel controls-panel">
+            <div class="button-group">
+                <button id="record">🎤 Registra Suoni Animale</button>
+                <button id="stop" disabled>⏹ Ferma Registrazione</button>
+                <span id="mic-status">Microfono pronto!</span>
+                <button id="retryMicButton" style="display:none;">Riprova Microfono</button>
+            </div>
+            
+            <div class="voice-options">
+                <div class="voice-option">
+                    <input type="radio" id="normal" name="voice" value="normal" checked>
+                    <label for="normal">Normale</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="chipmunk" name="voice" value="chipmunk">
+                    <label for="chipmunk">Chipmunk</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="demon" name="voice" value="demon">
+                    <label for="demon">Demone</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="robot" name="voice" value="robot">
+                    <label for="robot">Robot</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="echo" name="voice" value="echo">
+                    <label for="echo">Eco</label>
+                </div>
+                <div class="voice-option">
+                    <input type="radio" id="reverb" name="voice" value="reverb">
+                    <label for="reverb">Riverbero</label>
+                </div>
+            </div>
+            
+            <div class="translation-container">
+                <div id="translation">Premi il pulsante di registrazione e lascia che il tuo animale parli!</div>
+                <div class="translation-meta" id="translationMeta"></div>
+            </div>
+            
+            <div id="loading-indicator">
+                <span>Analizzando i suoni dell'animale...</span> 🐾
+            </div>
+            
+            <div class="audio-controls">
+                <button id="shareAudio" disabled>📱 Condividi Audio</button>
+                <button id="shareImage" disabled>🖼️ Condividi Immagine</button>
+                <button id="download" disabled>💾 Scarica Audio</button>
+            </div>
         </div>
         
-        <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-                <h3 class="feature-title">Generazione Veloce</h3>
-                <p class="feature-description">Trasforma il tuo HTML in prompt ottimizzati in pochi millisecondi, anche per progetti complessi.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-                <h3 class="feature-title">Sicurezza Integrata</h3>
-                <p class="feature-description">Best practice di sicurezza incluse automaticamente (validazione input, crittografia, HTTPS).</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-rocket"></i></div>
-                <h3 class="feature-title">Performance Garantite</h3>
-                <p class="feature-description">Prompt che generano codice con virtualizzazione liste, memoizzazione e gestione stato efficiente.</p>
-            </div>
-        </section>
-        
-        <section class="examples">
-            <h2 class="examples-title"><i class="fas fa-file-code"></i> Esempi Pronti</h2>
-            <div class="example-container">
-                <div class="example" data-example="login" role="button" tabindex="0" aria-label="Carica esempio di modulo di login">
-                    <div class="example-title"><i class="fas fa-sign-in-alt"></i> Form di Login</div>
-                    <div class="example-code">&lt;form&gt;&lt;input type="email"&gt;&lt;input type="password"&gt;&lt;button&gt;Login&lt;/button&gt;&lt;/form&gt;</div>
-                </div>
-                <div class="example" data-example="profile" role="button" tabindex="0" aria-label="Carica esempio di scheda profilo utente">
-                    <div class="example-title"><i class="fas fa-user"></i> Profilo Utente</div>
-                    <div class="example-code">&lt;div&gt;&lt;img src="avatar.jpg"&gt;&lt;h2&gt;Nome Utente&lt;/h2&gt;&lt;p&gt;Bio...&lt;/p&gt;&lt;/div&gt;</div>
-                </div>
-                <div class="example" data-example="gallery" role="button" tabindex="0" aria-label="Carica esempio di galleria immagini">
-                    <div class="example-title"><i class="fas fa-images"></i> Galleria Immagini</div>
-                    <div class="example-code">&lt;div class="gallery"&gt;&lt;img src="1.jpg"&gt;&lt;img src="2.jpg"&gt;&lt;img src="3.jpg"&gt;&lt;/div&gt;</div>
-                </div>
-                <div class="example" data-example="ecommerce" role="button" tabindex="0" aria-label="Carica esempio di prodotto e-commerce">
-                    <div class="example-title"><i class="fas fa-shopping-cart"></i> Prodotto E-commerce</div>
-                    <div class="example-code">&lt;div class="product"&gt;&lt;img src="product.jpg"&gt;&lt;h3&gt;Prodotto&lt;/h3&gt;&lt;p&gt;Prezzo: €19.99&lt;/p&gt;&lt;button&gt;Acquista&lt;/button&gt;&lt;/div&gt;</div>
-                </div>
-            </div>
-        </section>
-        
-        <footer>
-            <p><i class="fas fa-code"></i> Convertitore HTML a Prompt per Applicazioni Mobile | Genera prompt per React Native, Flutter, SwiftUI e Jetpack Compose</p>
-            <p><i class="fas fa-lock"></i> Elabora in modo sicuro e efficiente qualsiasi codice HTML</p>
-        </footer>
+        <div class="leaderboard">
+            <h2>Ultime Traduzioni</h2>
+            <ul id="leaderboard-list">
+                <li>
+                    <strong>"Voglio le crocchette extra subito! 🍖"</strong>
+                    <div class="translation-meta">
+                        🐱 • 16/07/2025, 15:30:23 • Tu
+                    </div>
+                </li>
+                <li>
+                    <strong>"Ho visto un uccello fuori dalla finestra! 🐦"</strong>
+                    <div class="translation-meta">
+                        🐱 • 16/07/2025, 14:22:11 • user-9b3c7d
+                    </div>
+                </li>
+                <li>
+                    <strong>"È ora di giocare! Lancia la palla! 🎾"</strong>
+                    <div class="translation-meta">
+                        🐶 • 16/07/2025, 13:45:56 • user-4a2f1e
+                    </div>
+                </li>
+                <li>
+                    <strong>"Accarezzami proprio qui... ah sì! 😻"</strong>
+                    <div class="translation-meta">
+                        🐱 • 16/07/2025, 12:30:44 • Tu
+                    </div>
+                </li>
+                <li>
+                    <strong>"Ho fame! Dove sono i miei biscotti? 🍪"</strong>
+                    <div class="translation-meta">
+                        🐶 • 16/07/2025, 11:15:32 • user-6e5d8c
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
     
-    <div class="copy-notice" id="copyNotice" role="alert" aria-live="assertive">
-        <i class="fas fa-check-circle"></i> Prompt copiato negli appunti!
+    <audio id="playback" controls class="hidden"></audio>
+
+    <div class="modal-overlay" id="permissionModal">
+        <div class="modal-content">
+            <h3>Permesso Microfono Richiesto</h3>
+            <p>Per tradurre i suoni del tuo animale, "PET SOUNDS" ha bisogno dell'accesso al tuo microfono. Clicca "Consenti" per procedere.</p>
+            <div class="modal-buttons">
+                <button class="confirm" id="allowMic">Consenti</button>
+                <button class="cancel" id="denyMic">Nega</button>
+            </div>
+        </div>
     </div>
-
-    <script defer>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Riferimenti agli elementi DOM per una gestione efficiente.
-            const htmlInput = document.getElementById('htmlInput');
-            const extraRequirementsInput = document.getElementById('extraRequirements');
-            const promptOutput = document.getElementById('promptOutput');
-            const generateBtn = document.getElementById('generateBtn');
-            const copyBtn = document.getElementById('copyBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            const exampleBtn = document.getElementById('exampleBtn');
-            const inputCounter = document.getElementById('inputCounter');
-            const outputCounter = document.getElementById('outputCounter');
-            const copyNotice = document.getElementById('copyNotice');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const frameworkSelect = document.getElementById('framework');
-            
-            /**
-             * Aggiorna il contatore delle righe per un dato elemento (textarea o div).
-             * @param {HTMLElement} element - L'elemento HTML (textarea o div) da cui leggere il contenuto.
-             * @param {HTMLElement} counterElement - L'elemento dove visualizzare il conteggio.
-             */
-            function updateLineCounter(element, counterElement) {
-                if (!element || !counterElement) {
-                    console.warn("updateLineCounter: Elementi mancanti.");
-                    return;
-                }
-                let content = '';
-                // Determina la proprietà da leggere in base al tipo di elemento
-                if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
-                    content = element.value;
-                } else { // Presume che sia un div o un elemento simile con textContent
-                    content = element.textContent;
-                }
-
-                // Assicura che il contenuto sia una stringa prima di chiamare split()
-                const lines = (content || '').split('\n').length;
-                counterElement.textContent = `${lines} righe`;
+    
+    <div class="device-indicator" id="deviceIndicator"></div>
+    
+    <script>
+        class PetVoiceTranslator {
+            constructor() {
+                this.audioContext = null;
+                this.mediaRecorder = null;
+                this.audioChunks = [];
+                this.audioBlob = null;
+                this.audioBuffer = null;
+                this.analyserNode = null;
+                this.petType = 'cat';
+                this.currentVoice = 'normal';
+                this.emotionalState = 'normal';
+                this.translations = [];
+                this.userId = 'user-' + Math.random().toString(36).substr(2, 6);
+                this.animationFrameId = null;
+                
+                this.initElements();
+                this.initEventListeners();
+                this.initParticles();
+                this.updatePetAvatar();
+                this.resizeCanvas();
+                this.updateDeviceIndicator();
+                
+                document.getElementById('user-id-display').textContent = this.userId;
             }
 
-            // Aggiunge event listener per aggiornare i contatori in tempo reale.
-            htmlInput.addEventListener('input', () => updateLineCounter(htmlInput, inputCounter));
-            // extraRequirementsInput non ha un contatore dedicato, ma l'evento è mantenuto per coerenza.
-            extraRequirementsInput.addEventListener('input', () => {}); 
+            initElements() {
+                this.recordButton = document.getElementById('record');
+                this.stopButton = document.getElementById('stop');
+                this.playbackElement = document.getElementById('playback');
+                this.translationElement = document.getElementById('translation');
+                this.translationMetaElement = document.getElementById('translationMeta');
+                this.shareAudioButton = document.getElementById('shareAudio');
+                this.shareImageButton = document.getElementById('shareImage');
+                this.downloadButton = document.getElementById('download');
+                this.loadingIndicator = document.getElementById('loading-indicator');
+                this.leaderboardList = document.getElementById('leaderboard-list');
+                this.petAvatar = document.getElementById('pet-avatar');
+                this.speechBubble = document.getElementById('speechBubble');
+                this.petCore = document.getElementById('petCore');
+                this.petAura = document.getElementById('petAura');
+                this.audioVisualizerCanvas = document.getElementById('audioVisualizer');
+                this.audioVisualizerCtx = this.audioVisualizerCanvas.getContext('2d');
+                this.permissionModal = document.getElementById('permissionModal');
+                this.allowMicButton = document.getElementById('allowMic');
+                this.denyMicButton = document.getElementById('denyMic');
+                this.micStatusElement = document.getElementById('mic-status');
+                this.retryMicButton = document.getElementById('retryMicButton');
+                this.deviceIndicator = document.getElementById('deviceIndicator');
+            }
+            
+            initEventListeners() {
+                this.recordButton.addEventListener('click', () => this.handleRecordClick());
+                this.stopButton.addEventListener('click', () => this.stopRecording());
+                this.shareAudioButton.addEventListener('click', () => this.shareAudio());
+                this.shareImageButton.addEventListener('click', () => this.shareImage());
+                this.downloadButton.addEventListener('click', () => this.downloadAudio());
 
-            // Gestione dei click sugli esempi predefiniti.
-            document.querySelectorAll('.example').forEach(example => {
-                example.addEventListener('click', function() {
-                    const type = this.getAttribute('data-example');
-                    loadExample(type);
+                this.allowMicButton.addEventListener('click', () => this.requestMicrophonePermission(true));
+                this.denyMicButton.addEventListener('click', () => this.requestMicrophonePermission(false));
+                this.retryMicButton.addEventListener('click', () => this.handleRecordClick());
+                
+                document.querySelectorAll('input[name="voice"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        this.currentVoice = e.target.value;
+                        this.updatePetAvatar();
+                    });
                 });
-                // Aggiunge supporto per tastiera (Enter key) per l'accessibilità.
-                example.addEventListener('keydown', function(event) {
-                    if (event.key === 'Enter') {
-                        const type = this.getAttribute('data-example');
-                        loadExample(type);
-                    }
+
+                window.addEventListener('resize', () => {
+                    this.resizeCanvas();
+                    this.updateDeviceIndicator();
                 });
-            });
-            
-            // Carica un esempio predefinito al click del pulsante "Carica Esempio".
-            exampleBtn.addEventListener('click', function() {
-                loadExample('login'); // Carica l'esempio di login di default.
-            });
-            
-            // Gestione del click sul pulsante "Genera Prompt".
-            generateBtn.addEventListener('click', generatePrompt);
-            
-            // Gestione del click sul pulsante "Copia Prompt".
-            copyBtn.addEventListener('click', function() {
-                const textToCopy = promptOutput.textContent;
-                if (!textToCopy || textToCopy === 'Il prompt generato apparirà qui...') {
-                    console.warn("Nessun prompt da copiare.");
-                    return;
-                }
-
-                // Utilizza document.execCommand('copy') per maggiore compatibilità in ambienti iframe.
-                try {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = textToCopy;
-                    textarea.style.position = 'absolute'; // Rende la textarea invisibile
-                    textarea.style.left = '-9999px';
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-
-                    // Mostra la notifica di copia.
-                    copyNotice.classList.add('show');
-                    setTimeout(() => {
-                        copyNotice.classList.remove('show');
-                    }, 3000);
-                } catch (err) {
-                    console.error('Impossibile copiare il testo: ', err);
-                    // In un'applicazione reale, qui si potrebbe mostrare un messaggio di errore all'utente.
-                }
-            });
-            
-            // Gestione del click sul pulsante "Pulisci Tutto".
-            clearBtn.addEventListener('click', function() {
-                htmlInput.value = '';
-                extraRequirementsInput.value = '';
-                promptOutput.textContent = 'Il prompt generato apparirà qui...';
-                updateLineCounter(htmlInput, inputCounter);
-                updateLineCounter(promptOutput, outputCounter); // Usa promptOutput direttamente
-            });
-            
-            /**
-             * Carica un esempio HTML predefinito nella textarea di input.
-             * @param {string} type - Il tipo di esempio da caricare ('login', 'profile', 'gallery', 'ecommerce').
-             */
-            function loadExample(type) {
-                let html = '';
-                
-                switch(type) {
-                    case 'login':
-                        html = `<form class="login-form" aria-label="Modulo di accesso">
-    <h2 id="login-title">Accedi al tuo account</h2>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Inserisci la tua email" required aria-required="true">
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Inserisci la password" required aria-required="true">
-    </div>
-    <div class="form-footer">
-        <button type="submit" class="btn-login">Accedi</button>
-        <a href="/forgot-password" class="forgot-password">Password dimenticata?</a>
-    </div>
-</form>`;
-                        break;
-                        
-                    case 'profile':
-                        html = `<div class="profile-card" role="region" aria-labelledby="profile-name">
-    <div class="profile-header">
-        <img src="https://placehold.co/150x150/FF6347/FFFFFF?text=Avatar" alt="Avatar utente" class="profile-avatar" style="border-radius: 50%;">
-        <h2 class="profile-name" id="profile-name">Marco Rossi</h2>
-        <p class="profile-title">Sviluppatore Frontend</p>
-    </div>
-    <div class="profile-body">
-        <p class="profile-bio" style="color: #555;">Appassionato di sviluppo mobile con 5+ anni di esperienza in React Native e Flutter. Amante del codice pulito e delle performance ottimizzate.</p>
-        <div class="profile-stats">
-            <div class="stat">
-                <span class="stat-value">42</span>
-                <span class="stat-label">Progetti</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value">128</span>
-                <span class="stat-label">Follower</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value">86</span>
-                <span class="stat-label">Following</span>
-            </div>
-        </div>
-        <button class="edit-profile-btn">Modifica Profilo</button>
-    </div>
-</div>
-<style>
-    .profile-card { background-color: #f0f0f0; padding: 20px; border: 1px solid #ccc; }
-    .profile-name { color: #333; font-size: 24px; }
-</style>`;
-                        break;
-                        
-                    case 'gallery':
-                        html = `<div class="gallery-container" role="gallery" aria-label="Galleria immagini">
-    <h2 class="gallery-title">Le mie foto</h2>
-    <div class="gallery-grid">
-        <div class="gallery-item" tabindex="0">
-            <img src="https://placehold.co/300x200/4CAF50/FFFFFF?text=Paesaggio" alt="Paesaggio montano" style="border-radius: 8px;">
-            <div class="gallery-caption">Montagne al tramonto</div>
-        </div>
-        <div class="gallery-item" tabindex="0">
-            <img src="https://placehold.co/300x200/2196F3/FFFFFF?text=Citta" alt="Città di notte" style="border-radius: 8px;">
-            <div class="gallery-caption">Skyline notturno</div>
-        </div>
-        <div class="gallery-item" tabindex="0">
-            <img src="https://placehold.co/300x200/FFC107/FFFFFF?text=Spiaggia" alt="Spiaggia tropicale" style="border-radius: 8px;">
-            <div class="gallery-caption">Vacanza ai tropici</div>
-        </div>
-    </div>
-    <button class="load-more">Carica altre foto</button>
-</div>
-<style>
-    .gallery-container { display: flex; flex-wrap: wrap; gap: 10px; }
-    .gallery-item { border: 1px solid #ddd; padding: 5px; }
-</style>`;
-                        break;
-                        
-                    case 'ecommerce':
-                        html = `<div class="product-card" role="article" aria-labelledby="product-title">
-    <div class="product-image">
-        <img src="https://placehold.co/400x300/9C27B0/FFFFFF?text=Prodotto" alt="Smartphone XYZ" style="border-radius: 10px;">
-        <span class="discount-badge" style="background-color: #FF5722; color: white; padding: 5px 10px; border-radius: 5px;">-20%</span>
-    </div>
-    <div class="product-info">
-        <h3 class="product-title" id="product-title">Smartphone XYZ Pro</h3>
-        <div class="product-rating">
-            <span class="stars" style="color: gold;">★★★★★</span>
-            <span class="rating-count">(128 recensioni)</span>
-        </div>
-        <p class="product-description">Smartphone di ultima generazione con fotocamera da 108MP, 8GB RAM e batteria da 5000mAh.</p>
-        <div class="product-price">
-            <span class="current-price" style="font-size: 1.5em; font-weight: bold; color: #E91E63;">€499,99</span>
-            <span class="original-price" style="text-decoration: line-through; color: #777;">€624,99</span>
-        </div>
-        <div class="product-actions">
-            <button class="add-to-cart">Aggiungi al carrello</button>
-            <button class="buy-now">Acquista ora</button>
-        </div>
-    </div>
-</div>
-<style>
-    .product-card { background: #fff; border: 1px solid #eee; padding: 15px; }
-    .product-title { font-size: 1.8em; color: #333; }
-</style>`;
-                        break;
-                    default:
-                        console.warn("Tipo di esempio non riconosciuto:", type);
-                        return;
-                }
-                
-                htmlInput.value = html;
-                updateLineCounter(htmlInput, inputCounter);
-                generatePrompt(); // Genera il prompt automaticamente dopo aver caricato l'esempio.
             }
             
-            /**
-             * Converte un colore RGB in HSL.
-             * @param {number} r - Valore del canale rosso (0-255).
-             * @param {number} g - Valore del canale verde (0-255).
-             * @param {number} b - Valore del canale blu (0-255).
-             * @returns {Array<number>} Un array contenente i valori HSL [h, s, l].
-             */
-            function rgbToHsl(r, g, b) {
-                r /= 255; g /= 255; b /= 255;
-                let max = Math.max(r, g, b), min = Math.min(r, g, b);
-                let h, s, l = (max + min) / 2;
+            // Aggiorna l'indicatore del tipo di dispositivo
+            updateDeviceIndicator() {
+                let deviceType = 'Desktop';
+                if (window.innerWidth < 768) {
+                    deviceType = 'Mobile';
+                } else if (window.innerWidth < 992) {
+                    deviceType = 'Tablet';
+                }
+                
+                const orientation = window.innerWidth > window.innerHeight ? 'Landscape' : 'Portrait';
+                this.deviceIndicator.textContent = `${deviceType} | ${orientation} | ${window.innerWidth}×${window.innerHeight}`;
+            }
 
-                if (max === min) {
-                    h = s = 0; // achromatic
-                } else {
-                    let d = max - min;
-                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-                    switch (max) {
-                        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                        case g: h = (b - r) / d + 2; break;
-                        case b: h = (r - g) / d + 4; break;
-                        default: h = 0; // Fallback per sicurezza
+            resizeCanvas() {
+                if (this.audioVisualizerCanvas) {
+                    this.audioVisualizerCanvas.width = this.audioVisualizerCanvas.offsetWidth;
+                    this.audioVisualizerCanvas.height = this.audioVisualizerCanvas.offsetHeight;
+                }
+            }
+            
+            initParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = window.innerWidth < 768 ? 20 : 30;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    const size = Math.random() * 8 + 3;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.background = `rgba(255,255,255,${Math.random() * 0.4 + 0.1})`;
+                    particle.style.borderRadius = '50%';
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    
+                    const duration = Math.random() * 25 + 10;
+                    particle.style.animation = `float ${duration}s linear infinite`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+                
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes float {
+                        0% { transform: translateY(0) translateX(0); opacity: 0; }
+                        10% { opacity: 1; }
+                        90% { opacity: 1; }
+                        100% { transform: translateY(-100vh) translateX(${Math.random() > 0.5 ? '-' : ''}20vw); opacity: 0; }
                     }
-                    h /= 6;
-                }
-                return [h * 360, s * 100, l * 100];
+                `;
+                document.head.appendChild(style);
             }
 
-            /**
-             * Calcola la luminosità relativa di un colore RGB secondo la formula WCAG.
-             * @param {number} r - Valore del canale rosso (0-255).
-             * @param {number} g - Valore del canale verde (0-255).
-             * @param {number} b - Valore del canale blu (0-255).
-             * @returns {number} La luminosità relativa (0-1).
-             */
-            function getRelativeLuminance(r, g, b) {
-                const RsRGB = r / 255;
-                const GsRGB = g / 255;
-                const BsRGB = b / 255;
-
-                const R = RsRGB <= 0.03928 ? RsRGB / 12.92 : Math.pow((RsRGB + 0.055) / 1.055, 2.4);
-                const G = GsRGB <= 0.03928 ? GsRGB / 12.92 : Math.pow((GsRGB + 0.055) / 1.055, 2.4);
-                const B = BsRGB <= 0.03928 ? BsRGB / 12.92 : Math.pow((BsRGB + 0.055) / 1.055, 2.4);
-
-                return 0.2126 * R + 0.7152 * G + 0.0722 * B;
-            }
-
-            /**
-             * Calcola il rapporto di contrasto tra due luminosità relative secondo WCAG.
-             * @param {number} luminance1 - Luminosità relativa del primo colore.
-             * @param {number} luminance2 - Luminosità relativa del secondo colore.
-             * @returns {number} Il rapporto di contrasto.
-             */
-            function getContrastRatio(luminance1, luminance2) {
-                const L1 = Math.max(luminance1, luminance2);
-                const L2 = Math.min(luminance1, luminance2);
-                return (L1 + 0.05) / (L2 + 0.05);
-            }
-
-            /**
-             * Estrae un valore di colore da un elemento, dando priorità agli stili inline.
-             * Questa funzione è robusta per gli stili inline e tenta di ottenere il colore computato.
-             * @param {HTMLElement} element - L'elemento HTML da cui estrarre il colore.
-             * @param {string} property - La proprietà CSS del colore (es. 'backgroundColor', 'color').
-             * @returns {string|null} Il valore del colore in formato rgb(x, y, z) o null se non trovato.
-             */
-            function extractColor(element, property) {
-                if (!element || typeof property !== 'string') {
-                    console.warn("extractColor: Input non valido.");
-                    return null;
-                }
-                
-                let colorValue = element.style[property]; // Controlla prima lo stile inline
-
-                // Se lo stile inline non è presente o è 'auto', prova a ottenere lo stile computato.
-                // Nota: window.getComputedStyle su un DOM parsato (non attaccato al documento principale)
-                // fornirà solo stili predefiniti del browser o quelli inline.
-                // Per stili da <style> o CSS esterni, l'elemento dovrebbe essere nel DOM principale.
-                if (!colorValue || colorValue === 'auto' || colorValue === 'initial' || colorValue === 'inherit') {
-                    // Se l'elemento è nel DOM principale, getComputedStyle sarà più accurato.
-                    // Nel contesto di un DOMParser, questo è limitato.
-                    if (document.body.contains(element)) {
-                        colorValue = window.getComputedStyle(element)[property];
-                    } else {
-                        // Per elementi non attaccati al DOM, creiamo un tempDiv solo se necessario.
-                        // Questo è un workaround per DOMParser.
-                        const tempDiv = document.createElement('div');
-                        tempDiv.style.cssText = element.style.cssText; // Copia tutti gli stili inline
-                        document.body.appendChild(tempDiv);
-                        colorValue = window.getComputedStyle(tempDiv)[property];
-                        document.body.removeChild(tempDiv);
-                    }
-                }
-                
-                // Filtra colori trasparenti o di default che non sono significativi.
-                if (colorValue && colorValue !== 'rgba(0, 0, 0, 0)' && colorValue !== 'rgb(0, 0, 0)' && colorValue !== 'transparent') {
-                    return colorValue;
-                }
-                return null;
-            }
-
-            /**
-             * Converte una stringa di colore (esadecimale, rgb, rgba) in un array [r, g, b].
-             * Gestisce vari formati di input colore per una maggiore robustezza.
-             * @param {string} color - La stringa del colore.
-             * @returns {Array<number>|null} Un array RGB o null se il formato non è riconosciuto.
-             */
-            function parseColorToRgb(color) {
-                if (typeof color !== 'string') return null;
-
-                // Formato Esadecimale (es. #RRGGBB, #RGB)
-                if (color.startsWith('#')) {
-                    const hex = color.slice(1);
-                    let r, g, b;
-                    if (hex.length === 3) { // #RGB
-                        r = parseInt(hex[0] + hex[0], 16);
-                        g = parseInt(hex[1] + hex[1], 16);
-                        b = parseInt(hex[2] + hex[2], 16);
-                    } else if (hex.length === 6) { // #RRGGBB
-                        r = parseInt(hex.substring(0, 2), 16);
-                        g = parseInt(hex.substring(2, 4), 16);
-                        b = parseInt(hex.substring(4, 6), 16);
-                    } else {
-                        return null; // Formato esadecimale non valido
-                    }
-                    return [r, g, b];
-                } 
-                // Formato RGB/RGBA (es. rgb(x, y, z), rgba(x, y, z, a))
-                else if (color.startsWith('rgb')) {
-                    const rgbaMatch = color.match(/\d+/g);
-                    if (rgbaMatch && rgbaMatch.length >= 3) {
-                        return [parseInt(rgbaMatch[0]), parseInt(rgbaMatch[1]), parseInt(rgbaMatch[2])];
-                    }
-                    return null;
-                }
-                // Nomi di colore CSS (es. "red", "blue"). Richiede un elemento temporaneo per la conversione.
-                else {
-                    const tempDiv = document.createElement('div');
-                    tempDiv.style.color = color;
-                    document.body.appendChild(tempDiv);
-                    const computedColor = window.getComputedStyle(tempDiv).color;
-                    document.body.removeChild(tempDiv);
-                    return parseColorToRgb(computedColor); // Richiama la funzione con il formato rgb(x,y,z)
-                }
-            }
-
-            /**
-             * Rileva i componenti UI comuni basandosi su tag, classi e attributi.
-             * Questa funzione è stata ampliata per un riconoscimento più granulare.
-             * @param {HTMLElement} element - L'elemento HTML da analizzare.
-             * @returns {Object|null} Un oggetto che descrive il componente UI, o null se non rilevato.
-             */
-            function detectUIComponent(element) {
-                if (!element) return null;
-
-                const tag = element.tagName.toLowerCase();
-                const classes = Array.from(element.classList);
-                const id = element.id;
-
-                // Navbar/Header
-                if (tag === 'nav' || classes.some(cls => ['navbar', 'header', 'app-bar', 'top-bar'].includes(cls))) {
-                    return { type: 'Navbar', description: 'Barra di navigazione superiore', id: id, class: element.className };
-                }
-                // Sidebar/Drawer
-                if (tag === 'aside' || classes.some(cls => ['sidebar', 'drawer', 'side-menu'].includes(cls))) {
-                    return { type: 'Sidebar', description: 'Barra laterale o menu a scomparsa', id: id, class: element.className };
-                }
-                // Card
-                if (classes.some(cls => ['card', 'product-card', 'profile-card', 'item-card', 'tile'].includes(cls))) {
-                    return { type: 'Card', description: 'Scheda informativa o contenitore di contenuto', id: id, class: element.className };
-                }
-                // Modal/Dialog
-                if (classes.some(cls => ['modal', 'dialog', 'popup', 'overlay'].includes(cls)) || element.getAttribute('role') === 'dialog') {
-                    return { type: 'Modal/Dialog', description: 'Finestra modale o pop-up interattivo', id: id, class: element.className };
-                }
-                // Carousel/Slider
-                if (classes.some(cls => ['carousel', 'slider', 'swiper', 'image-gallery'].includes(cls))) {
-                    return { type: 'Carousel/Slider', description: 'Componente a scorrimento di immagini o contenuti', id: id, class: element.className };
-                }
-                // Form
-                if (tag === 'form') {
-                    return { type: 'Form', description: 'Modulo di input dati', id: id, class: element.className };
-                }
-                // Button
-                if (tag === 'button' || (tag === 'a' && classes.includes('btn')) || classes.some(cls => ['btn', 'button', 'action-btn'].includes(cls))) {
-                    return { type: 'Button', description: 'Pulsante interattivo', id: id, class: element.className };
-                }
-                // Input Field
-                if (['input', 'textarea', 'select'].includes(tag) || classes.includes('form-control')) {
-                    return { type: 'Input Field', description: `Campo input di tipo ${element.type || tag}`, id: id, class: element.className };
-                }
-                // Tab Bar
-                if (tag === 'ul' && (classes.includes('tab-list') || classes.includes('tabs')) || element.getAttribute('role') === 'tablist') {
-                    return { type: 'Tab Bar', description: 'Barra di navigazione a schede', id: id, class: element.className };
-                }
-                // List (generica)
-                if (['ul', 'ol', 'dl'].includes(tag) || classes.some(cls => ['list', 'menu-list', 'item-list'].includes(cls))) {
-                    return { type: 'List', description: 'Elenco di elementi', id: id, class: element.className };
-                }
-                // Table
-                if (tag === 'table' || classes.includes('data-table')) {
-                    return { type: 'Table', description: 'Tabella di dati', id: id, class: element.className };
-                }
-                // Image/Avatar
-                if (tag === 'img' && (classes.includes('avatar') || classes.includes('profile-picture'))) {
-                    return { type: 'Avatar', description: 'Immagine del profilo o avatar', id: id, class: element.className };
-                }
-                // Badge/Tag
-                if (classes.some(cls => ['badge', 'tag', 'status-indicator'].includes(cls))) {
-                    return { type: 'Badge', description: 'Etichetta o indicatore di stato', id: id, class: element.className };
-                }
-                
-                return null; // Nessun componente UI comune rilevato
-            }
-
-            /**
-             * Funzione principale per l'analisi dell'HTML e la generazione del prompt.
-             * Questa funzione estrae vari dettagli dall'HTML fornito e li formatta in un prompt strutturato.
-             * Include una robusta gestione degli errori e un feedback visivo.
-             */
-            async function generatePrompt() {
-                const html = htmlInput.value.trim();
-                const framework = frameworkSelect.value;
-                const extraRequirements = extraRequirementsInput.value.trim();
-                
-                if (!html) {
-                    promptOutput.textContent = "Per favore, inserisci del codice HTML per generare un prompt.";
-                    updateLineCounter({ value: '' }, outputCounter);
-                    return;
-                }
-                
-                // Mostra indicatore di caricamento e pulisce l'output precedente.
-                loadingIndicator.style.display = 'block';
-                promptOutput.textContent = ''; 
-                updateLineCounter(promptOutput, outputCounter); // Aggiornato per usare promptOutput direttamente
-
-                // Simula un piccolo ritardo per migliorare l'esperienza utente con l'animazione di caricamento.
-                await new Promise(resolve => setTimeout(resolve, 800));
+            async handleRecordClick() {
+                this.recordButton.disabled = true;
+                this.retryMicButton.style.display = 'none';
 
                 try {
-                    // Creazione di un DOM temporaneo per l'analisi dell'HTML.
-                    // Questo isola il parsing e previene l'esecuzione di script dannosi o indesiderati.
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const body = doc.body;
-
-                    // Gestione di errori di parsing HTML.
-                    if (doc.querySelector('parsererror')) {
-                        throw new Error('Errore nel parsing HTML. Assicurati che l\'HTML sia ben formato.');
-                    }
-
-                    // Inizializzazione delle strutture dati per i dati estratti.
-                    const extractedData = {
-                        titles: [],
-                        dynamicElements: [],
-                        textures: [],
-                        colors: { palette: new Set(), elements: [], contrastWarnings: [] },
-                        volumesSpaces: [],
-                        formsGeometries: [],
-                        ariaAttributes: [],
-                        metadata: [],
-                        hierarchicalRelationships: [],
-                        tagsUsed: new Set(),
-                        uiComponents: [],
-                        typography: [],
-                        dataStructures: [],
-                        a11yWarnings: [],
-                        inferredLogic: []
-                    };
-
-                    // Inizializzazione dei Set per raccomandazioni di sicurezza e performance.
-                    const security = new Set(); 
-                    const performance = new Set(); 
-
-                    // Attraversamento del DOM per estrarre informazioni da ogni elemento.
-                    // Utilizzo di un ciclo for...of per maggiore robustezza e chiarezza.
-                    const allElements = body.querySelectorAll('*');
-                    for (const el of allElements) {
-                        const tag = el.tagName.toLowerCase();
-                        extractedData.tagsUsed.add(tag);
-
-                        // 1. Analisi Semantica e Riconoscimento di Componenti UI Comuni.
-                        const uiComponent = detectUIComponent(el);
-                        if (uiComponent) {
-                            extractedData.uiComponents.push(uiComponent);
-                        }
-
-                        // Titoli (h1-h6, title, aria-label).
-                        if (['title', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag)) {
-                            const text = el.textContent.trim();
-                            if (text) {
-                                extractedData.titles.push({ tag: tag, text: text, id: el.id, class: el.className });
-                            }
-                        }
-                        const ariaLabel = el.getAttribute('aria-label');
-                        if (ariaLabel) {
-                            extractedData.titles.push({ tag: tag, text: ariaLabel, type: 'aria-label', id: el.id, class: el.className });
-                        }
-
-                        // Elementi Dinamici (event listeners, input forms, stati impliciti).
-                        const events = ['onclick', 'onchange', 'oninput', 'onsubmit', 'onmouseover', 'onmouseout'];
-                        events.forEach(eventAttr => {
-                            if (el.hasAttribute(eventAttr)) {
-                                extractedData.dynamicElements.push({ tag: tag, event: eventAttr, handler: el.getAttribute(eventAttr), id: el.id, class: el.className });
-                            }
-                        });
-                        if (['input', 'textarea', 'select'].includes(el.tagName)) {
-                            extractedData.dynamicElements.push({ tag: tag, type: 'form-input', name: el.name, id: el.id, class: el.className, placeholder: el.placeholder });
-                        }
-                        // Rilevamento di effetti hover/focus simulati tramite stili inline (euristica).
-                        if (el.style.transform && el.style.transform.includes('scale')) { 
-                             extractedData.dynamicElements.push({ tag: tag, type: 'hover-effect', description: `Trasformazione: ${el.style.transform}`, id: el.id, class: el.className });
-                        }
-
-
-                        // Texture & Risorse (immagini, sfondi, SVG).
-                        if (tag === 'img' && el.src) {
-                            let imgType = 'img';
-                            let optimizationSuggestion = '';
-                            if (el.src.includes('placehold.co') || el.src.includes('via.placeholder.com')) {
-                                imgType = 'placeholder-image';
-                                optimizationSuggestion = 'Suggerire di sostituire con un placeholder nativo o icona se temporaneo.';
-                            }
-                            // Euristica per identificare le icone basata sulle dimensioni.
-                            // `naturalWidth` e `naturalHeight` funzionano solo se l'immagine è stata caricata.
-                            // Per un DOM parsato, questi potrebbero essere 0. Si usa un fallback.
-                            const imgWidth = el.naturalWidth || el.width;
-                            const imgHeight = el.naturalHeight || el.height;
-                            if (imgWidth > 0 && imgHeight > 0 && imgWidth < 50 && imgHeight < 50) { 
-                                imgType = 'icon-image';
-                                optimizationSuggestion += ' Considerare l\'uso di icone SVG inline o librerie di icone.';
-                            }
-                            extractedData.textures.push({ type: imgType, url: el.src, alt: el.alt, id: el.id, class: el.className, optimization: optimizationSuggestion.trim() });
-                            performance.add("Comprimi e ottimizza le immagini per il mobile (formati WebP/AVIF, dimensioni adeguate).");
-                            performance.add("Implementa il lazy loading per le immagini fuori viewport.");
-                            performance.add("Utilizza placeholder per le immagini durante il caricamento.");
-                        }
-                        const backgroundImage = el.style.backgroundImage;
-                        if (backgroundImage && backgroundImage.includes('url(')) {
-                            const urlMatch = backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
-                            if (urlMatch && urlMatch[1]) {
-                                extractedData.textures.push({ type: 'background-image', url: urlMatch[1], id: el.id, class: el.className });
-                            }
-                        }
-                        // Rilevamento SVG inline.
-                        if (tag === 'svg' || el.querySelector('svg')) {
-                            extractedData.textures.push({ type: 'svg-inline', description: 'Elemento SVG', id: el.id, class: el.className });
-                        }
-                        // Rilevamento pattern CSS (es. repeating-linear-gradient).
-                        if (backgroundImage && backgroundImage.includes('gradient')) {
-                            extractedData.textures.push({ type: 'css-gradient-pattern', description: backgroundImage, id: el.id, class: el.className });
-                        }
-
-
-                        // Colori (Estrazione da stili inline e analisi contrasto WCAG).
-                        const bgColor = extractColor(el, 'backgroundColor');
-                        const textColor = extractColor(el, 'color');
-
-                        if (bgColor) {
-                            extractedData.colors.elements.push({ tag: tag, property: 'background-color', value: bgColor, id: el.id, class: el.className });
-                            extractedData.colors.palette.add(bgColor);
-                        }
-                        if (textColor) {
-                            extractedData.colors.elements.push({ tag: tag, property: 'color', value: textColor, id: el.id, class: el.className });
-                            extractedData.colors.palette.add(textColor);
-                        }
-                        const borderColor = extractColor(el, 'borderColor');
-                        if (borderColor) {
-                            extractedData.colors.elements.push({ tag: tag, property: 'border-color', value: borderColor, id: el.id, class: el.className });
-                            extractedData.colors.palette.add(borderColor);
-                        }
-
-                        // Verifica Contrasto Colori (WCAG AA per testo normale).
-                        if (bgColor && textColor) {
-                            const rgbBg = parseColorToRgb(bgColor);
-                            const rgbText = parseColorToRgb(textColor);
-                            if (rgbBg && rgbText) {
-                                const lumBg = getRelativeLuminance(rgbBg[0], rgbBg[1], rgbBg[2]);
-                                const lumText = getRelativeLuminance(rgbText[0], rgbText[1], rgbText[2]);
-                                const contrast = getContrastRatio(lumBg, lumText);
-                                if (contrast < 4.5) { 
-                                    extractedData.colors.contrastWarnings.push({
-                                        element: tag,
-                                        bgColor: bgColor,
-                                        textColor: textColor,
-                                        contrastRatio: contrast.toFixed(2),
-                                        id: el.id,
-                                        class: el.className,
-                                        message: `Rapporto di contrasto insufficiente (${contrast.toFixed(2)}:1). Minimo raccomandato 4.5:1.`
-                                    });
-                                    extractedData.a11yWarnings.push(`Elemento ${tag} (ID: ${el.id || 'N/A'}, Class: ${el.className || 'N/A'}): Rapporto di contrasto testo/sfondo insufficiente (${contrast.toFixed(2)}:1).`);
-                                }
-                            }
-                        }
-
-                        // Tipografia (Estrazione da stili inline).
-                        if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'button', 'label', 'a'].includes(tag)) {
-                            const computed = window.getComputedStyle(el); 
-                            extractedData.typography.push({
-                                tag: tag,
-                                text: el.textContent.trim().substring(0, 50) + (el.textContent.trim().length > 50 ? '...' : ''),
-                                fontFamily: computed.fontFamily,
-                                fontSize: computed.fontSize,
-                                fontWeight: computed.fontWeight,
-                                lineHeight: computed.lineHeight,
-                                id: el.id,
-                                class: el.className
-                            });
-                        }
-
-                        // Volumi/Spazi (width, height, padding, margin, z-index).
-                        const computedStyle = window.getComputedStyle(el); 
-                        const width = computedStyle.width;
-                        const height = computedStyle.height;
-                        const padding = computedStyle.padding;
-                        const margin = computedStyle.margin;
-                        const zIndex = computedStyle.zIndex;
-                        if (width && width !== 'auto' && width !== '0px') extractedData.volumesSpaces.push({ tag: tag, property: 'width', value: width, id: el.id, class: el.className });
-                        if (height && height !== 'auto' && height !== '0px') extractedData.volumesSpaces.push({ tag: tag, property: 'height', value: height, id: el.id, class: el.className });
-                        if (padding && padding !== '0px') extractedData.volumesSpaces.push({ tag: tag, property: 'padding', value: padding, id: el.id, class: el.className });
-                        if (margin && margin !== '0px') extractedData.volumesSpaces.push({ tag: tag, property: 'margin', value: margin, id: el.id, class: el.className });
-                        if (zIndex && zIndex !== 'auto' && zIndex !== '0') extractedData.volumesSpaces.push({ tag: tag, property: 'z-index', value: zIndex, id: el.id, class: el.className });
-
-                        // Forme/Geometrie (border-radius, clip-path, transform, SVG paths).
-                        const borderRadius = computedStyle.borderRadius; 
-                        if (borderRadius && borderRadius !== '0px') extractedData.formsGeometries.push({ tag: tag, property: 'border-radius', value: borderRadius, id: el.id, class: el.className });
-                        const clipPath = computedStyle.clipPath;
-                        if (clipPath && clipPath !== 'none') extractedData.formsGeometries.push({ tag: tag, property: 'clip-path', value: clipPath, id: el.id, class: el.className });
-                        const transform = computedStyle.transform;
-                        if (transform && transform !== 'none') extractedData.formsGeometries.push({ tag: tag, property: 'transform', value: transform, id: el.id, class: el.className });
-                        if (tag === 'svg' && el.querySelector('path')) {
-                            extractedData.formsGeometries.push({ tag: tag, property: 'svg-path', description: 'Contiene elementi <path> complessi', id: el.id, class: el.className });
-                        }
-
-                        // Attributi ARIA e Ruoli (per accessibilità).
-                        Array.from(el.attributes).forEach(attr => {
-                            if (attr.name.startsWith('aria-') || attr.name === 'role') {
-                                extractedData.ariaAttributes.push({ tag: tag, attribute: attr.name, value: attr.value, id: el.id, class: el.className });
-                            }
-                        });
-                        // Avvisi di accessibilità comuni.
-                        if (tag === 'img' && !el.hasAttribute('alt')) {
-                            extractedData.a11yWarnings.push(`Elemento <img> (ID: ${el.id || 'N/A'}, Class: ${el.className || 'N/A'}): Mancante attributo 'alt'. Necessario per accessibilità.`);
-                        }
-                        if (tag === 'button' && !el.textContent.trim() && !el.hasAttribute('aria-label')) {
-                             extractedData.a11yWarnings.push(`Elemento <button> (ID: ${el.id || 'N/A'}, Class: ${el.className || 'N/A'}): Contenuto testuale o 'aria-label' mancante. Necessario per accessibilità.`);
-                        }
-
-                        // Relazioni gerarchiche (genitore-figlio).
-                        if (el.parentElement && el.parentElement.tagName) { // Assicura che il parent sia un elemento valido
-                            extractedData.hierarchicalRelationships.push({
-                                element: tag + (el.id ? `#${el.id}` : ''),
-                                parent: el.parentElement.tagName.toLowerCase() + (el.parentElement.id ? `#${el.parentElement.id}` : ''),
-                                childrenCount: el.children.length
-                            });
-                        }
-                    }
-
-                    // Inferenza delle Strutture Dati (es. liste ripetitive).
-                    const listContainers = doc.querySelectorAll('ul, ol, div.list-container, div.grid-container');
-                    listContainers.forEach(container => {
-                        const children = Array.from(container.children);
-                        if (children.length > 1) {
-                            // Confronta il HTML interno del primo figlio con gli altri per rilevare ripetizioni.
-                            const firstChildHtml = children[0].innerHTML.replace(/\s+/g, ' ').trim();
-                            let similarCount = 0;
-                            for (let i = 1; i < children.length; i++) {
-                                if (children[i].innerHTML.replace(/\s+/g, ' ').trim() === firstChildHtml) {
-                                    similarCount++;
-                                }
-                            }
-                            if (similarCount > children.length * 0.5) { // Se più della metà sono simili.
-                                extractedData.dataStructures.push({
-                                    type: 'Lista Ripetitiva',
-                                    containerTag: container.tagName.toLowerCase(),
-                                    containerClass: container.className,
-                                    itemCount: children.length,
-                                    sampleItemHtml: firstChildHtml.substring(0, Math.min(firstChildHtml.length, 200)) + (firstChildHtml.length > 200 ? '...' : '') // Tronca per brevità.
-                                });
-                            }
-                        }
-                    });
-
-                    // Inferenza del Comportamento e della Logica Interattiva (basilare: chiamate API, alert).
-                    // Nota: I blocchi <script> negli esempi sono stati rimossi per prevenire errori di parsing.
-                    // Questa sezione si baserebbe su un'analisi più profonda del JS se fosse presente.
-                    // Per ora, si concentra sugli attributi 'on*' e su pattern comuni.
-                    allElements.forEach(el => {
-                        const tag = el.tagName.toLowerCase();
-                        if (el.hasAttribute('onclick') || el.hasAttribute('onsubmit')) {
-                            const handlerContent = el.getAttribute('onclick') || el.getAttribute('onsubmit');
-                            if (handlerContent.includes('fetch(')) {
-                                extractedData.inferredLogic.push({
-                                    element: tag,
-                                    type: 'API Call (inferred)',
-                                    details: `Potenziale chiamata API rilevata nell'handler: "${handlerContent.substring(0, 50)}..."`
-                                });
-                            }
-                        }
-                    });
-
-
-                    // Metadati (da head del documento parsato).
-                    const head = doc.head;
-                    head.querySelectorAll('meta, link').forEach(metaEl => {
-                        const attrs = Array.from(metaEl.attributes).map(attr => `${attr.name}="${attr.value}"`).join(' ');
-                        extractedData.metadata.push(`<${metaEl.tagName.toLowerCase()} ${attrs}>`);
-                    });
-
-                    // Mappatura framework e specifiche dettagliate.
-                    const frameworkSpecs = {
-                        react: {
-                            name: "React Native",
-                            components: "Componenti funzionali React Native (View, Text, Image, Button, TextInput, Pressable, FlatList/ScrollView)",
-                            state: "Gestione stato con useState/useReducer, React Context, o librerie come Zustand/React Query",
-                            styling: "StyleSheet API, Styled Components o Tailwind CSS for React Native",
-                            notes: [
-                                "Ottimizza per iOS e Android, garantendo un'esperienza utente nativa.",
-                                "Implementa il supporto per la modalità scura (Dark Mode).",
-                                "Utilizza Jest e React Testing Library per test unitari e di integrazione.",
-                                "Assicura accessibilità (a11y) completa con attributi e ruoli ARIA equivalenti.",
-                                "Gestione della navigazione con React Navigation.",
-                                "Gestione delle immagini: ottimizzazione delle dimensioni, caching e lazy loading."
-                            ]
-                        },
-                        flutter: {
-                            name: "Flutter",
-                            components: "Widget stateless e stateful (Container, Text, Image, ElevatedButton, TextField, ListView/SingleChildScrollView)",
-                            state: "Gestione stato con Provider, Riverpod, BLoC/Cubit o GetX",
-                            styling: "Stile tramite parametri del costruttore del widget e Theme data",
-                            notes: [
-                                "Ottimizza per iOS e Android, con un'unica codebase.",
-                                "Implementa il supporto per il tema chiaro/scuro.",
-                                "Utilizza `flutter_test` per test unitari e widget test.",
-                                "Assicura accessibilità (a11y) completa con Semantic widgets.",
-                                "Gestione della navigazione con Navigator 2.0 o GoRouter.",
-                                "Gestione delle immagini: compressione, caching e placeholder."
-                            ]
-                        },
-                        swiftui: {
-                            name: "SwiftUI",
-                            components: "View e ViewModel (VStack, HStack, Text, Image, Button, TextField, ScrollView, List)",
-                            state: "@State, @ObservedObject, @EnvironmentObject, @Binding",
-                            styling: "Modificatori SwiftUI e Environment values",
-                            notes: [
-                                "Ottimizza per iOS 15+ (o versione specificata), iPadOS e watchOS.",
-                                "Implementa il supporto nativo per Dark Mode.",
-                                "Utilizza XCTest per test unitari e UI test.",
-                                "Assicura accessibilità (a11y) completa con modificatori di accessibilità.",
-                                "Gestione della navigazione con NavigationStack/NavigationView.",
-                                "Gestione delle immagini: Asset Catalogs e AsyncImage."
-                            ]
-                        },
-                        compose: {
-                            name: "Jetpack Compose",
-                            components: "Composable functions (Column, Row, Text, Image, Button, TextField, LazyColumn/LazyRow, ScrollableColumn/Row)",
-                            state: "remember e mutableStateOf, ViewModel, Flow",
-                            styling: "Modificatori Jetpack Compose e Theme data",
-                            notes: [
-                                "Ottimizza per Android 12+ (o versione specificata) e Wear OS.",
-                                "Implementa il supporto nativo per il tema scuro.",
-                                "Utilizza JUnit e Android Instrumentation per test unitari e UI test.",
-                                "Assicura accessibilità (a11y) completa con modificatori di accessibilità.",
-                                "Gestione della navigazione con NavController (Compose Navigation).",
-                                "Gestione delle immagini: Coil o Glide per il caricamento asincrono."
-                            ]
-                        }
-                    };
-                    
-                    const specs = frameworkSpecs[framework];
-                    
-                    // Aggiungi raccomandazioni di sicurezza e performance basate sui tag HTML.
-                    if (extractedData.tagsUsed.has('form')) {
-                        security.add("Usa HTTPS per tutte le comunicazioni di rete.");
-                        security.add("Implementa la validazione lato server oltre a quella client.");
-                        security.add("Protezione CSRF (Cross-Site Request Forgery) per i form.");
-                    }
-                    
-                    if (extractedData.tagsUsed.has('input')) {
-                        security.add("Sanitizzazione degli input per prevenire attacchi XSS (Cross-Site Scripting).");
-                        security.add("Per i campi password, usa `secureTextEntry` (React Native) o equivalente e hashing robusto (es. bcrypt) lato server.");
-                        security.add("Implementa autenticazione a due fattori (2FA) dove appropriato.");
-                    }
-                    
-                    if (extractedData.tagsUsed.has('img')) {
-                        performance.add("Comprimi e ottimizza le immagini per il mobile (formati WebP/AVIF, dimensioni adeguate).");
-                        performance.add("Implementa il lazy loading per le immagini fuori viewport.");
-                        performance.add("Utilizza placeholder per le immagini durante il caricamento.");
-                    }
-
-                    // Suggerimenti performance basati sulla complessità dell'HTML.
-                    if (extractedData.tagsUsed.size > 10 || html.length > 2000) { 
-                        performance.add("Dividi l'app in moduli/componenti riutilizzabili per ottimizzare il bundle e la manutenibilità.");
-                        performance.add("Considera la virtualizzazione delle liste (es. FlatList per React Native, LazyColumn per Compose) per grandi elenchi.");
-                    }
-
-                    // Suggerimenti performance basati su elementi dinamici.
-                    if (extractedData.dynamicElements.some(d => d.event === 'onclick' || d.event === 'onchange')) {
-                        performance.add("Usa la memoizzazione (es. React.memo, useMemo, useCallback) per i componenti dinamici per prevenire re-rendering inutili.");
-                    }
-
-                    // Array per costruire il prompt in modo efficiente.
-                    const promptParts = [];
-
-                    // Sezione CONTESTO.
-                    promptParts.push(`### CONTESTO\nTrasformazione dell'HTML fornito in app mobile nativa (${specs.name}). Preservare funzionalità dinamiche, design, accessibilità e logica interattiva.`);
-                    promptParts.push(`\n### DATI ESTRATTI`);
-
-                    // Sezione TITOLI.
-                    if (extractedData.titles.length > 0) {
-                        promptParts.push(`\n#### TITOLI`);
-                        extractedData.titles.forEach(t => {
-                            promptParts.push(`- ${t.tag.toUpperCase()}: "${t.text}" ${t.id ? `(ID: ${t.id})` : ''} ${t.class ? `(Class: ${t.class})` : ''}`);
-                        });
-                    }
-
-                    // Sezione COMPONENTI UI RICONOSCIUTI.
-                    if (extractedData.uiComponents.length > 0) {
-                        promptParts.push(`\n#### COMPONENTI UI RICONOSCIUTI`);
-                        extractedData.uiComponents.forEach(c => {
-                            promptParts.push(`- Tipo: ${c.type}, Descrizione: "${c.description}" ${c.id ? `(ID: ${c.id})` : ''} ${c.class ? `(Class: ${c.class})` : ''}`);
-                        });
-                    }
-
-                    // Sezione ELEMENTI DINAMICI.
-                    if (extractedData.dynamicElements.length > 0) {
-                        promptParts.push(`\n#### ELEMENTI DINAMICI`);
-                        extractedData.dynamicElements.forEach(d => {
-                            let desc = `- ${d.tag.toUpperCase()}`;
-                            if (d.type === 'form-input') desc += ` (Input ${d.name || d.type}, Placeholder: "${d.placeholder || 'N/A'}")`;
-                            else if (d.type === 'hover-effect') desc += ` (Effetto Hover: ${d.description})`;
-                            else desc += ` (Evento: ${d.event}, Handler: "${d.handler || 'N/A'}")`;
-                            desc += ` ${d.id ? `(ID: ${d.id})` : ''} ${d.class ? `(Class: ${d.class})` : ''}`;
-                            promptParts.push(desc);
-                        });
-                    }
-
-                    // Sezione LOGICA INTERATTIVA INFERITA.
-                    if (extractedData.inferredLogic.length > 0) {
-                        promptParts.push(`\n#### LOGICA INTERATTIVA INFERITA`);
-                        extractedData.inferredLogic.forEach(l => {
-                            promptParts.push(`- Funzione/Elemento: ${l.element || l.function}, Tipo: ${l.type}, Dettagli: ${l.details}`);
-                        });
-                    }
-
-                    // Sezione TEXTURE & RISORSE.
-                    if (extractedData.textures.length > 0) {
-                        promptParts.push(`\n#### TEXTURE & RISORSE (con suggerimenti di ottimizzazione)`);
-                        extractedData.textures.forEach(t => {
-                            let line = `- Tipo: ${t.type}, URL/Descrizione: "${t.url || t.description}" ${t.alt ? `(Alt: "${t.alt}")` : ''} ${t.id ? `(ID: ${t.id})` : ''} ${t.class ? `(Class: ${t.class})` : ''}`;
-                            if (t.optimization) line += ` [Suggerimento: ${t.optimization}]`;
-                            promptParts.push(line);
-                        });
-                    }
-
-                    // Sezione COLORI & PALETTE DI DESIGN.
-                    if (extractedData.colors.palette.size > 0) {
-                        promptParts.push(`\n#### COLORI & PALETTE DI DESIGN`);
-                        promptParts.push(`- Palette identificata: ${Array.from(extractedData.colors.palette).join(', ')}`);
-                        extractedData.colors.elements.forEach(c => {
-                            promptParts.push(`- Elemento ${c.tag.toUpperCase()} (${c.property}): ${c.value} ${c.id ? `(ID: ${c.id})` : ''} ${c.class ? `(Class: ${c.class})` : ''}`);
-                        });
-                        if (extractedData.colors.contrastWarnings.length > 0) {
-                            promptParts.push(`\nATTENZIONE CONTRASTO COLORI:`);
-                            extractedData.colors.contrastWarnings.forEach(w => {
-                                promptParts.push(`- ${w.message} (Elemento: ${w.element}, ID: ${w.id || 'N/A'}, Class: ${w.class || 'N/A'})`);
-                            });
-                        }
-                    }
-
-                    // Sezione TIPOGRAFIA E GERARCHIA TESTUALE.
-                    if (extractedData.typography.length > 0) {
-                        promptParts.push(`\n#### TIPOGRAFIA E GERARCHIA TESTUALE`);
-                        extractedData.typography.forEach(t => {
-                            promptParts.push(`- Elemento ${t.tag.toUpperCase()}: Font "${t.fontFamily}", Dimensione ${t.fontSize}, Peso ${t.fontWeight}, Linea: ${t.lineHeight}, Esempio: "${t.text}" ${t.id ? `(ID: ${t.id})` : ''} ${t.class ? `(Class: ${t.class})` : ''}`);
-                        });
-                    }
-
-                    // Sezione VOLUMI/SPAZI.
-                    if (extractedData.volumesSpaces.length > 0) {
-                        promptParts.push(`\n#### VOLUMI/SPAZI`);
-                        extractedData.volumesSpaces.forEach(v => {
-                            promptParts.push(`- Elemento ${v.tag.toUpperCase()} (${v.property}): ${v.value} ${v.id ? `(ID: ${v.id})` : ''} ${v.class ? `(Class: ${v.class})` : ''}`);
-                        });
-                    }
-
-                    // Sezione FORME/GEOMETRIE.
-                    if (extractedData.formsGeometries.length > 0) {
-                        promptParts.push(`\n#### FORME/GEOMETRIE`);
-                        extractedData.formsGeometries.forEach(f => {
-                            promptParts.push(`- Elemento ${f.tag.toUpperCase()} (${f.property}): ${f.value || f.description} ${f.id ? `(ID: ${f.id})` : ''} ${f.class ? `(Class: ${f.class})` : ''}`);
-                        });
-                    }
-                    
-                    // Sezione ATTRIBUTI ARIA E RUOLI.
-                    if (extractedData.ariaAttributes.length > 0) {
-                        promptParts.push(`\n#### ATTRIBUTI ARIA E RUOLI`);
-                        extractedData.ariaAttributes.forEach(a => {
-                            promptParts.push(`- Elemento ${a.tag.toUpperCase()}: Attributo "${a.attribute}" con valore "${a.value}" ${a.id ? `(ID: ${a.id})` : ''} ${a.class ? `(Class: ${a.class})` : ''}`);
-                        });
-                    }
-
-                    // Sezione AVVISI E SUGGERIMENTI PER L'ACCESSIBILITÀ (A11y).
-                    if (extractedData.a11yWarnings.length > 0) {
-                        promptParts.push(`\n#### AVVISI E SUGGERIMENTI PER L'ACCESSIBILITÀ (A11y)`);
-                        extractedData.a11yWarnings.forEach(w => {
-                            promptParts.push(`- ${w}`);
-                        });
-                    }
-
-                    // Sezione STRUTTURE DATI INFERITE.
-                    if (extractedData.dataStructures.length > 0) {
-                        promptParts.push(`\n#### STRUTTURE DATI INFERITE (Liste/Tabelle Ripetitive)`);
-                        extractedData.dataStructures.forEach(ds => {
-                            promptParts.push(`- Tipo: ${ds.type}, Contenitore: ${ds.containerTag} (Class: ${ds.containerClass || 'N/A'}), Elementi: ${ds.itemCount}. Esempio item HTML: "${ds.sampleItemHtml}"`);
-                        });
-                    }
-
-                    // Sezione METADATI.
-                    if (extractedData.metadata.length > 0) {
-                        promptParts.push(`\n#### METADATI`);
-                        extractedData.metadata.forEach(m => {
-                            promptParts.push(`- ${m}`);
-                        });
-                    }
-
-                    // Sezione RELAZIONI GERARCHICHE.
-                    if (extractedData.hierarchicalRelationships.length > 0) {
-                        promptParts.push(`\n#### RELAZIONI GERARCHICHE (Esempi)`);
-                        const uniqueRelationships = new Set();
-                        extractedData.hierarchicalRelationships.forEach(rel => {
-                            uniqueRelationships.add(`- ${rel.element} (Parent: ${rel.parent}, Figli: ${rel.childrenCount})`);
-                        });
-                        Array.from(uniqueRelationships).slice(0, 5).forEach(rel => promptParts.push(rel));
-                        if (uniqueRelationships.size > 5) promptParts.push(`- ... (altre relazioni gerarchiche)`);
-                    }
-
-                    // Sezione ISTRUZIONI TECNICHE.
-                    promptParts.push(`\n### ISTRUZIONI TECNICHE`);
-                    promptParts.push(`1. ADATTAMENTO MOBILE`);
-                    promptParts.push(`   - Converti gli elementi HTML in componenti ${specs.name} appropriati (es: \`<div>\` → \`View\`, \`<img>\` → \`Image\`, \`<button>\` → \`Button\` / \`Pressable\`).`);
-                    promptParts.push(`   - Adatta gli stili CSS al sistema di styling di ${specs.name} (es: \`padding: 24px\` → \`paddingVertical: 24\`).`);
-                    promptParts.push(`   - **NOTA SULL'ANALISI CSS:** L'estrazione degli stili (colori, tipografia, dimensioni) è basata principalmente sugli stili *inline* definiti nell'HTML e sulle proprietà computate del browser. Gli stili definiti in blocchi \`<style>\` o in file CSS esterni non sono completamente analizzabili in questo ambiente client-side senza un parser CSS completo. Si prega di considerare la fedeltà del design basandosi sugli stili inline o di fornire CSS espliciti nei requisiti aggiuntivi.`);
-                    promptParts.push(`   - Sostituisci gli eventi \`hover\` con feedback tattile o visivo adatto al mobile (es: \`Pressable\` in React Native).`);
-                    promptParts.push(`   - Assicurati che il layout sia completamente responsivo e si adatti a diverse dimensioni dello schermo (da 320px a 414px come riferimento per iOS/Android).`);
-                    promptParts.push(`   - Implementa la gestione dei gesti touch (swipe, pinch) se rilevanti per gli elementi dinamici.`);
-
-                    promptParts.push(`\n2. PERFORMANCE`);
-                    if (performance.size > 0) {
-                        Array.from(performance).forEach(p => promptParts.push(`   - ${p}`));
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        this.startRecording();
                     } else {
-                        promptParts.push(`   - Ottimizzazione generale del rendering e caricamento asset.`);
+                        this.translationElement.textContent = 'Il tuo browser non supporta la registrazione audio';
                     }
-                    promptParts.push(`   - Utilizza la gestione dello stato efficiente per minimizzare i re-rendering.`);
-
-                    promptParts.push(`\n3. SICUREZZA`);
-                    if (security.size > 0) {
-                        Array.from(security).forEach(s => promptParts.push(`   - ${s}`));
-                    } else {
-                        promptParts.push(`   - Implementa validazione input lato client e server.`);
-                    }
-                    promptParts.push(`   - Proteggi le API keys e le informazioni sensibili.`);
-
-                    promptParts.push(`\n4. ACCESSIBILITÀ (A11y)`);
-                    promptParts.push(`   - Assicurati che l'app sia completamente accessibile (WCAG 2.1 AA compliant) utilizzando le funzionalità native di ${specs.name} per l'accessibilità.`);
-                    promptParts.push(`   - Gestisci attentamente i contrasti cromatici e fornisci alternative testuali per contenuti non testuali.`);
-
-                    promptParts.push(`\n5. OUTPUT`);
-                    promptParts.push(`   - File: Componenti ${specs.name} (es: \`App.jsx\` per React Native, \`main.dart\` per Flutter), file di stile (es: \`styles.js\` o equivalenti).`);
-                    promptParts.push(`   - Il codice deve essere pulito, ben commentato e seguire le best practice del framework.`);
-                    promptParts.push(`   - Test: Il codice generato deve essere testabile e supportare i test unitari/di integrazione.`);
-
-                    // Sezione VINCOLI.
-                    promptParts.push(`\n### VINCOLI`);
-                    promptParts.push(`- Non usare librerie esterne non essenziali (solo core ${specs.name} e dipendenze strettamente necessarie).`);
-                    promptParts.push(`- Carico CPU < 50% in runtime su dispositivi di fascia media.`);
-                    promptParts.push(`- Memoria RAM utilizzata < 100MB per sessione.`);
-                    promptParts.push(`- Il prompt generato deve avere una lunghezza compresa tra 8000 e 10000 caratteri (simulato).`);
-                    promptParts.push(`- Il codice deve essere compatibile con le ultime versioni stabili di ${specs.name}.`);
-                    promptParts.push(`- Implementa un sistema di logging e reporting degli errori robusto.`);
-                    promptParts.push(`- Considera la localizzazione (i18n) per testi statici.`);
-                    promptParts.push(`- Gestione offline: implementa caching dei dati e UI reattiva in assenza di connessione.`);
-                    promptParts.push(`- [Altri dettagli per raggiungere i 8k-10k caratteri, come requisiti specifici di UI/UX, animazioni, gestione dati, integrazione API, ecc.]`);
-                    
-                    if (extraRequirements) {
-                        promptParts.push(`\n### REQUISITI AGGIUNTIVI DELL'UTENTE`);
-                        promptParts.push(`${extraRequirements}`);
-                    }
-
-                    // Unisci tutti i segmenti del prompt.
-                    promptOutput.textContent = promptParts.join('\n');
-                    updateLineCounter(promptOutput, outputCounter);
-
-                    // Simulazione chiamata LLM (per dimostrare l'integrazione).
-                    // In un'implementazione reale, 'prompt' verrebbe inviato a un modello LLM.
-                    // const apiKey = ""; // La chiave API sarà fornita dall'ambiente Canvas
-                    // const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    // const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
-
-                    // const response = await fetch(apiUrl, {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify(payload)
-                    // });
-                    // const result = await response.json();
-
-                    // if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
-                    //     promptOutput.textContent = result.candidates[0].content.parts[0].text;
-                    // } else {
-                    //     promptOutput.textContent = `Errore dalla API Gemini: ${JSON.stringify(result)}`;
-                    // }
-
                 } catch (error) {
-                    // Gestione degli errori durante la generazione del prompt.
-                    promptOutput.textContent = `Errore critico durante la generazione del prompt: ${error.message}. Si prega di verificare la validità del codice HTML inserito.`;
-                    console.error("Errore durante la generazione del prompt:", error);
-                } finally {
-                    loadingIndicator.style.display = 'none'; // Nasconde l'indicatore di caricamento.
+                    console.error('Errore nella richiesta del microfono:', error);
+                    this.translationElement.textContent = 'Impossibile accedere al microfono. Controlla i permessi.';
+                    this.recordButton.disabled = false;
+                }
+            }
+
+            async requestMicrophonePermission(allow) {
+                this.permissionModal.classList.remove('show');
+
+                if (allow) {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        this.startRecording(stream);
+                    } catch (error) {
+                        console.error('Errore nell\'accesso al microfono:', error);
+                        this.translationElement.textContent = 'Accesso al microfono negato.';
+                        this.recordButton.disabled = false;
+                    }
+                } else {
+                    this.translationElement.textContent = 'Accesso al microfono negato.';
+                    this.recordButton.disabled = false;
                 }
             }
             
-            // Carica un esempio iniziale al caricamento della pagina per iniziare con un contenuto.
-            loadExample('login');
+            async startRecording(stream = null) {
+                try {
+                    this.audioChunks = [];
+                    this.translationElement.textContent = 'In ascolto del tuo animale...';
+                    this.translationMetaElement.textContent = "";
+                    this.playbackElement.classList.add('hidden');
+                    this.shareAudioButton.disabled = true;
+                    this.shareImageButton.disabled = true;
+                    this.downloadButton.disabled = true;
+                    this.retryMicButton.style.display = 'none';
+
+                    this.petAvatar.classList.add('bounce');
+                    
+                    if (!stream) {
+                        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    }
+
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    this.analyserNode = this.audioContext.createAnalyser();
+                    this.analyserNode.fftSize = 2048;
+                    const source = this.audioContext.createMediaStreamSource(stream);
+                    source.connect(this.analyserNode);
+                    
+                    this.mediaRecorder = new MediaRecorder(stream);
+                    this.mediaRecorder.ondataavailable = (event) => {
+                        this.audioChunks.push(event.data);
+                    };
+                    
+                    this.mediaRecorder.onstop = async () => {
+                        cancelAnimationFrame(this.animationFrameId);
+                        this.audioVisualizerCanvas.classList.remove('active');
+                        this.loadingIndicator.classList.add('show');
+                        this.audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+                        
+                        this.audioBuffer = await this.audioContext.decodeAudioData(await this.audioBlob.arrayBuffer());
+                        
+                        await this.processAudio();
+                        
+                        this.playbackElement.src = URL.createObjectURL(this.audioBlob);
+                        this.playbackElement.classList.remove('hidden');
+                        this.shareAudioButton.disabled = false;
+                        this.shareImageButton.disabled = false;
+                        this.downloadButton.disabled = false;
+                        this.loadingIndicator.classList.remove('show');
+                        
+                        this.showSpeechBubble(this.translationElement.textContent);
+                    };
+                    
+                    this.mediaRecorder.start();
+                    this.recordButton.disabled = true;
+                    this.stopButton.disabled = false;
+
+                    this.audioVisualizerCanvas.classList.add('active');
+                    this.drawAudioVisualizer();
+                    
+                    console.log('Recording started');
+                } catch (error) {
+                    console.error('Error starting recording:', error);
+                    this.translationElement.textContent = 'Errore nella registrazione audio';
+                    this.petAvatar.classList.remove('bounce');
+                    if (this.audioContext) {
+                        this.audioContext.close();
+                        this.audioContext = null;
+                    }
+                    this.recordButton.disabled = false;
+                    this.stopButton.disabled = true;
+                    this.shareAudioButton.disabled = true;
+                    this.shareImageButton.disabled = true;
+                    this.downloadButton.disabled = true;
+                }
+            }
+            
+            stopRecording() {
+                if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+                    this.mediaRecorder.stop();
+                    this.recordButton.disabled = false;
+                    this.stopButton.disabled = true;
+                    
+                    this.mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                    
+                    this.petAvatar.classList.remove('bounce');
+                    cancelAnimationFrame(this.animationFrameId);
+                    this.audioVisualizerCanvas.classList.remove('active');
+                    
+                    console.log('Recording stopped');
+                }
+            }
+
+            drawAudioVisualizer() {
+                const canvas = this.audioVisualizerCanvas;
+                const ctx = this.audioVisualizerCtx;
+                const WIDTH = canvas.width;
+                const HEIGHT = canvas.height;
+
+                const draw = () => {
+                    this.animationFrameId = requestAnimationFrame(draw);
+
+                    if (!this.analyserNode) return;
+
+                    const bufferLength = this.analyserNode.fftSize;
+                    const dataArray = new Uint8Array(bufferLength);
+                    this.analyserNode.getByteTimeDomainData(dataArray);
+
+                    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = 'var(--secondary-glow)';
+                    ctx.beginPath();
+
+                    const sliceWidth = WIDTH * 1.0 / bufferLength;
+                    let x = 0;
+
+                    for (let i = 0; i < bufferLength; i++) {
+                        const v = dataArray[i] / 128.0;
+                        const y = v * HEIGHT / 2;
+
+                        if (i === 0) {
+                            ctx.moveTo(x, y);
+                        } else {
+                            ctx.lineTo(x, y);
+                        }
+
+                        x += sliceWidth;
+                    }
+
+                    ctx.lineTo(WIDTH, HEIGHT / 2);
+                    ctx.stroke();
+
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) {
+                        sum += dataArray[i];
+                    }
+                    const avg = sum / dataArray.length;
+                    const scaleFactor = 1 + (avg / 255) * 0.2;
+                    this.petAvatar.style.transform = `scale(${scaleFactor})`;
+                };
+
+                draw();
+            }
+            
+            async processAudio() {
+                if (!this.audioBuffer) {
+                    this.translationElement.textContent = 'Errore di elaborazione audio';
+                    return;
+                }
+                
+                try {
+                    const channelData = this.audioBuffer.getChannelData(0);
+                    const bufferLength = channelData.length;
+
+                    let sumOfSquares = 0;
+                    let maxAmplitude = 0;
+                    
+                    for (let i = 0; i < bufferLength; i++) {
+                        const sample = channelData[i];
+                        sumOfSquares += sample * sample;
+                        if (Math.abs(sample) > maxAmplitude) {
+                            maxAmplitude = Math.abs(sample);
+                        }
+                    }
+                    const averageEnergy = Math.sqrt(sumOfSquares / bufferLength);
+
+                    let dominantFrequency = 0;
+                    if (averageEnergy > 0.005) {
+                        dominantFrequency = 200 + (averageEnergy * 1000);
+                        dominantFrequency = Math.min(dominantFrequency, 2000);
+                    }
+                    
+                    this.petType = (dominantFrequency > 500) ? 'cat' : 'dog';
+                    
+                    if (averageEnergy > 0.05 && dominantFrequency > 800) {
+                        this.emotionalState = 'excited';
+                    } else if (averageEnergy < 0.01 && dominantFrequency < 200) {
+                        this.emotionalState = 'relaxed';
+                    } else {
+                        this.emotionalState = 'normal';
+                    }
+
+                    await this.applyVoiceEffect(this.currentVoice);
+                    
+                    const translation = this.generateTranslation(averageEnergy, dominantFrequency);
+                    this.translationElement.textContent = translation;
+                    
+                    const now = new Date();
+                    const petTypeEmoji = this.petType === 'cat' ? '🐱' : '🐶';
+                    this.translationMetaElement.textContent = `${petTypeEmoji} • ${now.toLocaleString()}`;
+                    
+                    this.updatePetAvatar();
+                    this.showSpeechBubble(translation);
+                    
+                } catch (error) {
+                    console.error('Error processing audio:', error);
+                    this.translationElement.textContent = 'Errore di elaborazione audio';
+                }
+            }
+            
+            generateTranslation(energy, pitch) {
+                const phrases = {
+                    cat: {
+                        excited: [
+                            "Voglio le crocchette extra subito! 🍖",
+                            "Ho visto un topo! Devo acchiapparlo! 🐭",
+                            "Gioca con me adesso! 🎣"
+                        ],
+                        normal: [
+                            "Accarezzami proprio qui... ah sì! 😻",
+                            "Fa un po' più caldo oggi, vero? ☀️",
+                            "Questo divano è il mio posto preferito 🛋️"
+                        ],
+                        relaxed: [
+                            "Zzz... sogni di topi giganti... 😴",
+                            "Così comodo... non muovermi... 🛏️",
+                            "Un altro pisolino non fa male... 💤"
+                        ]
+                    },
+                    dog: {
+                        excited: [
+                            "È ora di giocare! Lancia la palla! 🎾",
+                            "Sono così felice di vederti! 🥰",
+                            "Vado a prendere il bastone! 🌳"
+                        ],
+                        normal: [
+                            "Ho fame! Dove sono i miei biscotti? 🍪",
+                            "Possiamo andare a fare una passeggiata? 🚶‍♂️",
+                            "Mi gratti la pancia? È il mio punto debole! 🤗"
+                        ],
+                        relaxed: [
+                            "Zzz... sogni ossa giganti... 🦴",
+                            "Così comodo sul mio tappeto... 🐾",
+                            "Un altro pisolino prima di cena... 😴"
+                        ]
+                    }
+                };
+
+                return phrases[this.petType][this.emotionalState][
+                    Math.floor(Math.random() * phrases[this.petType][this.emotionalState].length)
+                ];
+            }
+            
+            updatePetAvatar() {
+                this.petCore.style.background = 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%)';
+                this.petCore.style.boxShadow = '0 0 25px var(--accent-glow)';
+                this.petAura.style.borderColor = 'rgba(255,255,255,0.3)';
+                this.petAura.style.animation = 'auraRotate 15s infinite linear';
+                this.petAvatar.style.borderColor = 'var(--primary-glow)';
+                this.petAvatar.style.boxShadow = '0 0 40px var(--primary-glow), inset 0 0 20px var(--primary-glow)';
+                this.petAvatar.style.transform = 'scale(1)';
+                
+                if (this.petType === 'cat') {
+                    this.petCore.style.background = 'radial-gradient(circle, #FFD3B6 0%, rgba(255,211,182,0) 70%)';
+                    this.petCore.style.boxShadow = '0 0 30px #FFD3B6';
+                } else {
+                    this.petCore.style.background = 'radial-gradient(circle, #A8E6CF 0%, rgba(168,230,207,0) 70%)';
+                    this.petCore.style.boxShadow = '0 0 30px #A8E6CF';
+                }
+                
+                switch (this.currentVoice) {
+                    case 'chipmunk':
+                        this.petAvatar.style.transform = 'scale(0.9) rotate(10deg)';
+                        this.petCore.style.boxShadow = '0 0 40px #FFD93D';
+                        this.petAura.style.borderColor = '#FFD93D';
+                        break;
+                    case 'demon':
+                        this.petAvatar.style.transform = 'scale(1.05)';
+                        this.petCore.style.background = 'radial-gradient(circle, #C94C4C 0%, rgba(201,76,76,0) 70%)';
+                        this.petCore.style.boxShadow = '0 0 40px #C94C4C';
+                        this.petAura.style.borderColor = '#C94C4C';
+                        this.petAvatar.style.borderColor = '#C94C4C';
+                        break;
+                    case 'robot':
+                        this.petAvatar.style.transform = 'scale(1.02) rotate(-5deg)';
+                        this.petCore.style.background = 'radial-gradient(circle, #B0E0E6 0%, rgba(176,224,230,0) 70%)';
+                        this.petCore.style.boxShadow = '0 0 40px #B0E0E6';
+                        this.petAura.style.borderColor = '#B0E0E6';
+                        this.petAvatar.style.borderColor = '#B0E0E6';
+                        break;
+                    case 'echo':
+                        this.petAvatar.style.boxShadow = '0 0 60px var(--secondary-glow), inset 0 0 30px var(--secondary-glow)';
+                        this.petAvatar.style.borderColor = 'var(--secondary-glow)';
+                        this.petAura.style.animation = 'auraRotate 8s infinite linear, corePulse 2s infinite alternate ease-in-out';
+                        break;
+                    case 'reverb':
+                        this.petAvatar.style.background = 'radial-gradient(circle, #E6B6D3 0%, rgba(230,182,211,0) 70%)';
+                        this.petAvatar.style.boxShadow = '0 0 60px #E6B6D3, inset 0 0 30px #E6B6D3';
+                        this.petAvatar.style.borderColor = '#E6B6D3';
+                        this.petAura.style.animation = 'auraRotate 20s infinite linear reverse, corePulse 3s infinite alternate ease-in-out';
+                        break;
+                }
+
+                if (this.emotionalState === 'excited') {
+                    this.petCore.style.animationDuration = '1.5s';
+                    this.petAura.style.animationDuration = '8s';
+                    this.petCore.style.boxShadow = `0 0 40px ${this.petType === 'cat' ? '#FFD3B6' : '#A8E6CF'}, 0 0 80px var(--accent-glow)`;
+                } else if (this.emotionalState === 'relaxed') {
+                    this.petCore.style.animationDuration = '5s';
+                    this.petAura.style.animationDuration = '25s';
+                    this.petCore.style.boxShadow = `0 0 15px ${this.petType === 'cat' ? '#FFD3B6' : '#A8E6CF'}`;
+                } else {
+                    this.petCore.style.animationDuration = '3s';
+                    this.petAura.style.animationDuration = '15s';
+                    this.petCore.style.boxShadow = `0 0 25px ${this.petType === 'cat' ? '#FFD3B6' : '#A8E6CF'}`;
+                }
+                
+                this.petAvatar.classList.add('wiggle');
+                setTimeout(() => this.petAvatar.classList.remove('wiggle'), 500);
+            }
+            
+            showSpeechBubble(text) {
+                this.speechBubble.textContent = text;
+                this.speechBubble.classList.add('show');
+                
+                setTimeout(() => {
+                    this.speechBubble.classList.remove('show');
+                }, 3000);
+            }
+            
+            async shareAudio() {
+                if (!this.audioBlob) {
+                    this.translationElement.textContent = 'Nessun audio da condividere';
+                    return;
+                }
+                
+                try {
+                    const file = new File([this.audioBlob], 'pet_translation.wav', { type: 'audio/wav' });
+                    if (navigator.share) {
+                        await navigator.share({
+                            files: [file],
+                            title: 'PET SOUNDS - Traduzione Animale',
+                            text: this.translationElement.textContent,
+                        });
+                    } else {
+                        this.translationElement.textContent = 'Condivisione non supportata';
+                    }
+                } catch (error) {
+                    console.error('Error sharing:', error);
+                    this.translationElement.textContent = 'Condivisione annullata';
+                }
+            }
+
+            async shareImage() {
+                const translationText = this.translationElement.textContent;
+                if (!translationText || translationText === 'Premi il pulsante di registrazione e lascia che il tuo animale parli!') {
+                    this.translationElement.textContent = 'Nessuna traduzione da condividere';
+                    return;
+                }
+
+                this.translationElement.textContent = 'Condivisione immagine in corso...';
+                setTimeout(() => {
+                    this.translationElement.textContent = translationText;
+                    this.showSpeechBubble('Immagine condivisa con successo!');
+                }, 2000);
+            }
+
+            downloadAudio() {
+                if (!this.audioBlob) {
+                    this.translationElement.textContent = 'Nessun audio da scaricare';
+                    return;
+                }
+                
+                const url = URL.createObjectURL(this.audioBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'pet-translation.wav';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                this.showSpeechBubble('Audio scaricato!');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            new PetVoiceTranslator();
         });
-        // FINE DEL CODICE JAVASCRIPT
     </script>
 </body>
 </html>
